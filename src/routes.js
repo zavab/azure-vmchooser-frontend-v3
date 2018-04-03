@@ -10,6 +10,8 @@ import SettingView from './components/views/Setting.vue'
 import AccessView from './components/views/Access.vue'
 import ServerView from './components/views/Server.vue'
 import ReposView from './components/views/Repos.vue'
+import VmChooserView from './components/views/VmChooser.vue'
+import DiskChooserView from './components/views/DiskChooser.vue'
 
 // Routes
 const routes = [
@@ -32,6 +34,16 @@ const routes = [
         component: TablesView,
         name: 'Tables',
         meta: {description: 'Simple and advance table in CoPilot'}
+      }, {
+        path: 'vmchooser',
+        component: VmChooserView,
+        name: 'VmChooser',
+        meta: { description: 'Simple and advance table in CoPilot' }
+      }, {
+        path: 'diskchooser',
+        component: DiskChooserView,
+        name: 'DiskChooser',
+        meta: { description: 'Simple and advance table in CoPilot' }
       }, {
         path: 'tasks',
         component: TasksView,
