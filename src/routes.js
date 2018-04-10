@@ -43,7 +43,7 @@ const routes = [
         path: 'diskchooser',
         component: DiskChooserView,
         name: 'DiskChooser',
-        meta: { description: 'Simple and advance table in CoPilot' }
+        meta: { description: 'Let DiskChooser find the most efficient disk configuration/layout for you!' }
       }, {
         path: 'tasks',
         component: TasksView,

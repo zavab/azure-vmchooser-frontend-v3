@@ -1,0 +1,16 @@
+{
+  "ExpandedNodes": [
+    "",
+    "\\build",
+    "\\config",
+    "\\src",
+    "\\src\\api",
+    "\\src\\assets",
+    "\\src\\components",
+    "\\src\\components\\views",
+    "\\src\\config",
+    "\\src\\filters"
+  ],
+  "SelectedNode": "\\src\\components\\views\\Tables.vue",
+  "PreviewInSolutionExplorer": false
+}

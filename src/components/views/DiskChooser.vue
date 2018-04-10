@@ -1,214 +1,177 @@
 <template>
   <section class="content">
     <div class="row center-block">
-      <h2>Simple</h2>
+      <h2>Parameters</h2>
+      <div class="input-group">
+        <input class="form-control" placeholder="Minimum disk capacity" type="text" v-model="capacity">
+        <span class="input-group-addon">GB</span>
+      </div>
+      <br />
+      <div class="input-group">
+        <input class="form-control" placeholder="Minimum amount of Input Output Operations per Second (IOPS)" type="text" v-model="iops">
+        <span class="input-group-addon">IO/s</span>
+      </div>
+      <br />
+      <div class="input-group">
+        <input class="form-control" placeholder="Minimum throughput/bandwidth" type="text" v-model="throughput">
+        <span class="input-group-addon">MB/s</span>
+      </div>
+      <br />
+      <div class="input-group">
+        <select class="form-control" v-model="type">
+          <option value="No">Standard only</option>
+          <option value="Yes">Premium only</option>
+          <option value="All">All options</option>
+        </select>
+      </div>
+      <br />
+      <div class="input-group">
+        <form @submit.prevent="checkCreds">
+          <button type="submit" v-bind:class="'btn btn-primary btn-lg ' + loading">Crunch!</button>
+        </form>
+      </div>
+      <!-- errors -->
+      <div v-if=response class="text-red"><p class="vertical-5p lead">{{response}}</p></div>
+    </div>
+
+    <div class="row center-block" v-if="description && description.length">
       <div class="col-md-12">
         <div class="box">
           <div class="box-header">
-            <h3 class="box-title">Striped Full Width Table</h3>
+            <h3 class="box-title">Disk Configuration</h3>
           </div>
-          <!-- /.box-header -->
           <div class="box-body no-padding table-responsive">
             <table class="table table-striped">
               <tbody>
                 <tr>
-                  <th style="width: 10px">#</th>
-                  <th>Task</th>
-                  <th>Progress</th>
-                  <th style="width: 40px">Label</th>
+                  <td>Monthly price for entire configuration</td>
+                  <td>{{price}} {{currency}}</td>
                 </tr>
                 <tr>
-                  <td>1.</td>
-                  <td>Update software</td>
-                  <td>
-                    <div class="progress progress-xs">
-                      <div class="progress-bar progress-bar-danger" style="width: 55%"></div>
-                    </div>
-                  </td>
-                  <td><span class="badge bg-red">55%</span></td>
+                  <td>Description</td>
+                  <td>{{description}}</td>
                 </tr>
                 <tr>
-                  <td>2.</td>
-                  <td>Clean database</td>
-                  <td>
-                    <div class="progress progress-xs">
-                      <div class="progress-bar progress-bar-yellow" style="width: 70%"></div>
-                    </div>
-                  </td>
-                  <td><span class="badge bg-yellow">70%</span></td>
+                  <td>Disk Type</td>
+                  <td>{{disktype}}</td>
                 </tr>
                 <tr>
-                  <td>3.</td>
-                  <td>Cron job running</td>
-                  <td>
-                    <div class="progress progress-xs progress-striped active">
-                      <div class="progress-bar progress-bar-primary" style="width: 30%"></div>
-                    </div>
-                  </td>
-                  <td><span class="badge bg-light-blue">30%</span></td>
+                  <td>Disk Used</td>
+                  <td>{{diskcount}}</td>
                 </tr>
                 <tr>
-                  <td>4.</td>
-                  <td>Fix and squish bugs</td>
-                  <td>
-                    <div class="progress progress-xs progress-striped active">
-                      <div class="progress-bar progress-bar-success" style="width: 90%"></div>
-                    </div>
-                  </td>
-                  <td><span class="badge bg-green">90%</span></td>
+                  <td>Capacity per Disk</td>
+                  <td>{{diskcapacity}} GB</td>
+                </tr>
+                <tr>
+                  <td>Capacity for entire config</td>
+                  <td>{{configcapacity}} GB</td>
+                </tr>
+                <tr>
+                  <td>IOPS per Disk</td>
+                  <td>{{diskiops}}</td>
+                </tr>
+                <tr>
+                  <td>IOPS for entire config</td>
+                  <td>{{configiops}}</td>
+                </tr>
+                <tr>
+                  <td>Throughput per Disk</td>
+                  <td>{{diskthroughput}} MB/s</td>
+                </tr>
+                <tr>
+                  <td>Throughput for entire config</td>
+                  <td>{{configthroughput}} MB/s</td>
                 </tr>
               </tbody>
             </table>
           </div>
-          <!-- /.box-body -->
         </div>
       </div>
     </div>
 
-    <div class="row center-block">
-      <h2>Data tables</h2>
-      <div class="col-md-12">
-        <div class="box">
-          <div class="box-header">
-            <h3 class="box-title">Data Table With Full Features</h3>
-          </div>
-          <!-- /.box-header -->
-          <div class="box-body">
-            <div class="dataTables_wrapper form-inline dt-bootstrap" id="example1_wrapper">
-              <div class="row">
-                <div class="col-sm-6">
-                  <div id="example1_length" class="dataTables_length">
-
-                  </div>
-                </div>
-              </div>
-
-              <div class="row">
-                <div class="col-sm-12 table-responsive">
-                  <table aria-describedby="example1_info" role="grid" id="example1" class="table table-bordered table-striped dataTable">
-                    <thead>
-                      <tr role="row">
-                        <th aria-label="Rendering engine: activate to sort column descending" aria-sort="ascending" style="width: 167px;" colspan="1" rowspan="1" aria-controls="example1" tabindex="0" class="sorting_asc">Rendering engine</th>
-                        <th aria-label="Browser: activate to sort column ascending" style="width: 207px;" colspan="1" rowspan="1" aria-controls="example1" tabindex="0" class="sorting">Browser</th>
-                        <th aria-label="Platform(s): activate to sort column ascending" style="width: 182px;" colspan="1" rowspan="1" aria-controls="example1" tabindex="0" class="sorting">Platform(s)</th>
-                        <th aria-label="Engine version: activate to sort column ascending" style="width: 142px;" colspan="1" rowspan="1" aria-controls="example1" tabindex="0" class="sorting">Engine version</th>
-                        <th aria-label="CSS grade: activate to sort column ascending" style="width: 101px;" colspan="1" rowspan="1" aria-controls="example1" tabindex="0" class="sorting">CSS grade</th>
-                      </tr>
-                    </thead>
-                    <tbody>
-                      <tr class="even" role="row">
-                        <td class="sorting_1">Blink</td>
-                        <td>Iridium  54.0</td>
-                        <td>GNU/Linux</td>
-                        <td>54</td>
-                        <td>A</td>
-                      </tr>
-                      <tr class="odd" role="row">
-                        <td class="sorting_1">Gecko</td>
-                        <td>Firefox 1.0</td>
-                        <td>Win 98+ / OSX.2+</td>
-                        <td>1.7</td>
-                        <td>A</td>
-                      </tr>
-                      <tr class="even" role="row">
-                        <td class="sorting_1">Gecko</td>
-                        <td>Firefox 1.5</td>
-                        <td>Win 98+ / OSX.2+</td>
-                        <td>1.8</td>
-                        <td>A</td>
-                      </tr>
-                      <tr class="odd" role="row">
-                        <td class="sorting_1">Gecko</td>
-                        <td>Firefox 2.0</td>
-                        <td>Win 98+ / OSX.2+</td>
-                        <td>1.8</td>
-                        <td>A</td>
-                      </tr>
-                      <tr class="even" role="row">
-                        <td class="sorting_1">Gecko</td>
-                        <td>Firefox 3.0</td>
-                        <td>Win 2k+ / OSX.3+</td>
-                        <td>1.9</td>
-                        <td>A</td>
-                      </tr>
-                      <tr class="odd" role="row">
-                        <td class="sorting_1">Gecko</td>
-                        <td>Camino 1.0</td>
-                        <td>OSX.2+</td>
-                        <td>1.8</td>
-                        <td>A</td>
-                      </tr>
-                      <tr class="even" role="row">
-                        <td class="sorting_1">Gecko</td>
-                        <td>Camino 1.5</td>
-                        <td>OSX.3+</td>
-                        <td>1.8</td>
-                        <td>A</td>
-                      </tr>
-                      <tr class="odd" role="row">
-                        <td class="sorting_1">Gecko</td>
-                        <td>Netscape 7.2</td>
-                        <td>Win 95+ / Mac OS 8.6-9.2</td>
-                        <td>1.7</td>
-                        <td>A</td>
-                      </tr>
-                      <tr class="even" role="row">
-                        <td class="sorting_1">Gecko</td>
-                        <td>Netscape Browser 8</td>
-                        <td>Win 98SE+</td>
-                        <td>1.7</td>
-                        <td>A</td>
-                      </tr>
-                      <tr class="odd" role="row">
-                        <td class="sorting_1">Gecko</td>
-                        <td>Netscape Navigator 9</td>
-                        <td>Win 98+ / OSX.2+</td>
-                        <td>1.8</td>
-                        <td>A</td>
-                      </tr>
-                      <tr class="even" role="row">
-                        <td class="sorting_1">Gecko</td>
-                        <td>Mozilla 1.0</td>
-                        <td>Win 95+ / OSX.1+</td>
-                        <td>1</td>
-                        <td>A</td>
-                      </tr>
-                    </tbody>
-                    <tfoot>
-                      <tr>
-                        <th colspan="1" rowspan="1">Rendering engine</th>
-                        <th colspan="1" rowspan="1">Browser</th>
-                        <th colspan="1" rowspan="1">Platform(s)</th>
-                        <th colspan="1" rowspan="1">Engine version</th>
-                        <th colspan="1" rowspan="1">CSS grade</th>
-                      </tr>
-                    </tfoot>
-                  </table>
-                </div>
-              </div>
-            </div>
-            <!-- /.box-body -->
-          </div>
-        </div>
-      </div>
-    </div>
+    
   </section>
 </template>
 
 <script>
-import $ from 'jquery'
-// Require needed datatables modules
-import 'datatables.net'
-import 'datatables.net-bs'
+  import $ from 'jquery'
+  // Require needed datatables modules
+  import 'datatables.net'
+  import 'datatables.net-bs'
+  // Axios needed for API Call
+  import axios from 'axios'
 
-export default {
-  name: 'DiskChooser',
-  mounted () {
-    this.$nextTick(() => {
-      $('#example1').DataTable()
-    })
+  export default {
+    name: 'DiskChooser',
+    mounted () {
+      this.$nextTick(() => {
+        $('#example1').DataTable({
+          ordering: false,
+          searching: false,
+          paging: false
+        })
+      })
+    },
+    data() {
+      return {
+        posts: [],
+        errors: [],
+        response: '',
+        loading: '',
+        capacity: '',
+        iops: '',
+        throughput: '',
+        type: '',
+        currency: '',
+        price: '',
+        diskcount: '',
+        maxdisks: '16',
+        tshirtsize: '',
+        disktype: '',
+        diskcapacity: '',
+        diskiops: '',
+        diskthroughput: '',
+        configcapacity: '',
+        configiops: '',
+        configthroughput: '',
+        description: ''
+      }
+    },
+    methods: {
+      checkCreds() {
+        const { capacity, iops, throughput, type } = this
+        var vmchooserurl = 'https://vmchooser.azure-api.net/dev-v1/api/getDiskSize?ssd=' + type + '&throughput=' + throughput + '&iops=' + iops + '&data=' + capacity + '&maxdisks=' + this.maxdisks
+        var vmchooserconfig = {
+          headers: {
+            'Access-Control-Allow-Origin': '*',
+            'Ocp-Apim-Subscription-Key': ''
+          }
+        }
+        axios.post(vmchooserurl, '', vmchooserconfig)
+          .then(response => {
+            this.currency = response.data['Currency']
+            this.price = response.data['Price / Month - for all disks'].toFixed(2)
+            this.diskcount = response.data['Number of Disks']
+            this.tshirtsize = response.data['Disk T-Shirt Size']
+            this.disktype = response.data['Disk Type']
+            this.diskcapacity = response.data['Capacity (GB) - per disk']
+            this.diskiops = response.data['IOPS (IO/s) - per disk']
+            this.diskthroughput = response.data['Througput (MB/s) - per disk']
+            this.configcapacity = response.data['Capacity (GB) - for all disks']
+            this.configiops = response.data['IOPS (IO/s) - for all disks']
+            this.configthroughput = response.data['Througput (MB/s) - for all disks']
+            this.description = response.data['Description']
+            if (!this.price) {
+              this.response = 'No results found'
+            }
+          })
+          .catch(e => {
+            this.errors.push(e)
+          })
+      }
+    }
   }
-}
 </script>
 
 <style>
