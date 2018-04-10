@@ -1,5 +1,4 @@
 import DashView from './components/Dash.vue'
-import LoginView from './components/Login.vue'
 import NotFoundView from './components/404.vue'
 
 // Import Views - Dash
@@ -15,10 +14,6 @@ import DiskChooserView from './components/views/DiskChooser.vue'
 
 // Routes
 const routes = [
-  {
-    path: '/login',
-    component: LoginView
-  },
   {
     path: '/',
     component: DashView,
@@ -38,7 +33,7 @@ const routes = [
         path: 'vmchooser',
         component: VmChooserView,
         name: 'VmChooser',
-        meta: { description: 'Simple and advance table in CoPilot' }
+        meta: { description: 'Let VmChooser find the best t-shirt size match for you!' }
       }, {
         path: 'diskchooser',
         component: DiskChooserView,

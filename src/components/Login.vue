@@ -139,6 +139,10 @@ body,
   width: 100%;
 }
 
+  .input-group select {
+    height: 6em;
+  }
+
 .input-group span.input-group-addon {
   width: 2em;
   height: 4em;
@@ -158,6 +162,7 @@ body,
   .input-group input {
     height: 6em;
   }
+
 }
 
 .input-group-addon i {

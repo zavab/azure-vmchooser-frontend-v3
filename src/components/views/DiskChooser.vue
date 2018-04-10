@@ -19,10 +19,12 @@
       <br />
       <div class="input-group">
         <select class="form-control" v-model="type">
+          <option disabled value="">Select disk type</option>
           <option value="No">Standard only</option>
           <option value="Yes">Premium only</option>
           <option value="All">All options</option>
         </select>
+        <span class="input-group-addon">Type</span>
       </div>
       <br />
       <div class="input-group">
@@ -35,11 +37,9 @@
     </div>
 
     <div class="row center-block" v-if="description && description.length">
+      <h2>Disk Configuration</h2>
       <div class="col-md-12">
         <div class="box">
-          <div class="box-header">
-            <h3 class="box-title">Disk Configuration</h3>
-          </div>
           <div class="box-body no-padding table-responsive">
             <table class="table table-striped">
               <tbody>
@@ -55,31 +55,33 @@
                   <td>Disk Type</td>
                   <td>{{disktype}}</td>
                 </tr>
-                <tr>
-                  <td>Disk Used</td>
-                  <td>{{diskcount}}</td>
-                </tr>
+                <tr><td><br /></td></tr>
                 <tr>
                   <td>Capacity per Disk</td>
                   <td>{{diskcapacity}} GB</td>
-                </tr>
-                <tr>
-                  <td>Capacity for entire config</td>
-                  <td>{{configcapacity}} GB</td>
                 </tr>
                 <tr>
                   <td>IOPS per Disk</td>
                   <td>{{diskiops}}</td>
                 </tr>
                 <tr>
-                  <td>IOPS for entire config</td>
-                  <td>{{configiops}}</td>
-                </tr>
-                <tr>
                   <td>Throughput per Disk</td>
                   <td>{{diskthroughput}} MB/s</td>
                 </tr>
-                <tr>
+                <tr v-if="diskcount > 1"><td><br /></td></tr>
+                <tr v-if="diskcount > 1">
+                  <td>Disk used in entire config</td>
+                  <td>{{diskcount}}</td>
+                </tr>
+                <tr v-if="diskcount > 1">
+                  <td>Capacity for entire config</td>
+                  <td>{{configcapacity}} GB</td>
+                </tr>
+                <tr v-if="diskcount > 1">
+                  <td>IOPS for entire config</td>
+                  <td>{{configiops}}</td>
+                </tr>
+                <tr v-if="diskcount > 1">
                   <td>Throughput for entire config</td>
                   <td>{{configthroughput}} MB/s</td>
                 </tr>
