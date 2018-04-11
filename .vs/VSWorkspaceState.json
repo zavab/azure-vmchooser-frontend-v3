@@ -1,16 +1,19 @@
 {
   "ExpandedNodes": [
     "",
-    "\\build",
-    "\\config",
     "\\src",
-    "\\src\\api",
-    "\\src\\assets",
     "\\src\\components",
     "\\src\\components\\views",
-    "\\src\\config",
-    "\\src\\filters"
+    "\\static",
+    "\\static\\js",
+    "\\static\\js\\plugins\\datatables",
+    "\\static\\js\\plugins\\datatables\\extensions\\FixedHeader",
+    "\\static\\js\\plugins\\datatables\\extensions\\FixedHeader\\css",
+    "\\static\\js\\plugins\\datepicker",
+    "\\static\\js\\plugins\\jQuery",
+    "\\static\\js\\plugins\\jvectormap",
+    "\\static\\js\\plugins\\select2"
   ],
-  "SelectedNode": "\\src\\components\\views\\Tables.vue",
+  "SelectedNode": "\\package.json",
   "PreviewInSolutionExplorer": false
 }
