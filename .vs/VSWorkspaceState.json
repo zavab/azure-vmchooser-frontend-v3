@@ -1,18 +1,12 @@
 {
   "ExpandedNodes": [
     "",
+    "\\build",
     "\\src",
     "\\src\\components",
     "\\src\\components\\views",
     "\\static",
-    "\\static\\js",
-    "\\static\\js\\plugins\\datatables",
-    "\\static\\js\\plugins\\datatables\\extensions\\FixedHeader",
-    "\\static\\js\\plugins\\datatables\\extensions\\FixedHeader\\css",
-    "\\static\\js\\plugins\\datepicker",
-    "\\static\\js\\plugins\\jQuery",
-    "\\static\\js\\plugins\\jvectormap",
-    "\\static\\js\\plugins\\select2"
+    "\\static\\js"
   ],
   "SelectedNode": "\\package.json",
   "PreviewInSolutionExplorer": false

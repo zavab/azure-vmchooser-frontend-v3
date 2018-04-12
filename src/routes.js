@@ -23,7 +23,7 @@ const routes = [
         alias: '',
         component: DashboardView,
         name: 'Dashboard',
-        meta: {description: 'Overview of environment'}
+        meta: {description: '"Where do you want to go today?"'}
       }, {
         path: 'tables',
         component: TablesView,
