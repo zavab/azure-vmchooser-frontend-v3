@@ -75,7 +75,6 @@
                 <option value="standard">Standard</option>
                 <option value="lowpriority">Low Priority</option>
                 <option value="basic">Basic</option>
-                <option value="all">All Tiers</option>
               </select>
               <span class="input-group-addon">Tier</span>
             </div>
@@ -322,7 +321,10 @@
         $('#example1').DataTable({
           ordering: false,
           searching: false,
-          paging: false
+          paging: false,
+          buttons: [
+            'copy', 'excel', 'pdf'
+          ]
         })
       })
     },
@@ -341,7 +343,7 @@
         type: '',
         nics: '',
         bandwidth: '',
-        tier: '',
+        tier: 'standard',
         hyperthreaded: '',
         burstable: '',
         isolated: '',
@@ -350,7 +352,7 @@
         peakmemory: '',
         region: 'europe-west',
         currency: 'EUR',
-        maxresults: ''
+        maxresults: '10'
       }
     },
     methods: {

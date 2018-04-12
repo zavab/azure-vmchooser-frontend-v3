@@ -18,6 +18,11 @@
       </div>
       <br />
       <div class="input-group">
+        <input class="form-control" placeholder="Maximum disks to be used" type="text" v-model="maxdisks">
+        <span class="input-group-addon">#</span>
+      </div>
+      <br />
+      <div class="input-group">
         <select class="form-control" v-model="type">
           <option disabled value="">Select disk type</option>
           <option value="No">Standard only</option>
@@ -128,7 +133,7 @@
         currency: '',
         price: '',
         diskcount: '',
-        maxdisks: '16',
+        maxdisks: '',
         tshirtsize: '',
         disktype: '',
         diskcapacity: '',
@@ -143,7 +148,7 @@
     methods: {
       checkCreds() {
         const { capacity, iops, throughput, type } = this
-        var vmchooserurl = 'https://vmchooser.azure-api.net/dev-v1/api/getDiskSize?ssd=' + type + '&throughput=' + throughput + '&iops=' + iops + '&data=' + capacity + '&maxdisks=' + this.maxdisks
+        var vmchooserurl = 'https://vmchooser.azure-api.net/dev-v2/api/GetDiskConfig?ssd=' + type + '&throughput=' + throughput + '&iops=' + iops + '&data=' + capacity + '&maxdisks=' + this.maxdisks
         var vmchooserconfig = {
           headers: {
             'Access-Control-Allow-Origin': '*',
@@ -151,19 +156,35 @@
           }
         }
         axios.post(vmchooserurl, '', vmchooserconfig)
+          /*
+          {
+            "DiskName": "md-s4-standard-europe-west",
+            "DiskType": "standard",
+            "DiskCount": 1.0,
+            "DiskCapacity": 32.0,
+            "DiskIops": 500.0,
+            "DiskThroughput": 60.0,
+            "DiskConfigCapacity": 32.0,
+            "DiskConfigIops": 500.0,
+            "DiskConfigThroughput": 60.0,
+            "DiskConfigDescription": "A striped (raid0) set of 1 s4 disk(s).",
+            "DiskCurrency": "EUR",
+            "DiskPrice": 1.2953088
+          }
+          */
           .then(response => {
-            this.currency = response.data['Currency']
-            this.price = response.data['Price / Month - for all disks'].toFixed(2)
-            this.diskcount = response.data['Number of Disks']
-            this.tshirtsize = response.data['Disk T-Shirt Size']
-            this.disktype = response.data['Disk Type']
-            this.diskcapacity = response.data['Capacity (GB) - per disk']
-            this.diskiops = response.data['IOPS (IO/s) - per disk']
-            this.diskthroughput = response.data['Througput (MB/s) - per disk']
-            this.configcapacity = response.data['Capacity (GB) - for all disks']
-            this.configiops = response.data['IOPS (IO/s) - for all disks']
-            this.configthroughput = response.data['Througput (MB/s) - for all disks']
-            this.description = response.data['Description']
+            this.currency = response.data['DiskCurrency']
+            this.price = response.data['DiskPrice'].toFixed(2)
+            this.diskcount = response.data['DiskCount']
+            this.tshirtsize = response.data['DiskSize']
+            this.disktype = response.data['DiskType']
+            this.diskcapacity = response.data['DiskCapacity']
+            this.diskiops = response.data['DiskIops']
+            this.diskthroughput = response.data['DiskThroughput']
+            this.configcapacity = response.data['DiskConfigCapacity']
+            this.configiops = response.data['DiskConfigIops']
+            this.configthroughput = response.data['DiskConfigThroughput']
+            this.description = response.data['DiskConfigDescription']
             if (!this.price) {
               this.response = 'No results found'
             }
