@@ -1,212 +1,21 @@
 <template>
   <section class="content">
     <div class="row center-block">
-      <h2>Filter Criteria</h2>
-      <div>
-        <ul class="nav nav-tabs" role="tablist">
-          <li role="presentation" class="active"><a href="#compute" aria-controls="compute" role="tab" data-toggle="tab">Compute</a></li>
-          <li role="presentation"><a href="#storage" aria-controls="storage" role="tab" data-toggle="tab">Storage</a></li>
-          <li role="presentation"><a href="#network" aria-controls="network" role="tab" data-toggle="tab">Network</a></li>
-          <li role="presentation"><a href="#attributes" aria-controls="attributes" role="tab" data-toggle="tab">Attributes</a></li>
-          <li role="presentation"><a href="#optimize" aria-controls="optimize" role="tab" data-toggle="tab">Optimize</a></li>
-          <li role="presentation"><a href="#settings" aria-controls="settings" role="tab" data-toggle="tab">Settings</a></li>
-        </ul>
-        <div class="tab-content">
-          <div role="tabpanel" class="tab-pane active" id="compute">
-            <div class="input-group">
-              <input class="form-control" placeholder="Minimum # cores" type="text" v-model="cores">
-              <span class="input-group-addon">#</span>
-            </div>
-            <br />
-            <div class="input-group">
-              <input class="form-control" placeholder="Minimum memory" type="text" v-model="memory">
-              <span class="input-group-addon">GB</span>
-            </div>
-            <br />
-            <div class="input-group">
-              <input class="form-control" placeholder="Minimum performance level" type="text" v-model="acu">
-              <span class="input-group-addon">ACU</span>
-            </div>
-            <br />
-          </div>
-          <div role="tabpanel" class="tab-pane" id="storage">
-            <div class="input-group">
-              <select class="form-control" v-model="type">
-                <option disabled value="">Select disk type</option>
-                <option value="No">Standard only</option>
-                <option value="Yes">Premium only</option>
-                <option value="All">All options</option>
-              </select>
-              <span class="input-group-addon">Type</span>
-            </div>
-            <br />
-            <div class="input-group">
-              <input class="form-control" placeholder="Minimum disk capacity" type="text" v-model="capacity">
-              <span class="input-group-addon">GB</span>
-            </div>
-            <br />
-            <div class="input-group">
-              <input class="form-control" placeholder="Minimum amount of Input Output Operations per Second (IOPS)" type="text" v-model="iops">
-              <span class="input-group-addon">IO/s</span>
-            </div>
-            <br />
-            <div class="input-group">
-              <input class="form-control" placeholder="Minimum throughput/bandwidth" type="text" v-model="throughput">
-              <span class="input-group-addon">MB/s</span>
-            </div>
-            <br />
-          </div>
-          <div role="tabpanel" class="tab-pane" id="network">
-            <div class="input-group">
-              <input class="form-control" placeholder="Minimum # network interface cards" type="text" v-model="nics">
-              <span class="input-group-addon">#</span>
-            </div>
-            <br />
-            <div class="input-group">
-              <input class="form-control" placeholder="Minimum bandwidth" type="text" v-model="bandwidth">
-              <span class="input-group-addon">Mbit/s</span>
-            </div>
-            <br />
-          </div>
-          <div role="tabpanel" class="tab-pane" id="attributes">
-            <div class="input-group">
-              <select class="form-control" v-model="tier">
-                <option disabled value="">Select VM Tier</option>
-                <option value="standard">Standard</option>
-                <option value="lowpriority">Low Priority</option>
-                <option value="basic">Basic</option>
-              </select>
-              <span class="input-group-addon">Tier</span>
-            </div>
-            <br />
-            <div class="input-group">
-              <select class="form-control" v-model="hyperthreaded">
-                <option disabled value="">Hyperthreaded?</option>
-                <option value="No">No</option>
-                <option value="Yes">Yes</option>
-                <option value="All">No Preference</option>
-              </select>
-              <span class="input-group-addon">HyperThreaded</span>
-            </div>
-            <br />
-            <div class="input-group">
-              <select class="form-control" v-model="burstable">
-                <option disabled value="">Burstable?</option>
-                <option value="No">No</option>
-                <option value="Yes">Yes</option>
-                <option value="All">No Preference</option>
-              </select>
-              <span class="input-group-addon">Burstable</span>
-            </div>
-            <br />
-            <div class="input-group">
-              <select class="form-control" v-model="isolated">
-                <option disabled value="">Isolated?</option>
-                <option value="No">No</option>
-                <option value="Yes">Yes</option>
-                <option value="All">No Preference</option>
-              </select>
-              <span class="input-group-addon">Isolated</span>
-            </div>
-            <br />
-          </div>
-          <div role="tabpanel" class="tab-pane" id="optimize">
-            <div class="input-group">
-              <select class="form-control" v-model="contract">
-                <option disabled value="">Contract type</option>
-                <option value="payg">Pay-as-you-Go</option>
-                <option value="ri1y">Reserved Instance - 1 Year Term</option>
-                <option value="ri3y">Reserved Instance - 3 Year Term</option>
-              </select>
-              <span class="input-group-addon">Type</span>
-            </div>
-            <br />
-            <div class="input-group">
-              <input class="form-control" placeholder="Peak cpu usage" type="text" v-model="peakcpu">
-              <span class="input-group-addon">%</span>
-            </div>
-            <br />
-            <div class="input-group">
-              <input class="form-control" placeholder="Peak memory usage" type="text" v-model="peakmemory">
-              <span class="input-group-addon">%</span>
-            </div>
-            <br />
-          </div>
-          <div role="tabpanel" class="tab-pane" id="settings">
-            <div class="input-group">
-              <select class="form-control" v-model="region">
-                <option disabled value="">Deployment region</option>
-                <option value="asia-pacific-east">Asia Pacific East</option>
-                <option value="asia-pacific-southeast">Asia Pacific South-East</option>
-                <option value="australia-east">Australia East</option>
-                <option value="australia-southeast">Australia South East</option>
-                <option value="brazil-south">Brazil South</option>
-                <option value="canada-central">Canada Central</option>
-                <option value="canada-east">Canada East</option>
-                <option value="central-india">India Central</option>
-                <option value="west-india">India West</option>
-                <option value="south-india">India South</option>
-                <option value="europe-north">Europe North</option>
-                <option value="europe-west" selected="selected">Europe West</option>
-                <option value="france-central">France Central</option>
-                <option value="france-south">France South</option>
-                <option value="germany-central">Germany Central</option>
-                <option value="germany-northeast">Germany North East</option>
-                <option value="japan-east">Japan East</option>
-                <option value="japan-west">Japan West</option>
-                <option value="korea-central">Korea Central</option>
-                <option value="korea-south">Korea South</option>
-                <option value="united-kingdom-south">UK South</option>
-                <option value="united-kingdom-west">UK West</option>
-                <option value="us-central">US Central</option>
-                <option value="us-east">US East</option>
-                <option value="us-east-2">US East 2</option>
-                <option value="usgov-arizona">US Gov Arizona</option>
-                <option value="usgov-iowa">US Gov Iowa</option>
-                <option value="usgov-texas">US Gov Texas</option>
-                <option value="usgov-virginia">US Gov Virginia</option>
-                <option value="us-north-central">US North Central</option>
-                <option value="us-south-central">US South Central</option>
-                <option value="us-west">US West</option>
-                <option value="us-west-2">US West 2</option>
-                <option value="us-west-central">US West Central</option>
-                <option value="all">Just give me all options!</option>
-              </select>
-              <span class="input-group-addon">Location</span>
-            </div>
-            <br />
-            <div class="input-group">
-              <select class="form-control" v-model="currency">
-                <option disabled value="">Currency</option>
-                <option value="EUR">Euro</option>
-                <option value="USD">US Dollar</option>
-                <option value="GBP">British Pound</option>
-                <option value="AUD">Australian Dollar</option>
-                <option value="JPY">Japanese Yen</option>
-                <option value="CAD">Canadian Dollar</option>
-                <option value="DKK">Danish Krone</option>
-                <option value="CHF">Swiss Franc</option>
-                <option value="SEK">Swedish Krona</option>
-                <option value="IDR">Indonesian Rupee</option>
-                <option value="INR">Indian Rupee</option>
-              </select>
-              <span class="input-group-addon">Currency</span>
-            </div>
-            <br />
-            <div class="input-group">
-              <input class="form-control" placeholder="How many results do you want to see? (Default: 5)" type="text" v-model="maxresults">
-              <span class="input-group-addon">#</span>
-            </div>
-            <br />
-          </div>
+      <h2>Bulk Uploader</h2>
+
+      <form enctype="multipart/form-data" novalidate v-if="isInitial || isSaving">
+        <div class="dropbox">
+          <input type="file" multiple :name="uploadFieldName" :disabled="isSaving" @change="filesChange($event.target.name, $event.target.files); fileCount = $event.target.files.length"
+                 accept="image/*" class="input-file">
+          <p v-if="isInitial">
+            Drag your file(s) here to begin<br> or click to browse
+          </p>
+          <p v-if="isSaving">
+            Uploading {{ fileCount }} files...
+          </p>
         </div>
-      </div>
-      
-      <div class="input-group">
-        <form @submit.prevent="checkCreds">
-          <button type="submit" v-bind:class="'btn btn-primary btn-lg ' + loading">Find my t-shirt size!</button>
-        </form>
-      </div>
+      </form>
+
       <div v-if=response class="text-red"><p class="vertical-5p lead">{{response}}</p></div>
     </div>
 
@@ -307,27 +116,15 @@
 </template>
 
 <script>
-  import $ from 'jquery'
-  // Require needed datatables modules
-  import 'datatables.net'
-  import 'datatables.net-bs'
-  // Axios needed for API Call
-  import axios from 'axios'
+  // import { upload } from './file-upload.service'
+
+  const STATUS_INITIAL = 0
+  const STATUS_SAVING = 1
+  const STATUS_SUCCESS = 2
+  const STATUS_FAILED = 3
 
   export default {
     name: 'BulkUploader',
-    mounted() {
-      this.$nextTick(() => {
-        $('#example1').DataTable({
-          ordering: false,
-          searching: false,
-          paging: false,
-          buttons: [
-            'copy', 'excel', 'pdf'
-          ]
-        })
-      })
-    },
     data() {
       return {
         posts: [],
@@ -352,61 +149,90 @@
         peakmemory: '',
         region: 'europe-west',
         currency: 'EUR',
-        maxresults: '10'
+        maxresults: '10',
+        uploadedFiles: [],
+        uploadError: null,
+        currentStatus: null,
+        uploadFieldName: 'photos'
+      }
+    },
+    computed: {
+      isInitial() {
+        return this.currentStatus === STATUS_INITIAL
+      },
+      isSaving() {
+        return this.currentStatus === STATUS_SAVING
+      },
+      isSuccess() {
+        return this.currentStatus === STATUS_SUCCESS
+      },
+      isFailed() {
+        return this.currentStatus === STATUS_FAILED
       }
     },
     methods: {
-      checkCreds() {
-        const { maxresults, cores, memory, acu, capacity, iops, throughput, type, nics, bandwidth, tier, hyperthreaded, burstable, isolated, contract, peakcpu, peakmemory, region, currency } = this
-        var vmchooserurl = 'https://vmchooser.azure-api.net/dev-v2/api/GetVmSize?maxresults=' + maxresults + '&cores=' + cores + '&memory=' + memory + '&acu=' + acu + '&ssd=' + type + '&throughput=' + throughput + '&iops=' + iops + '&data=' + capacity + '&nics=' + nics + '&bandwidth=' + bandwidth + '&tier=' + tier + '&ht=' + hyperthreaded + '&burstable=' + burstable + '&isolated=' + isolated + '&contract=' + contract + '&avgcpupeak=' + peakcpu + '&avgmempeak=' + peakmemory + '&region=' + region + '&currency=' + currency
-        var vmchooserconfig = {
-          headers: {
-            'Access-Control-Allow-Origin': '*',
-            'Ocp-Apim-Subscription-Key': ''
-          }
-        }
-        axios.post(vmchooserurl, '', vmchooserconfig)
-          .then(response => {
-            this.posts = response.data
-            if (!this.posts) {
-              this.response = 'No results found'
-            }
+      reset() {
+        // reset form to initial state
+        this.currentStatus = STATUS_INITIAL
+        this.uploadedFiles = []
+        this.uploadError = null
+      },
+      save(formData) {
+        // upload data to the server
+        this.currentStatus = STATUS_SAVING
+      },
+      filesChange(fieldName, fileList) {
+        // handle file changes
+        const formData = new FormData()
+
+        if (!fileList.length) return
+
+        // append the files to FormData
+        Array
+          .from(Array(fileList.length).keys())
+          .map(x => {
+            formData.append(fieldName, fileList[x], fileList[x].name)
           })
-          .catch(e => {
-            this.errors.push(e)
-          })
+
+        // save it
+        this.save(formData)
       }
+    },
+    mounted() {
+      this.reset()
     }
   }
 </script>
 
-<style>
-    /* Using the bootstrap style, but overriding the font to not draw in
-     the Glyphicons Halflings font as an additional requirement for sorting icons.
 
-     An alternative to the solution active below is to use the jquery style
-     which uses images, but the color on the images does not match adminlte.
+<!-- SASS styling -->
+<style lang="scss">
+  .dropbox {
+    outline: 2px dashed grey; /* the dash box */
+    outline-offset: -10px;
+    background: lightcyan;
+    color: dimgray;
+    padding: 10px 10px;
+    min-height: 200px; /* minimum height */
+    position: relative;
+    cursor: pointer;
+  }
 
-  @import url('/static/js/plugins/datatables/jquery.dataTables.min.css');
-  */
+  .input-file {
+    opacity: 0; /* invisible but it's there! */
+    width: 100%;
+    height: 200px;
+    position: absolute;
+    cursor: pointer;
+  }
 
-    @import url('/static/js/plugins/datatables/dataTables.bootstrap.css');
+  .dropbox:hover {
+    background: lightblue; /* when mouse over to the drop zone, change color */
+  }
 
-    table.dataTable thead .sorting:after,
-    table.dataTable thead .sorting_asc:after,
-    table.dataTable thead .sorting_desc:after {
-      font-family: 'FontAwesome';
-    }
-
-    table.dataTable thead .sorting:after {
-      content: "\f0dc";
-    }
-
-    table.dataTable thead .sorting_asc:after {
-      content: "\f0dd";
-    }
-
-    table.dataTable thead .sorting_desc:after {
-      content: "\f0de";
-    }
+  .dropbox p {
+    font-size: 1.2em;
+    text-align: center;
+    padding: 50px 0;
+  }
 </style>
