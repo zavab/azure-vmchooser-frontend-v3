@@ -13,6 +13,12 @@
         <span class="page">Data Disk Configuration</span>
       </a>
     </router-link>
+    <router-link tag="li" class="pageLink" to="/bulkuploader">
+      <a>
+        <i class="fa fa-sliders"></i>
+        <span class="page">Bulk Uploader</span>
+      </a>
+    </router-link>
   </ul>
 </template>
 <script>

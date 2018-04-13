@@ -11,6 +11,7 @@ import ServerView from './components/views/Server.vue'
 import ReposView from './components/views/Repos.vue'
 import VmChooserView from './components/views/VmChooser.vue'
 import DiskChooserView from './components/views/DiskChooser.vue'
+import BulkUploaderView from './components/views/BulkUploader.vue'
 
 // Routes
 const routes = [
@@ -39,6 +40,11 @@ const routes = [
         component: DiskChooserView,
         name: 'DiskChooser',
         meta: { description: 'Let DiskChooser find the most efficient disk configuration/layout for you!' }
+      }, {
+        path: 'bulkuploader',
+        component: BulkUploaderView,
+        name: 'BulkUploader',
+        meta: { description: 'When finding one VM is not enough...' }
       }, {
         path: 'tasks',
         component: TasksView,
