@@ -99,6 +99,12 @@ var webpackConfig = merge(baseWebpackConfig, {
         from: path.resolve(__dirname, '../_redirects'),
         to: config.build.assetsRoot,
         ignore: ['.*']
+      },
+      // Copy web.config file
+      {
+        from: path.resolve(__dirname, '../web.config'),
+        to: config.build.assetsRoot,
+        ignore: ['.*']
       }
     ])
   ]
