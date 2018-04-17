@@ -5,7 +5,7 @@
 
       <form enctype="multipart/form-data" novalidate v-if="isInitial || isSaving">
         <div class="dropbox">
-          <input type="file" multiple :name="uploadFieldName" :disabled="isSaving" @change="filesChange($event.target.name, $event.target.files); fileCount = $event.target.files.length"
+          <input id="files" type="file" multiple :name="uploadFieldName" :disabled="isSaving" @change="filesChange($event.target.name, $event.target.files); fileCount = $event.target.files.length"
                  accept="image/*" class="input-file">
           <p v-if="isInitial">
             Drag your file(s) here to begin<br> or click to browse
@@ -116,7 +116,7 @@
 </template>
 
 <script>
-  // import { upload } from './file-upload.service'
+  // import $ from 'jquery'
 
   const STATUS_INITIAL = 0
   const STATUS_SAVING = 1
@@ -153,7 +153,7 @@
         uploadedFiles: [],
         uploadError: null,
         currentStatus: null,
-        uploadFieldName: 'photos'
+        uploadFieldName: 'inputcsv'
       }
     },
     computed: {
@@ -177,25 +177,14 @@
         this.uploadedFiles = []
         this.uploadError = null
       },
-      save(formData) {
-        // upload data to the server
-        this.currentStatus = STATUS_SAVING
-      },
       filesChange(fieldName, fileList) {
-        // handle file changes
-        const formData = new FormData()
-
         if (!fileList.length) return
 
-        // append the files to FormData
         Array
           .from(Array(fileList.length).keys())
           .map(x => {
-            formData.append(fieldName, fileList[x], fileList[x].name)
+            console.log(fieldName + ' - ' + fileList[x] + ' - ' + fileList[x].name)
           })
-
-        // save it
-        this.save(formData)
       }
     },
     mounted() {
