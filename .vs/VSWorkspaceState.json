@@ -6,8 +6,9 @@
     "\\src\\components",
     "\\src\\components\\views",
     "\\static",
-    "\\static\\js"
+    "\\static\\js",
+    "\\static\\js\\plugins"
   ],
-  "SelectedNode": "\\package.json",
+  "SelectedNode": "\\src\\components\\views\\VmChooser.vue",
   "PreviewInSolutionExplorer": false
 }

@@ -2,24 +2,10 @@
   <section class="content">
     <div class="row center-block">
       <h2>Bulk Uploader</h2>
-
-      <form enctype="multipart/form-data" novalidate v-if="isInitial || isSaving">
-        <div class="dropbox">
-          <input id="files" type="file" multiple :name="uploadFieldName" :disabled="isSaving" @change="filesChange($event.target.name, $event.target.files); fileCount = $event.target.files.length" accept=".csv" class="input-file">
-          <p v-if="isInitial">
-            Drag your file(s) here to begin<br> or click to browse
-          </p>
-          <p v-if="isSaving">
-            Uploading {{ fileCount }} files...
-          </p>
-        </div>
-      </form>
-
       <div v-if=response class="text-red"><p class="vertical-5p lead">{{response}}</p></div>
     </div>
 
     <div class="row center-block" v-if="posts.length">
-      <h2>VM T-Shirt Sizes</h2>
       <div class="col-md-12">
         <div class="box">
           <!-- /.box-header -->
@@ -38,65 +24,44 @@
                     <thead>
                       <tr role="row">
                         <th colspan="1" rowspan="1" aria-controls="example1" tabindex="0">Name</th>
-                        <th style="width: 207px;" colspan="1" rowspan="1" aria-controls="example1" tabindex="0">Price / Hour</th>
                         <th style="width: 182px;" colspan="1" rowspan="1" aria-controls="example1" tabindex="0">Currency</th>
-                        <th style="width: 142px;" colspan="1" rowspan="1" aria-controls="example1" tabindex="0">Tier</th>
                         <th style="width: 101px;" colspan="1" rowspan="1" aria-controls="example1" tabindex="0">Region</th>
                         <th style="width: 167px;" colspan="1" rowspan="1" aria-controls="example1" tabindex="0">Contract</th>
-                        <th style="width: 207px;" colspan="1" rowspan="1" aria-controls="example1" tabindex="0">ACU</th>
                         <th style="width: 182px;" colspan="1" rowspan="1" aria-controls="example1" tabindex="0">SSD</th>
-                        <th style="width: 142px;" colspan="1" rowspan="1" aria-controls="example1" tabindex="0">Cores</th>
-                        <th style="width: 101px;" colspan="1" rowspan="1" aria-controls="example1" tabindex="0">Memory</th>
+                        <th style="width: 142px;" colspan="1" rowspan="1" aria-controls="example1" tabindex="0">Min. Cores</th>
+                        <th style="width: 101px;" colspan="1" rowspan="1" aria-controls="example1" tabindex="0">Min. Memory (GB)</th>
                         <th style="width: 167px;" colspan="1" rowspan="1" aria-controls="example1" tabindex="0">Burstable</th>
-                        <th style="width: 207px;" colspan="1" rowspan="1" aria-controls="example1" tabindex="0">Isolated</th>
-                        <th style="width: 182px;" colspan="1" rowspan="1" aria-controls="example1" tabindex="0">HyperThreaded</th>
-                        <th style="width: 142px;" colspan="1" rowspan="1" aria-controls="example1" tabindex="0">Max. NICs</th>
-                        <th style="width: 101px;" colspan="1" rowspan="1" aria-controls="example1" tabindex="0">Bandwidth</th>
-                        <th style="width: 182px;" colspan="1" rowspan="1" aria-controls="example1" tabindex="0">Max. Disks</th>
-                        <th style="width: 142px;" colspan="1" rowspan="1" aria-controls="example1" tabindex="0">Max. IOPS</th>
-                        <th style="width: 101px;" colspan="1" rowspan="1" aria-controls="example1" tabindex="0">Max. Throughput</th>
+                        <th style="width: 142px;" colspan="1" rowspan="1" aria-controls="example1" tabindex="0">Min. NICs</th>
+                        <th style="width: 142px;" colspan="1" rowspan="1" aria-controls="example1" tabindex="0">Min. IOPS</th>
+                        <th style="width: 101px;" colspan="1" rowspan="1" aria-controls="example1" tabindex="0">Min. Throughput (MB/s)</th>
                       </tr>
                     </thead>
-                    <tbody v-if="posts && posts.length">
+                    <tbody v-if="posts">
                       <tr v-for="post of posts" role="row">
-                        <td class="sorting_1">{{post.Name}}</td>
-                        <td>{{post.Price}}</td>
+                        <td class="sorting_1">{{post['VM Name']}}</td>
                         <td>{{post.Currency}}</td>
-                        <td>{{post.Tier}}</td>
                         <td>{{post.Region}}</td>
                         <td>{{post.Contract}}</td>
-                        <td>{{post.ACU}}</td>
-                        <td>{{post.SSD}}</td>
+                        <td>{{post['SSD [Yes/No]']}}</td>
                         <td>{{post.Cores}}</td>
-                        <td>{{post.Memory}}</td>
+                        <td>{{post['Memory (GB)']}}</td>
                         <td>{{post.Burstable}}</td>
-                        <td>{{post.Isolated}}</td>
-                        <td>{{post.Hyperthreaded}}</td>
-                        <td>{{post.MaxNics}}</td>
-                        <td>{{post.Bandwidth}}</td>
-                        <td>{{post.MaxDataDiskCount}}</td>
-                        <td>{{post.MaxVmIops}}</td>
-                        <td>{{post.MaxVmThroughputMBs}}</td>
+                        <td>{{post.NICs}}</td>
+                        <td>{{post.IOPS}}</td>
+                        <td>{{post['Throughput (MB/s)']}}</td>
                       </tr>
                     </tbody>
                     <tfoot>
                       <tr>
                         <th colspan="1" rowspan="1">Name</th>
-                        <th colspan="1" rowspan="1">Price / Hour</th>
                         <th colspan="1" rowspan="1">Currency</th>
-                        <th colspan="1" rowspan="1">Tier</th>
                         <th colspan="1" rowspan="1">Region</th>
                         <th colspan="1" rowspan="1">Contract</th>
-                        <th colspan="1" rowspan="1">ACU</th>
                         <th colspan="1" rowspan="1">SSD</th>
                         <th colspan="1" rowspan="1">Cores</th>
                         <th colspan="1" rowspan="1">Memory</th>
                         <th colspan="1" rowspan="1">Burstable</th>
-                        <th colspan="1" rowspan="1">Isolated</th>
-                        <th colspan="1" rowspan="1">HyperThreaded</th>
                         <th colspan="1" rowspan="1">Max. Nics</th>
-                        <th colspan="1" rowspan="1">Bandwidth</th>
-                        <th colspan="1" rowspan="1">Max. Disks</th>
                         <th colspan="1" rowspan="1">Max. IOPS</th>
                         <th colspan="1" rowspan="1">Max. Throughput</th>
                       </tr>
@@ -111,11 +76,27 @@
         </div>
       </div>
     </div>
+
+    <div class="row center-block">
+      <form enctype="multipart/form-data" novalidate v-if="isInitial || isSaving">
+        <div class="dropbox">
+          <input id="files" type="file" multiple :name="uploadFieldName" :disabled="isSaving" @change="filesChange($event.target.name, $event.target.files); fileCount = $event.target.files.length" accept=".csv" class="input-file">
+          <p v-if="isInitial">
+            Drag your file(s) here to begin<br> or click to browse
+          </p>
+          <p v-if="isSaving">
+            Uploading {{ fileCount }} files...
+          </p>
+        </div>
+      </form>
+
+    </div>
+
   </section>
 </template>
 
 <script>
-  // import $ from 'jquery'
+  import $ from 'jquery'
   import Papa from 'papaparse'
 
   const STATUS_INITIAL = 0
@@ -131,25 +112,6 @@
         errors: [],
         loading: '',
         response: '',
-        cores: '',
-        memory: '',
-        acu: '',
-        capacity: '',
-        iops: '',
-        throughput: '',
-        type: '',
-        nics: '',
-        bandwidth: '',
-        tier: 'standard',
-        hyperthreaded: '',
-        burstable: '',
-        isolated: '',
-        contract: '',
-        peakcpu: '',
-        peakmemory: '',
-        region: 'europe-west',
-        currency: 'EUR',
-        maxresults: '10',
         uploadedFiles: [],
         uploadError: null,
         currentStatus: null,
@@ -176,24 +138,36 @@
         this.currentStatus = STATUS_INITIAL
         this.uploadedFiles = []
         this.uploadError = null
+        this.posts = []
       },
       filesChange(fieldName, fileList) {
+        const that = this
         if (!fileList.length) return
-
-        Array
-          .from(Array(fileList.length).keys())
-          .map(x => {
-            console.log(fieldName + ' - ' + fileList[x] + ' - ' + fileList[x].name)
-            Papa.parse(fileList[x], {
-              complete: function (results) {
-                console.log('Finished:', results.data)
-              }
-            })
+        for (var i = 0; i < fileList.length; i++) {
+          console.log(fileList[i])
+          Papa.parse(fileList[i], {
+            header: true,
+            dynamicTyping: true,
+            complete: function (results) {
+              console.log('results', results)
+              that.posts = results.data
+            },
+            error: function(errors) {
+              console.log('error', errors)
+            }
           })
+        }
       }
     },
     mounted() {
       this.reset()
+      this.$nextTick(() => {
+        $('#example1').DataTable({
+          ordering: false,
+          searching: false,
+          paging: false
+        })
+      })
     }
   }
 </script>
