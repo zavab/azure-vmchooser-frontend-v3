@@ -5,8 +5,7 @@
 
       <form enctype="multipart/form-data" novalidate v-if="isInitial || isSaving">
         <div class="dropbox">
-          <input id="files" type="file" multiple :name="uploadFieldName" :disabled="isSaving" @change="filesChange($event.target.name, $event.target.files); fileCount = $event.target.files.length"
-                 accept="image/*" class="input-file">
+          <input id="files" type="file" multiple :name="uploadFieldName" :disabled="isSaving" @change="filesChange($event.target.name, $event.target.files); fileCount = $event.target.files.length" accept=".csv" class="input-file">
           <p v-if="isInitial">
             Drag your file(s) here to begin<br> or click to browse
           </p>
@@ -117,6 +116,7 @@
 
 <script>
   // import $ from 'jquery'
+  import Papa from 'papaparse'
 
   const STATUS_INITIAL = 0
   const STATUS_SAVING = 1
@@ -184,6 +184,11 @@
           .from(Array(fileList.length).keys())
           .map(x => {
             console.log(fieldName + ' - ' + fileList[x] + ' - ' + fileList[x].name)
+            Papa.parse(fileList[x], {
+              complete: function (results) {
+                console.log('Finished:', results.data)
+              }
+            })
           })
       }
     },
