@@ -15,6 +15,8 @@
     "lint": "eslint --ext .js,.vue src test/unit/specs test/e2e/specs"
   },
   "dependencies": {
+    "ag-grid": "^17.1.1",
+    "ag-grid-vue": "^17.1.0",
     "axios": "^0.15.3",
     "babel-runtime": "^5.8.0",
     "chart.js": "2.3.0",
