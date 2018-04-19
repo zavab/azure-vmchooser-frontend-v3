@@ -3,12 +3,6 @@ import NotFoundView from './components/404.vue'
 
 // Import Views - Dash
 import DashboardView from './components/views/Dashboard.vue'
-import TablesView from './components/views/Tables.vue'
-import TasksView from './components/views/Tasks.vue'
-import SettingView from './components/views/Setting.vue'
-import AccessView from './components/views/Access.vue'
-import ServerView from './components/views/Server.vue'
-import ReposView from './components/views/Repos.vue'
 import VmChooserView from './components/views/VmChooser.vue'
 import DiskChooserView from './components/views/DiskChooser.vue'
 import BulkUploaderView from './components/views/BulkUploader.vue'
@@ -26,11 +20,6 @@ const routes = [
         name: 'Dashboard',
         meta: {description: '"Where do you want to go today?"'}
       }, {
-        path: 'tables',
-        component: TablesView,
-        name: 'Tables',
-        meta: {description: 'Simple and advance table in CoPilot'}
-      }, {
         path: 'vmchooser',
         component: VmChooserView,
         name: 'VmChooser',
@@ -45,31 +34,6 @@ const routes = [
         component: BulkUploaderView,
         name: 'BulkUploader',
         meta: { description: 'When finding one VM is not enough...' }
-      }, {
-        path: 'tasks',
-        component: TasksView,
-        name: 'Tasks',
-        meta: {description: 'Tasks page in the form of a timeline'}
-      }, {
-        path: 'setting',
-        component: SettingView,
-        name: 'Settings',
-        meta: {description: 'User settings page'}
-      }, {
-        path: 'access',
-        component: AccessView,
-        name: 'Access',
-        meta: {description: 'Example of using maps'}
-      }, {
-        path: 'server',
-        component: ServerView,
-        name: 'Servers',
-        meta: {description: 'List of our servers', requiresAuth: true}
-      }, {
-        path: 'repos',
-        component: ReposView,
-        name: 'Repository',
-        meta: {description: 'List of popular javascript repos'}
       }
     ]
   }, {
