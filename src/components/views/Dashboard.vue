@@ -8,8 +8,8 @@
         <h4><i class="icon fa fa-check"></i> VMchooser is open source!</h4>
         Click on icon to check it out on github. <a href="https://github.com/kvaes?tab=repositories&q=vmchooser" target="_blank"><i class="fa fa-github fa-2x"></i></a>
       </div>
-      <div class="col-md-6 col-sm-6 col-xs-6">
-        <router-link tag="li" class="pageLink" to="/vmchooser">
+      <div class="col-md-3 col-sm-6 col-xs-12">
+        <router-link class="pageLink" to="/vmchooser">
           <div class="info-box">
             <span class="info-box-icon bg-aqua"><i class="fa fa-desktop"></i></span>
             <div class="info-box-content">
@@ -22,13 +22,27 @@
         </router-link>
       </div>
       <!-- /.col -->
-      <div class="col-md-6 col-sm-6 col-xs-6">
-        <router-link tag="li" class="pageLink" to="/diskchooser">
+      <div class="col-md-3 col-sm-6 col-xs-12">
+        <router-link class="pageLink" to="/diskchooser">
           <div class="info-box">
             <span class="info-box-icon bg-aqua"><i class="fa fa-database"></i></span>
             <div class="info-box-content">
               <span class="info-box-number">Data Disk Configurator</span>
               <span class="info-box-text"><small>Let DiskChooser find the most efficient disk configuration/layout for you!</small></span>
+            </div>
+            <!-- /.info-box-content -->
+          </div>
+          <!-- /.info-box -->
+        </router-link>
+      </div>
+      <!-- /.col -->
+      <div class="col-md-3 col-sm-6 col-xs-12">
+        <router-link class="pageLink" to="/bulkuploader">
+          <div class="info-box">
+            <span class="info-box-icon bg-aqua"><i class="fa fa-sliders"></i></span>
+            <div class="info-box-content">
+              <span class="info-box-number">Bulk Uploader</span>
+              <span class="info-box-text"><small>When finding one VM is not enough...</small></span>
             </div>
             <!-- /.info-box-content -->
           </div>

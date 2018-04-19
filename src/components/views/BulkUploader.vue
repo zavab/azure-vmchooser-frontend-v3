@@ -1,45 +1,18 @@
 <template>
-  <div style="width: 760px;">
+  <div style="width: 100%;">
     <div style="padding: 4px;">
-      <div style="float: right;">
-        <input @keyup="onQuickFilterChanged" type="text" id="quickFilterInput"
-               placeholder="Type text to filter..." />
-        <button :disabled="!showGrid" @click="showGrid=false">Destroy Grid</button>
-        <button :disabled="showGrid" @click="showGrid=true">Create Grid</button>
-      </div>
       <div>
-        <b>Employees Skills and Contact Details</b>
+        <b>Virtual Machines</b>
         {{rowCount}}
       </div>
     </div>
     <div style="clear: both;"></div>
     <div v-if="showGrid">
-      <div style="padding: 4px;" class="toolbar">
-        <span>
-          Grid API:
-          <button @click="gridOptions.api.selectAll()">Select All</button>
-          <button @click="gridOptions.api.deselectAll()">Clear Selection</button>
-        </span>
-        <span style="margin-left: 20px;">
-          Column API:
-          <button @click="gridOptions.columnApi.setColumnVisible('country', false)">Hide Country Column</button>
-          <button @click="gridOptions.columnApi.setColumnVisible('country', true)">Show Country Column</button>
-        </span>
-      </div>
       <div style="clear: both;"></div>
-      <div style="padding: 4px;" class="toolbar">
-        <label>
-          <input type="checkbox" v-model="showToolPanel" />
-          Show Tool Panel
-        </label>
-        <button @click="createRowData()">Refresh Data</button>
-      </div>
-      <div style="clear: both;"></div>
-      <ag-grid-vue style="width: 100%; height: 350px;" class="ag-theme-balham"
+      <ag-grid-vue style="width: 100%; height: 300px;" class="ag-theme-balham"
                    :gridOptions="gridOptions"
                    :columnDefs="columnDefs"
                    :rowData="rowData"
-                   :showToolPanel="showToolPanel"
                    :enableColResize="true"
                    :enableSorting="true"
                    :enableFilter="true"
@@ -75,6 +48,21 @@
                    :columnPinnedCountChanged="onColumnEvent">
       </ag-grid-vue>
     </div>
+    <div style="clear: both;"></div>
+    <div class="row center-block">
+      <form enctype="multipart/form-data" novalidate v-if="isInitial || isSaving">
+        <div class="dropbox">
+          <input id="files" type="file" multiple :name="uploadFieldName" :disabled="isSaving" @change="filesChange($event.target.name, $event.target.files); fileCount = $event.target.files.length" accept=".csv" class="input-file">
+          <p v-if="isInitial">
+            Drag your file(s) here to begin<br> or click to browse
+          </p>
+          <p v-if="isSaving">
+            Uploading {{ fileCount }} files...
+          </p>
+        </div>
+      </form>
+
+    </div>
   </div>
 </template>
 <script>
@@ -83,11 +71,16 @@
   import '../../../node_modules/ag-grid/dist/styles/ag-grid.css'
   import '../../../node_modules/ag-grid/dist/styles/ag-theme-balham.css'
 
-  import { ProficiencyFilter } from '../../test/proficiencyFilter'
-  import { SkillFilter } from '../../test/skillFilter'
-  import DateComponent from '../../test/DateComponent.vue'
-  import HeaderGroupComponent from '../../test/HeaderGroupComponent.vue'
+  // import { ProficiencyFilter } from '../../test/proficiencyFilter'
+  // import { SkillFilter } from '../../test/skillFilter'
+  // import DateComponent from '../../test/DateComponent.vue'
+  // import HeaderGroupComponent from '../../test/HeaderGroupComponent.vue'
   import RefData from '../../test/refData'
+
+  const STATUS_INITIAL = 0
+  const STATUS_SAVING = 1
+  const STATUS_SUCCESS = 2
+  const STATUS_FAILED = 3
 
   export default {
     data() {
@@ -97,13 +90,40 @@
         rowData: null,
         showGrid: false,
         showToolPanel: false,
-        rowCount: null
+        rowCount: null,
+        loading: '',
+        response: '',
+        uploadedFiles: [],
+        uploadError: null,
+        currentStatus: null,
+        uploadFieldName: 'inputcsv'
+      }
+    },
+    computed: {
+      isInitial() {
+        return this.currentStatus === STATUS_INITIAL
+      },
+      isSaving() {
+        return this.currentStatus === STATUS_SAVING
+      },
+      isSuccess() {
+        return this.currentStatus === STATUS_SUCCESS
+      },
+      isFailed() {
+        return this.currentStatus === STATUS_FAILED
       }
     },
     components: {
       'ag-grid-vue': AgGridVue
     },
     methods: {
+      reset() {
+        // reset form to initial state
+        this.currentStatus = STATUS_INITIAL
+        this.uploadedFiles = []
+        this.uploadError = null
+        this.posts = []
+      },
       createRowData() {
         const rowData = []
 
@@ -144,7 +164,6 @@
           },
           {
             headerName: 'Employee',
-            headerGroupComponentFramework: HeaderGroupComponent,
             children: [
               {
                 headerName: 'Name',
@@ -162,19 +181,6 @@
                   cellRenderer: countryCellRenderer,
                   cellHeight: 20
                 }
-              },
-              {
-                headerName: 'DOB',
-                field: 'dob',
-                width: 120,
-                pinned: true,
-                cellRenderer: (params) => {
-                  return this.pad(params.value.getDate(), 2) + '/' +
-                    this.pad(params.value.getMonth() + 1, 2) + '/' +
-                    params.value.getFullYear()
-                },
-                filter: 'date',
-                columnGroupShow: 'open'
               }
             ]
           },
@@ -185,15 +191,13 @@
                 headerName: 'Skills',
                 width: 125,
                 suppressSorting: true,
-                cellRenderer: skillsCellRenderer,
-                filter: SkillFilter
+                cellRenderer: skillsCellRenderer
               },
               {
                 headerName: 'Proficiency',
                 field: 'proficiency',
                 width: 120,
-                cellRenderer: percentCellRenderer,
-                filter: ProficiencyFilter
+                cellRenderer: percentCellRenderer
               }
             ]
           },
@@ -317,8 +321,9 @@
       }
     },
     beforeMount() {
+      this.reset()
       this.gridOptions = {}
-      this.gridOptions.dateComponentFramework = DateComponent
+      // this.gridOptions.dateComponentFramework = DateComponent
       this.createRowData()
       this.createColumnDefs()
       this.showGrid = true
@@ -413,5 +418,37 @@
 
   .ag-menu {
     z-index: 200;
+  }
+</style>
+
+<!-- SASS styling -->
+<style lang="scss" >
+  .dropbox {
+    outline: 2px dashed grey; /* the dash box */
+    outline-offset: -10px;
+    background: lightcyan;
+    color: dimgray;
+    padding: 10px 10px;
+    min-height: 200px; /* minimum height */
+    position: relative;
+    cursor: pointer;
+  }
+
+  .input-file {
+    opacity: 0; /* invisible but it's there! */
+    width: 100%;
+    height: 200px;
+    position: absolute;
+    cursor: pointer;
+  }
+
+  .dropbox:hover {
+    background: lightblue; /* when mouse over to the drop zone, change color */
+  }
+
+  .dropbox p {
+    font-size: 1.2em;
+    text-align: center;
+    padding: 50px 0;
   }
 </style>
