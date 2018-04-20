@@ -1,6 +1,11 @@
 <template>
   <div style="width: 100%;">
     <div style="padding: 4px;">
+      <div style="float: right;">
+        <input @keyup="onQuickFilterChanged" type="text" id="quickFilterInput"
+               placeholder="Type text to filter..." />
+        <button @click="exportToCsv">Export to CSV</button>
+      </div>
       <div>
         <b>Virtual Machines</b>
         {{rowCount}}
@@ -9,7 +14,7 @@
     <div style="clear: both;"></div>
     <div v-if="showGrid">
       <div style="clear: both;"></div>
-      <ag-grid-vue style="width: 100%; height: 300px;" class="ag-theme-balham"
+      <ag-grid-vue style="width: 100%; height: 600px" class="ag-theme-balham"
                    :gridOptions="gridOptions"
                    :columnDefs="columnDefs"
                    :rowData="rowData"
@@ -66,6 +71,7 @@
 <script>
   import { AgGridVue } from 'ag-grid-vue'
   import Papa from 'papaparse'
+  import axios from 'axios'
 
   import '../../../node_modules/ag-grid/dist/styles/ag-grid.css'
   import '../../../node_modules/ag-grid/dist/styles/ag-theme-balham.css'
@@ -155,6 +161,9 @@
         this.uploadError = null
         this.posts = []
       },
+      exportToCsv() {
+        this.gridOptions.api.exportDataAsCsv()
+      },
       filesChange(fieldName, fileList) {
         const that = this
         if (!fileList.length) return
@@ -178,6 +187,23 @@
         for (var i = 0; i < newResults.data.length; i++) {
           var tempRow = newResults.data[i]
           if (tempRow['VM Name']) {
+            this.getVmSize(
+              i,
+              tempRow['Region'],
+              tempRow['Cores'],
+              tempRow['Memory (GB)'],
+              tempRow['SSD [Yes/No]'],
+              tempRow['NICs'],
+              tempRow['Max Disk Size (TB)'],
+              tempRow['IOPS'],
+              tempRow['Throughput (MB/s)'],
+              tempRow['Min Temp Disk Size (GB)'],
+              tempRow['Peak CPU Usage (%)'],
+              tempRow['Peak Memory Usage (%)'],
+              tempRow['Currency'],
+              tempRow['Contract'],
+              tempRow['Burstable']
+            )
             tempData.push({
               name: tempRow['VM Name'],
               region: tempRow['Region'],
@@ -220,7 +246,8 @@
               {
                 headerName: 'Name',
                 field: 'name',
-                width: 150
+                width: 150,
+                editable: true
               },
               {
                 headerName: 'Region',
@@ -230,72 +257,86 @@
                 filterParams: {
                   cellRenderer: countryCellRenderer,
                   cellHeight: 20
-                }
+                },
+                editable: true
               },
               {
                 headerName: 'Cores',
                 field: 'cores',
-                width: 100
+                width: 100,
+                editable: true
               },
               {
                 headerName: 'Memory (GB)',
                 field: 'memory',
-                width: 100
+                width: 100,
+                editable: true
               },
               {
                 headerName: 'SSD',
                 field: 'ssd',
-                width: 50
+                width: 50,
+                editable: true
               },
               {
                 headerName: 'NICs',
                 field: 'nics',
-                width: 50
+                width: 50,
+                editable: true
               },
               {
                 headerName: 'Max. Data Disks',
                 field: 'maxdatadisks',
-                width: 150
+                width: 150,
+                editable: true
               },
               {
                 headerName: 'Min. IOPS',
                 field: 'iops',
-                width: 150
+                width: 150,
+                editable: true
               },
               {
                 headerName: 'Min. Throughput (MB/s)',
                 field: 'throughput',
-                width: 150
+                width: 150,
+                editable: true
               },
               {
                 headerName: 'Min. Temp disk (GB)',
                 field: 'temp',
-                width: 150
+                width: 150,
+                editable: true
               },
               {
                 headerName: 'Peak CPU in 95pct (%)',
                 field: 'peakcpu',
-                width: 75
+                width: 75,
+                editable: true
               },
               {
                 headerName: 'Peak Memory in 95pct (%)',
                 field: 'peakmem',
-                width: 75
+                width: 75,
+                editable: true
               },
               {
                 headerName: 'Currency',
                 field: 'currency',
-                width: 75
+                width: 75,
+                editable: true
               },
               {
                 headerName: 'Contract',
                 field: 'contract',
-                width: 75
+                width: 75,
+                editable: true
               },
               {
                 headerName: 'Burstable',
                 field: 'burstable',
-                width: 75
+                width: 75,
+                editable: true
               }
             ]
           },
@@ -323,6 +364,26 @@
             ]
           }
         ]
+      },
+      getVmSize(index, region, cores, memory, ssd, nics, capacity, iops, throughput, temp, peakcpu, peakmemory, currency, contract, burstable) {
+        var maxresults = '1'
+        var vmchooserurl = 'https://vmchooser.azure-api.net/dev-v2/api/GetVmSize?maxresults=' + maxresults + '&cores=' + cores + '&memory=' + memory + '&ssd=' + ssd + '&throughput=' + throughput + '&iops=' + iops + '&data=' + capacity + '&nics=' + nics + '&burstable=' + burstable + '&contract=' + contract + '&avgcpupeak=' + peakcpu + '&avgmempeak=' + peakmemory + '&region=' + region + '&currency=' + currency
+        var vmchooserconfig = {
+          headers: {
+            'Access-Control-Allow-Origin': '*',
+            'Ocp-Apim-Subscription-Key': ''
+          }
+        }
+        axios.post(vmchooserurl, '', vmchooserconfig)
+          .then(response => {
+            console.log(response.data)
+            var rowNode = this.gridOptions.api.getRowNode(index)
+            var res = rowNode.setDataValue('mobile', 'test ' + index)
+            console.log(res)
+          })
+          .catch(e => {
+            console.log('Error : ' + e)
+          })
       },
       pad(num, totalStringSize) {
         let asString = num + ''
@@ -355,6 +416,7 @@
 
       onCellValueChanged(event) {
         console.log('onCellValueChanged: ' + event.oldValue + ' to ' + event.newValue)
+        console.log(event.data)
       },
 
       onCellDoubleClicked(event) {
