@@ -30,6 +30,7 @@
                    :cellDoubleClicked="onCellDoubleClicked"
                    :cellContextMenu="onCellContextMenu"
                    :cellValueChanged="onCellValueChanged"
+                   :rowValueChanged="onRowValueChanged"
                    :cellFocused="onCellFocused"
                    :rowSelected="onRowSelected"
                    :selectionChanged="onSelectionChanged"
@@ -619,10 +620,15 @@
       },
 
       onCellValueChanged(event) {
+        console.log('onCellValueChanged: ' + event.oldValue + ' to ' + event.newValue)
+      },
+
+      onRowValueChanged(event) {
+        console.log('onRowValueChanged')
         console.log(event.columnApi.columnController.primaryHeaderRowCount)
-        if (event.columnApi.columnController.primaryHeaderRowCount < 7 && event.columnApi.columnController.primaryHeaderRowCount !== undefined && event.oldValue !== undefined) {
-          console.log('onCellValueChanged: ' + event.oldValue + ' to ' + event.newValue)
-          /* this.getVmSize(
+        if (event.columnApi.columnController.primaryHeaderRowCount < 7) {
+          console.log(event)
+          this.getVmSize(
             event.rowIndex,
             event.data.region,
             event.data.cores,
@@ -638,8 +644,8 @@
             event.data.currency,
             event.data.contract,
             event.data.burstable
-          ) */
-          console.log(event)
+          )
+          // console.log(event)
           // console.log(event.data.region)
           // console.log(event.data.cores)
           // console.log(event.data.memory)
@@ -647,6 +653,7 @@
           // console.log(event.rowIndex)
         }
       },
+
       onCellDoubleClicked(event) {
         console.log('onCellDoubleClicked: ' + event.rowIndex + ' ' + event.colDef.field)
       },
@@ -710,7 +717,9 @@
     },
     beforeMount() {
       this.reset()
-      this.gridOptions = {}
+      this.gridOptions = {
+        editType: 'fullRow'
+      }
       // this.gridOptions.dateComponentFramework = DateComponent
       this.createRowData()
       this.createColumnDefs()
