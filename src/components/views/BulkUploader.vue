@@ -168,12 +168,12 @@
         const that = this
         if (!fileList.length) return
         for (var i = 0; i < fileList.length; i++) {
-          console.log(fileList[i])
+          // console.log(fileList[i])
           Papa.parse(fileList[i], {
             header: true,
             dynamicTyping: true,
             complete: function (results) {
-              console.log('results', results)
+              // console.log('results', results)
               that.updateRowData(results)
             },
             error: function (errors) {
@@ -213,7 +213,7 @@
               currency: tempRow['Currency'],
               ssd: tempRow['SSD [Yes/No]'],
               nics: tempRow['NICs'],
-              maxdatadisks: tempRow['Max Disk Size (TB)'],
+              maxdatadisksize: tempRow['Max Disk Size (TB)'] * 1024,
               temp: tempRow['Min Temp Disk Size (GB)'],
               iops: tempRow['IOPS'],
               throughput: tempRow['Throughput (MB/s)'],
@@ -264,13 +264,15 @@
                 headerName: 'Cores',
                 field: 'cores',
                 width: 100,
-                editable: true
+                editable: true,
+                filter: 'agNumberColumnFilter'
               },
               {
                 headerName: 'Memory (GB)',
                 field: 'memory',
                 width: 100,
-                editable: true
+                editable: true,
+                filter: 'agNumberColumnFilter'
               },
               {
                 headerName: 'SSD',
@@ -282,43 +284,57 @@
                 headerName: 'NICs',
                 field: 'nics',
                 width: 50,
-                editable: true
+                columnGroupShow: 'open',
+                editable: true,
+                filter: 'agNumberColumnFilter'
               },
               {
-                headerName: 'Max. Data Disks',
-                field: 'maxdatadisks',
+                headerName: 'Max. Data Disks Capacity (in GB)',
+                field: 'maxdatadisksize',
                 width: 150,
-                editable: true
+                editable: true,
+                columnGroupShow: 'open',
+                filter: 'agNumberColumnFilter'
               },
               {
                 headerName: 'Min. IOPS',
                 field: 'iops',
                 width: 150,
-                editable: true
+                editable: true,
+                columnGroupShow: 'open',
+                filter: 'agNumberColumnFilter'
               },
               {
                 headerName: 'Min. Throughput (MB/s)',
                 field: 'throughput',
                 width: 150,
-                editable: true
+                editable: true,
+                columnGroupShow: 'open',
+                filter: 'agNumberColumnFilter'
               },
               {
                 headerName: 'Min. Temp disk (GB)',
                 field: 'temp',
                 width: 150,
-                editable: true
+                editable: true,
+                columnGroupShow: 'open',
+                filter: 'agNumberColumnFilter'
               },
               {
                 headerName: 'Peak CPU in 95pct (%)',
                 field: 'peakcpu',
                 width: 75,
-                editable: true
+                editable: true,
+                columnGroupShow: 'open',
+                filter: 'agNumberColumnFilter'
               },
               {
                 headerName: 'Peak Memory in 95pct (%)',
-                field: 'peakmem',
+                field: 'peakmemory',
                 width: 75,
-                editable: true
+                editable: true,
+                columnGroupShow: 'open',
+                filter: 'agNumberColumnFilter'
               },
               {
                 headerName: 'Currency',
@@ -336,29 +352,166 @@
                 headerName: 'Burstable',
                 field: 'burstable',
                 width: 75,
+                columnGroupShow: 'closed',
                 editable: true
               }
             ]
           },
           {
-            headerName: 'Contact',
+            headerName: 'Compute',
             children: [
               {
-                headerName: 'Mobile',
-                field: 'mobile',
+                headerName: 'VM Size Name',
+                field: 'compute_name',
                 width: 150,
                 filter: 'text'
               },
               {
-                headerName: 'Land-line',
-                field: 'landline',
+                headerName: 'Price per Hour',
+                field: 'compute_price_hour',
                 width: 150,
                 filter: 'text'
               },
               {
-                headerName: 'Address',
-                field: 'address',
-                width: 500,
+                headerName: 'Price per Day',
+                field: 'compute_price_day',
+                width: 150,
+                filter: 'text'
+              },
+              {
+                headerName: 'Price per Month (730 hours)',
+                field: 'compute_price_month',
+                width: 150,
+                filter: 'text'
+              },
+              {
+                headerName: 'Cores',
+                field: 'compute_cores',
+                width: 100,
+                filter: 'text'
+              },
+              {
+                headerName: 'Memory (GB)',
+                field: 'compute_memory',
+                width: 100,
+                filter: 'text'
+              },
+              {
+                headerName: 'ACU',
+                field: 'compute_acu',
+                width: 100,
+                filter: 'text'
+              },
+              {
+                headerName: 'Tier',
+                field: 'compute_tier',
+                width: 100,
+                filter: 'text'
+              },
+              {
+                headerName: 'Hyperthreaded',
+                field: 'compute_hyperthreaded',
+                width: 100,
+                filter: 'text'
+              },
+              {
+                headerName: 'Burstable',
+                field: 'compute_burstable',
+                width: 100,
+                filter: 'text'
+              },
+              {
+                headerName: 'Isolated',
+                field: 'compute_isolated',
+                width: 100,
+                filter: 'text'
+              },
+              {
+                headerName: 'SSD Capable',
+                field: 'compute_data_ssdcapable',
+                width: 100,
+                filter: 'text'
+              },
+              {
+                headerName: 'Max. # Data Disks',
+                field: 'compute_data_maxdisks',
+                width: 100,
+                filter: 'text'
+              },
+              {
+                headerName: 'Max. Data Capacity (GB)',
+                field: 'compute_data_maxcapacity',
+                width: 100,
+                filter: 'text'
+              },
+              {
+                headerName: 'Max. Data IOPS',
+                field: 'compute_data_maxiops',
+                width: 100,
+                filter: 'text'
+              },
+              {
+                headerName: 'Max. Data Throughput',
+                field: 'compute_data_maxthroughput',
+                width: 100,
+                filter: 'text'
+              },
+              {
+                headerName: 'Max. NICs',
+                field: 'compute_net_maxnics',
+                width: 100,
+                filter: 'text'
+              },
+              {
+                headerName: 'Max. Bandwidth (Mbps)',
+                field: 'compute_net_maxbandwidth',
+                width: 100,
+                filter: 'text'
+              }
+            ]
+          },
+          {
+            headerName: 'Storage - Operating System Disk',
+            children: [
+              {
+                headerName: 'OS Disk Type',
+                field: 'storage_os_type',
+                width: 150,
+                filter: 'text'
+              },
+              {
+                headerName: 'OS Disk Size',
+                field: 'storage_os_size',
+                width: 100,
+                filter: 'text'
+              },
+              {
+                headerName: 'OS Disk Price (per Month)',
+                field: 'storage_os_price',
+                width: 100,
+                filter: 'text'
+              }
+            ]
+          },
+          {
+            headerName: 'Storage - Data Disks',
+            children: [
+              {
+                headerName: 'Data Disk Type',
+                field: 'storage_data_type',
+                width: 150,
+                filter: 'text'
+              },
+              {
+                headerName: 'Data Disk Size',
+                field: 'storage_data_size',
+                width: 100,
+                filter: 'text'
+              },
+              {
+                headerName: 'Data Disk Price (per Month)',
+                field: 'storage_data_price',
+                width: 100,
                 filter: 'text'
               }
             ]
@@ -376,10 +529,61 @@
         }
         axios.post(vmchooserurl, '', vmchooserconfig)
           .then(response => {
-            console.log(response.data)
+            // console.log(response.data)
             var rowNode = this.gridOptions.api.getRowNode(index)
-            var res = rowNode.setDataValue('mobile', 'test ' + index)
-            console.log(res)
+            rowNode.setDataValue('compute_name', response.data[0].Name)
+            rowNode.setDataValue('compute_price_hour', response.data[0].Price)
+            rowNode.setDataValue('compute_price_day', response.data[0].Price * 24)
+            rowNode.setDataValue('compute_price_month', response.data[0].Price * 730)
+            rowNode.setDataValue('compute_cores', response.data[0].Cores)
+            rowNode.setDataValue('compute_memory', response.data[0].Memory)
+            rowNode.setDataValue('compute_acu', response.data[0].ACU)
+            rowNode.setDataValue('compute_tier', response.data[0].Tier)
+            rowNode.setDataValue('compute_hyperthreaded', response.data[0].Hyperthreaded)
+            rowNode.setDataValue('compute_burstable', response.data[0].Burstable)
+            rowNode.setDataValue('compute_isolated', response.data[0].Isolated)
+            rowNode.setDataValue('compute_data_ssdcapable', response.data[0].SSD)
+            rowNode.setDataValue('compute_data_maxdisks', response.data[0].MaxDataDiskCount)
+            rowNode.setDataValue('compute_data_maxcapacity', response.data[0].MaxDataDiskSizeGB)
+            rowNode.setDataValue('compute_data_maxiops', response.data[0].MaxVmIops)
+            rowNode.setDataValue('compute_data_maxthroughput', response.data[0].MaxVmThroughputMBs)
+            rowNode.setDataValue('compute_net_maxnics', response.data[0].MaxDataDiskCount)
+            rowNode.setDataValue('compute_net_maxbandwidth', response.data[0].Bandwidth)
+            /*
+            ACU: 210
+            Bandwidth: 6000
+            Burstable: "No"
+            Contract: "ri3y"
+            Cores: 8
+            Currency: "JPY"
+            Hyperthreaded: "No"
+            Isolated: "No"
+            MaxDataDiskCount: 32
+            MaxDataDiskIops: 240000
+            MaxDataDiskSizeGB: 131072
+            MaxDataDiskThroughputMBs: 8000
+            MaxNics: 8
+            MaxVmIops: 25600
+            MaxVmThroughputMBs: 384
+            Memory: 16
+            Name: "f8s"
+            OfferName: "linux-f8s-standard"
+            Price: 22.65522
+            Region: "europe-west"
+            SSD: "Yes"
+            Tier: "standard"
+            price_AUD: 0.282901507
+            price_CAD: 0.270063549
+            price_CHF: 0.200587541
+            price_DKK: 1.397827074
+            price_EUR: 0.187305363
+            price_GBP: 0.16554058199
+            price_IDR: 3034.0226
+            price_INR: 14.6806380875
+            price_JPY: 22.65522
+            price_SEK: 1.748272232
+            price_USD: 0.22211
+            */
           })
           .catch(e => {
             console.log('Error : ' + e)
@@ -415,10 +619,34 @@
       },
 
       onCellValueChanged(event) {
-        console.log('onCellValueChanged: ' + event.oldValue + ' to ' + event.newValue)
-        console.log(event.data)
+        console.log(event.columnApi.columnController.primaryHeaderRowCount)
+        if (event.columnApi.columnController.primaryHeaderRowCount < 7 && event.columnApi.columnController.primaryHeaderRowCount !== undefined && event.oldValue !== undefined) {
+          console.log('onCellValueChanged: ' + event.oldValue + ' to ' + event.newValue)
+          /* this.getVmSize(
+            event.rowIndex,
+            event.data.region,
+            event.data.cores,
+            event.data.memory,
+            event.data.ssd,
+            event.data.nics,
+            event.data.maxdatadisksize,
+            event.data.iops,
+            event.data.throughput,
+            event.data.temp,
+            event.data.peakcpu,
+            event.data.peakmemory,
+            event.data.currency,
+            event.data.contract,
+            event.data.burstable
+          ) */
+          console.log(event)
+          // console.log(event.data.region)
+          // console.log(event.data.cores)
+          // console.log(event.data.memory)
+          // console.log(event.data.ssd)
+          // console.log(event.rowIndex)
+        }
       },
-
       onCellDoubleClicked(event) {
         console.log('onCellDoubleClicked: ' + event.rowIndex + ' ' + event.colDef.field)
       },
