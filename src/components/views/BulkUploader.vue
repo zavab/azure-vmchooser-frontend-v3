@@ -26,12 +26,7 @@
                    :toolPanelSuppressValues="true"
                    rowSelection="multiple"
                    :modelUpdated="onModelUpdated"
-                   :cellClicked="onCellClicked"
-                   :cellDoubleClicked="onCellDoubleClicked"
-                   :cellContextMenu="onCellContextMenu"
-                   :cellValueChanged="onCellValueChanged"
                    :rowValueChanged="onRowValueChanged"
-                   :cellFocused="onCellFocused"
                    :rowSelected="onRowSelected"
                    :selectionChanged="onSelectionChanged"
                    :beforeFilterChanged="onBeforeFilterChanged"
@@ -487,6 +482,12 @@
                 filter: 'text'
               },
               {
+                headerName: 'OS Disk Capacity (in GB)',
+                field: 'storage_os_capacity',
+                width: 100,
+                filter: 'text'
+              },
+              {
                 headerName: 'OS Disk Price (per Month)',
                 field: 'storage_os_price',
                 width: 100,
@@ -504,8 +505,56 @@
                 filter: 'text'
               },
               {
+                headerName: 'Data Disk Config Description',
+                field: 'storage_data_config_description',
+                width: 100,
+                filter: 'text'
+              },
+              {
                 headerName: 'Data Disk Size',
-                field: 'storage_data_size',
+                field: 'storage_data_disk_size',
+                width: 100,
+                filter: 'text'
+              },
+              {
+                headerName: 'Data Disk IOPS',
+                field: 'storage_data_disk_iops',
+                width: 100,
+                filter: 'text'
+              },
+              {
+                headerName: 'Data Disk Capacity (in GB)',
+                field: 'storage_data_disk_capacity',
+                width: 100,
+                filter: 'text'
+              },
+              {
+                headerName: 'Data Disk Throughput (in MB/s)',
+                field: 'storage_data_disk_throughput',
+                width: 100,
+                filter: 'text'
+              },
+              {
+                headerName: 'Data Disk Count per Config',
+                field: 'storage_data_config_diskcount',
+                width: 100,
+                filter: 'text'
+              },
+              {
+                headerName: 'Data Disk IOPS per Config',
+                field: 'storage_data_config_iops',
+                width: 100,
+                filter: 'text'
+              },
+              {
+                headerName: 'Data Disk Capacity (in GB) per Config',
+                field: 'storage_data_config_capacity',
+                width: 100,
+                filter: 'text'
+              },
+              {
+                headerName: 'Data Disk Throughput (in MB/s) per Config',
+                field: 'storage_data_config_throughput',
                 width: 100,
                 filter: 'text'
               },
@@ -518,6 +567,91 @@
             ]
           }
         ]
+      },
+      getDataDiskConfig(index, ssd, currency, maxdisks, throughput, iops, capacity) {
+        var vmchooserurl = 'https://vmchooser.azure-api.net/dev-v2/api/GetDiskConfig?ssd=' + ssd + '&currency=' + currency + '&throughput=' + throughput + '&iops=' + iops + '&data=' + capacity + '&maxdisks=' + maxdisks
+        var vmchooserconfig = {
+          headers: {
+            'Access-Control-Allow-Origin': '*',
+            'Ocp-Apim-Subscription-Key': ''
+          }
+        }
+        axios.post(vmchooserurl, '', vmchooserconfig)
+          .then(response => {
+            // console.log(response.data)
+            var rowNode = this.gridOptions.api.getRowNode(index)
+            rowNode.setDataValue('storage_data_type', response.data.DiskType)
+            rowNode.setDataValue('storage_data_config_description', response.data.DiskConfigDescription)
+            rowNode.setDataValue('storage_data_disk_size', response.data.DiskSize)
+            rowNode.setDataValue('storage_data_disk_capacity', response.data.DiskCapacity)
+            rowNode.setDataValue('storage_data_disk_iops', response.data.DiskIops)
+            rowNode.setDataValue('storage_data_disk_throughput', response.data.DiskThroughput)
+            rowNode.setDataValue('storage_data_config_diskcount', response.data.DiskCount)
+            rowNode.setDataValue('storage_data_config_capacity', response.data.DiskConfigCapacity)
+            rowNode.setDataValue('storage_data_config_iops', response.data.DiskConfigIops)
+            rowNode.setDataValue('storage_data_config_throughput', response.data.DiskConfigThroughput)
+            rowNode.setDataValue('storage_data_price', response.data.DiskPrice)
+            /*
+              {…}
+              DiskCapacity: 128
+              DiskConfigCapacity: 128
+              DiskConfigDescription: "A striped (raid0) set of 1 p10 disk(s)."
+              DiskConfigIops: 500
+              DiskConfigThroughput: 100
+              DiskCount: 1
+              DiskCurrency: "JPY"
+              DiskIops: 500
+              DiskName: "md-p10-premium-europe-west"
+              DiskPrice: 2211.36
+              DiskSize: "p10"
+              DiskThroughput: 100
+              DiskType: "premium"
+              __proto__: Object { … }
+            */
+          })
+          .catch(e => {
+            console.log('Error : ' + e)
+          })
+      },
+      getOsDisk(index, ssd, currency) {
+        var maxdisks = '1'
+        var osdisk = '100' // 100GB to revert back to an S10 / P10
+        var vmchooserurl = 'https://vmchooser.azure-api.net/dev-v2/api/GetDiskConfig?ssd=' + ssd + '&currency=' + currency + '&data=' + osdisk + '&maxdisks=' + maxdisks
+        var vmchooserconfig = {
+          headers: {
+            'Access-Control-Allow-Origin': '*',
+            'Ocp-Apim-Subscription-Key': ''
+          }
+        }
+        axios.post(vmchooserurl, '', vmchooserconfig)
+          .then(response => {
+            // console.log(response.data)
+            var rowNode = this.gridOptions.api.getRowNode(index)
+            rowNode.setDataValue('storage_os_type', response.data.DiskType)
+            rowNode.setDataValue('storage_os_size', response.data.DiskSize)
+            rowNode.setDataValue('storage_os_capacity', response.data.DiskConfigCapacity)
+            rowNode.setDataValue('storage_os_price', response.data.DiskPrice)
+            /*
+              {…}
+              DiskCapacity: 128
+              DiskConfigCapacity: 128
+              DiskConfigDescription: "A striped (raid0) set of 1 p10 disk(s)."
+              DiskConfigIops: 500
+              DiskConfigThroughput: 100
+              DiskCount: 1
+              DiskCurrency: "JPY"
+              DiskIops: 500
+              DiskName: "md-p10-premium-europe-west"
+              DiskPrice: 2211.36
+              DiskSize: "p10"
+              DiskThroughput: 100
+              DiskType: "premium"
+              __proto__: Object { … }
+            */
+          })
+          .catch(e => {
+            console.log('Error : ' + e)
+          })
       },
       getVmSize(index, region, cores, memory, ssd, nics, capacity, iops, throughput, temp, peakcpu, peakmemory, currency, contract, burstable) {
         var maxresults = '1'
@@ -585,6 +719,10 @@
             price_SEK: 1.748272232
             price_USD: 0.22211
             */
+            this.getOsDisk(index, ssd, currency)
+            if (capacity >= 0.127) {
+              this.getDataDiskConfig(index, ssd, currency, response.data[0].MaxDataDiskCount, throughput, iops, capacity)
+            }
           })
           .catch(e => {
             console.log('Error : ' + e)
@@ -613,14 +751,6 @@
       onReady() {
         console.log('onReady')
         this.calculateRowCount()
-      },
-
-      onCellClicked(event) {
-        console.log('onCellClicked: ' + event.rowIndex + ' ' + event.colDef.field)
-      },
-
-      onCellValueChanged(event) {
-        console.log('onCellValueChanged: ' + event.oldValue + ' to ' + event.newValue)
       },
 
       onRowValueChanged(event) {
@@ -652,18 +782,6 @@
           // console.log(event.data.ssd)
           // console.log(event.rowIndex)
         }
-      },
-
-      onCellDoubleClicked(event) {
-        console.log('onCellDoubleClicked: ' + event.rowIndex + ' ' + event.colDef.field)
-      },
-
-      onCellContextMenu(event) {
-        console.log('onCellContextMenu: ' + event.rowIndex + ' ' + event.colDef.field)
-      },
-
-      onCellFocused(event) {
-        console.log('onCellFocused: (' + event.rowIndex + ',' + event.colIndex + ')')
       },
 
       // taking out, as when we 'select all', it prints to much to the console!!
