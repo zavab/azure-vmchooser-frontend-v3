@@ -2,13 +2,23 @@
   <div style="width: 100%;">
     <div style="padding: 4px;">
       <div style="float: right;">
+        <a href="/vmchooser.csv">Sample CSV File</a>
         <input @keyup="onQuickFilterChanged" type="text" id="quickFilterInput"
                placeholder="Type text to filter..." />
+        <button @click="getSummary">Refresh Summary</button>
         <button @click="exportToCsv">Export to CSV</button>
       </div>
       <div>
         <b>Virtual Machines</b>
         {{rowCount}}
+      </div>
+      <div>
+        <b>Compute Cost per month</b>
+        {{summaryCompute}}
+        <b> - OS Disks per Month</b>
+        {{summaryOsDisks}}
+        <b> - Data Disks per month</b>
+        {{summaryDataDisks}}
       </div>
     </div>
     <div style="clear: both;"></div>
@@ -129,7 +139,10 @@
         uploadedFiles: [],
         uploadError: null,
         currentStatus: null,
-        uploadFieldName: 'inputcsv'
+        uploadFieldName: 'inputcsv',
+        summaryCompute: 0,
+        summaryOsDisks: 0,
+        summaryDataDisks: 0
       }
     },
     computed: {
@@ -177,6 +190,20 @@
             }
           })
         }
+      },
+      getSummary() {
+        var compute = 0
+        var storageos = 0
+        var storagedata = 0
+        for (var i = 0; i < this.rowData.length; i++) {
+          var tmpRow = this.rowData[i]
+          compute = compute + tmpRow.compute_price_month
+          storageos = storageos + tmpRow.storage_os_price
+          storagedata = storagedata + tmpRow.storage_data_price
+        }
+        this.summaryCompute = compute.toFixed(2)
+        this.summaryOsDisks = storageos.toFixed(2)
+        this.summaryDataDisks = storagedata.toFixed(2)
       },
       updateRowData(newResults) {
         var tempData = []
@@ -266,20 +293,20 @@
               {
                 headerName: 'Memory (GB)',
                 field: 'memory',
-                width: 100,
+                width: 150,
                 editable: true,
                 filter: 'agNumberColumnFilter'
               },
               {
                 headerName: 'SSD',
                 field: 'ssd',
-                width: 50,
+                width: 150,
                 editable: true
               },
               {
                 headerName: 'NICs',
                 field: 'nics',
-                width: 50,
+                width: 150,
                 columnGroupShow: 'open',
                 editable: true,
                 filter: 'agNumberColumnFilter'
@@ -287,7 +314,7 @@
               {
                 headerName: 'Max. Data Disks Capacity (in GB)',
                 field: 'maxdatadisksize',
-                width: 150,
+                width: 250,
                 editable: true,
                 columnGroupShow: 'open',
                 filter: 'agNumberColumnFilter'
@@ -303,7 +330,7 @@
               {
                 headerName: 'Min. Throughput (MB/s)',
                 field: 'throughput',
-                width: 150,
+                width: 200,
                 editable: true,
                 columnGroupShow: 'open',
                 filter: 'agNumberColumnFilter'
@@ -311,7 +338,7 @@
               {
                 headerName: 'Min. Temp disk (GB)',
                 field: 'temp',
-                width: 150,
+                width: 200,
                 editable: true,
                 columnGroupShow: 'open',
                 filter: 'agNumberColumnFilter'
@@ -319,7 +346,7 @@
               {
                 headerName: 'Peak CPU in 95pct (%)',
                 field: 'peakcpu',
-                width: 75,
+                width: 200,
                 editable: true,
                 columnGroupShow: 'open',
                 filter: 'agNumberColumnFilter'
@@ -327,7 +354,7 @@
               {
                 headerName: 'Peak Memory in 95pct (%)',
                 field: 'peakmemory',
-                width: 75,
+                width: 200,
                 editable: true,
                 columnGroupShow: 'open',
                 filter: 'agNumberColumnFilter'
@@ -335,19 +362,19 @@
               {
                 headerName: 'Currency',
                 field: 'currency',
-                width: 75,
+                width: 150,
                 editable: true
               },
               {
                 headerName: 'Contract',
                 field: 'contract',
-                width: 75,
+                width: 150,
                 editable: true
               },
               {
                 headerName: 'Burstable',
                 field: 'burstable',
-                width: 75,
+                width: 150,
                 columnGroupShow: 'closed',
                 editable: true
               }
@@ -377,7 +404,7 @@
               {
                 headerName: 'Price per Month (730 hours)',
                 field: 'compute_price_month',
-                width: 150,
+                width: 200,
                 filter: 'text'
               },
               {
@@ -389,7 +416,7 @@
               {
                 headerName: 'Memory (GB)',
                 field: 'compute_memory',
-                width: 100,
+                width: 150,
                 filter: 'text'
               },
               {
@@ -407,7 +434,7 @@
               {
                 headerName: 'Hyperthreaded',
                 field: 'compute_hyperthreaded',
-                width: 100,
+                width: 150,
                 filter: 'text'
               },
               {
@@ -425,31 +452,31 @@
               {
                 headerName: 'SSD Capable',
                 field: 'compute_data_ssdcapable',
-                width: 100,
+                width: 150,
                 filter: 'text'
               },
               {
                 headerName: 'Max. # Data Disks',
                 field: 'compute_data_maxdisks',
-                width: 100,
+                width: 150,
                 filter: 'text'
               },
               {
                 headerName: 'Max. Data Capacity (GB)',
                 field: 'compute_data_maxcapacity',
-                width: 100,
+                width: 200,
                 filter: 'text'
               },
               {
                 headerName: 'Max. Data IOPS',
                 field: 'compute_data_maxiops',
-                width: 100,
+                width: 150,
                 filter: 'text'
               },
               {
                 headerName: 'Max. Data Throughput',
                 field: 'compute_data_maxthroughput',
-                width: 100,
+                width: 200,
                 filter: 'text'
               },
               {
@@ -461,7 +488,7 @@
               {
                 headerName: 'Max. Bandwidth (Mbps)',
                 field: 'compute_net_maxbandwidth',
-                width: 100,
+                width: 200,
                 filter: 'text'
               }
             ]
@@ -484,13 +511,13 @@
               {
                 headerName: 'OS Disk Capacity (in GB)',
                 field: 'storage_os_capacity',
-                width: 100,
+                width: 200,
                 filter: 'text'
               },
               {
                 headerName: 'OS Disk Price (per Month)',
                 field: 'storage_os_price',
-                width: 100,
+                width: 200,
                 filter: 'text'
               }
             ]
@@ -507,61 +534,61 @@
               {
                 headerName: 'Data Disk Config Description',
                 field: 'storage_data_config_description',
-                width: 100,
+                width: 300,
                 filter: 'text'
               },
               {
                 headerName: 'Data Disk Size',
                 field: 'storage_data_disk_size',
-                width: 100,
+                width: 150,
                 filter: 'text'
               },
               {
                 headerName: 'Data Disk IOPS',
                 field: 'storage_data_disk_iops',
-                width: 100,
+                width: 150,
                 filter: 'text'
               },
               {
                 headerName: 'Data Disk Capacity (in GB)',
                 field: 'storage_data_disk_capacity',
-                width: 100,
+                width: 200,
                 filter: 'text'
               },
               {
                 headerName: 'Data Disk Throughput (in MB/s)',
                 field: 'storage_data_disk_throughput',
-                width: 100,
+                width: 250,
                 filter: 'text'
               },
               {
                 headerName: 'Data Disk Count per Config',
                 field: 'storage_data_config_diskcount',
-                width: 100,
+                width: 200,
                 filter: 'text'
               },
               {
                 headerName: 'Data Disk IOPS per Config',
                 field: 'storage_data_config_iops',
-                width: 100,
+                width: 200,
                 filter: 'text'
               },
               {
                 headerName: 'Data Disk Capacity (in GB) per Config',
                 field: 'storage_data_config_capacity',
-                width: 100,
+                width: 250,
                 filter: 'text'
               },
               {
                 headerName: 'Data Disk Throughput (in MB/s) per Config',
                 field: 'storage_data_config_throughput',
-                width: 100,
+                width: 300,
                 filter: 'text'
               },
               {
                 headerName: 'Data Disk Price (per Month)',
                 field: 'storage_data_price',
-                width: 100,
+                width: 200,
                 filter: 'text'
               }
             ]

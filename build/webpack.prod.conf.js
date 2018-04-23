@@ -105,6 +105,12 @@ var webpackConfig = merge(baseWebpackConfig, {
         from: path.resolve(__dirname, '../web.config'),
         to: config.build.assetsRoot,
         ignore: ['.*']
+      },
+      // Copy sample csv file
+      {
+        from: path.resolve(__dirname, '../vmchooser.csv'),
+        to: config.build.assetsRoot,
+        ignore: ['.*']
       }
     ])
   ]
