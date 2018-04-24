@@ -10,10 +10,10 @@ var webpack = require('webpack')
 var config = require('../config')
 var webpackConfig = require('./webpack.preview.conf')
 
-var spinner = ora('building for production...')
+var spinner = ora('building for preview...')
 spinner.start()
 
-rm(path.join(config.build.assetsRoot, config.build.assetsSubDirectory), err => {
+rm(path.join(config.buildpreview.assetsRoot, config.buildpreview.assetsSubDirectory), err => {
   if (err) throw err
   webpack(webpackConfig, function (err, stats) {
     spinner.stop()

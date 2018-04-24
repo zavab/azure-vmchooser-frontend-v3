@@ -2,13 +2,13 @@
   "ExpandedNodes": [
     "",
     "\\build",
+    "\\config",
     "\\src",
     "\\src\\components",
     "\\src\\components\\views",
-    "\\static",
-    "\\static\\js",
-    "\\static\\js\\plugins"
+    "\\src\\config",
+    "\\static"
   ],
-  "SelectedNode": "\\src\\components\\views\\VmChooser.vue",
+  "SelectedNode": "\\build\\webpack.preview.conf.js",
   "PreviewInSolutionExplorer": false
 }
