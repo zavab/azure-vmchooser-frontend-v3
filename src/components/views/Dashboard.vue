@@ -14,7 +14,7 @@
             <span class="info-box-icon bg-aqua"><i class="fa fa-desktop"></i></span>
             <div class="info-box-content">
               <span class="info-box-number">VMchooser</span>
-              <span class="info-box-text"><small>Let VmChooser find the best t-shirt size match for you!</small></span>
+              <span class="info-box-text"><small>VM T-Shirt Size</small></span>
             </div>
             <!-- /.info-box-content -->
           </div>
@@ -28,7 +28,7 @@
             <span class="info-box-icon bg-aqua"><i class="fa fa-database"></i></span>
             <div class="info-box-content">
               <span class="info-box-number">Data Disk Configurator</span>
-              <span class="info-box-text"><small>Let DiskChooser find the most efficient disk configuration/layout for you!</small></span>
+              <span class="info-box-text"><small>Disk config</small></span>
             </div>
             <!-- /.info-box-content -->
           </div>
@@ -42,7 +42,7 @@
             <span class="info-box-icon bg-aqua"><i class="fa fa-sliders"></i></span>
             <div class="info-box-content">
               <span class="info-box-number">Bulk Uploader</span>
-              <span class="info-box-text"><small>When finding one VM is not enough...</small></span>
+              <span class="info-box-text"><small>Upload CSV</small></span>
             </div>
             <!-- /.info-box-content -->
           </div>
