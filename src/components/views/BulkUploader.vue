@@ -78,6 +78,7 @@
   import { AgGridVue } from 'ag-grid-vue'
   import Papa from 'papaparse'
   import axios from 'axios'
+  import config from '../../config'
 
   import '../../../node_modules/ag-grid/dist/styles/ag-grid.css'
   import '../../../node_modules/ag-grid/dist/styles/ag-theme-balham.css'
@@ -596,7 +597,7 @@
         ]
       },
       getDataDiskConfig(index, ssd, currency, maxdisks, throughput, iops, capacity) {
-        var vmchooserurl = 'https://vmchooser.azure-api.net/dev-v2/api/GetDiskConfig?ssd=' + ssd + '&currency=' + currency + '&throughput=' + throughput + '&iops=' + iops + '&data=' + capacity + '&maxdisks=' + maxdisks
+        var vmchooserurl = config.apiGetDiskConfig + '?ssd=' + ssd + '&currency=' + currency + '&throughput=' + throughput + '&iops=' + iops + '&data=' + capacity + '&maxdisks=' + maxdisks
         var vmchooserconfig = {
           headers: {
             'Access-Control-Allow-Origin': '*',
@@ -643,7 +644,7 @@
       getOsDisk(index, ssd, currency) {
         var maxdisks = '1'
         var osdisk = '100' // 100GB to revert back to an S10 / P10
-        var vmchooserurl = 'https://vmchooser.azure-api.net/dev-v2/api/GetDiskConfig?ssd=' + ssd + '&currency=' + currency + '&data=' + osdisk + '&maxdisks=' + maxdisks
+        var vmchooserurl = config.apiGetDiskConfig + '?ssd=' + ssd + '&currency=' + currency + '&data=' + osdisk + '&maxdisks=' + maxdisks
         var vmchooserconfig = {
           headers: {
             'Access-Control-Allow-Origin': '*',
@@ -682,7 +683,7 @@
       },
       getVmSize(index, region, cores, memory, ssd, nics, capacity, iops, throughput, temp, peakcpu, peakmemory, currency, contract, burstable) {
         var maxresults = '1'
-        var vmchooserurl = 'https://vmchooser.azure-api.net/dev-v2/api/GetVmSize?maxresults=' + maxresults + '&cores=' + cores + '&memory=' + memory + '&ssd=' + ssd + '&throughput=' + throughput + '&iops=' + iops + '&data=' + capacity + '&nics=' + nics + '&burstable=' + burstable + '&contract=' + contract + '&avgcpupeak=' + peakcpu + '&avgmempeak=' + peakmemory + '&region=' + region + '&currency=' + currency
+        var vmchooserurl = config.apiGetVmSize + '?maxresults=' + maxresults + '&cores=' + cores + '&memory=' + memory + '&ssd=' + ssd + '&throughput=' + throughput + '&iops=' + iops + '&data=' + capacity + '&nics=' + nics + '&burstable=' + burstable + '&contract=' + contract + '&avgcpupeak=' + peakcpu + '&avgmempeak=' + peakmemory + '&region=' + region + '&currency=' + currency
         var vmchooserconfig = {
           headers: {
             'Access-Control-Allow-Origin': '*',

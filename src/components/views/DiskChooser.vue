@@ -108,6 +108,8 @@
   import 'datatables.net-bs'
   // Axios needed for API Call
   import axios from 'axios'
+  // Config
+  import config from '../../config'
 
   export default {
     name: 'DiskChooser',
@@ -148,7 +150,7 @@
     methods: {
       checkCreds() {
         const { capacity, iops, throughput, type } = this
-        var vmchooserurl = 'https://vmchooser.azure-api.net/dev-v2/api/GetDiskConfig?ssd=' + type + '&throughput=' + throughput + '&iops=' + iops + '&data=' + capacity + '&maxdisks=' + this.maxdisks
+        var vmchooserurl = config.apiGetDiskConfig + '?ssd=' + type + '&throughput=' + throughput + '&iops=' + iops + '&data=' + capacity + '&maxdisks=' + this.maxdisks
         var vmchooserconfig = {
           headers: {
             'Access-Control-Allow-Origin': '*',
