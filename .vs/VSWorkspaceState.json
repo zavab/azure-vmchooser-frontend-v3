@@ -7,8 +7,10 @@
     "\\src\\components",
     "\\src\\components\\views",
     "\\src\\config",
+    "\\src\\config\\preview",
+    "\\src\\config\\prod",
     "\\static"
   ],
-  "SelectedNode": "\\build\\webpack.preview.conf.js",
+  "SelectedNode": "\\src\\components\\views\\Dashboard.vue",
   "PreviewInSolutionExplorer": false
 }
