@@ -14,11 +14,11 @@
       </div>
       <div>
         <b>Compute Cost per month</b>
-        {{summaryCompute}}
+        {{summaryCompute}} ({{summaryComputeCountDone}}/{{summaryComputeCountTotal}})
         <b> - OS Disks per Month</b>
-        {{summaryOsDisks}}
+        {{summaryOsDisks}} ({{summaryStorageOsCountDone}}/{{summaryStorageOsCountTotal}})
         <b> - Data Disks per month</b>
-        {{summaryDataDisks}}
+        {{summaryDataDisks}} ({{summaryStorageDataCountDone}}/{{summaryStorageDataCountTotal}})
       </div>
     </div>
     <div style="clear: both;"></div>
@@ -143,7 +143,13 @@
         uploadFieldName: 'inputcsv',
         summaryCompute: 0,
         summaryOsDisks: 0,
-        summaryDataDisks: 0
+        summaryDataDisks: 0,
+        summaryComputeCountDone: 0,
+        summaryComputeCountTotal: 0,
+        summaryStorageOsCountDone: 0,
+        summaryStorageOsCountTotal: 0,
+        summaryStorageDataCountDone: 0,
+        summaryStorageDataCountTotal: 0
       }
     },
     computed: {
@@ -604,6 +610,7 @@
             'Ocp-Apim-Subscription-Key': ''
           }
         }
+        this.summaryStorageDataCountTotal = this.summaryStorageDataCountTotal + 1
         axios.post(vmchooserurl, '', vmchooserconfig)
           .then(response => {
             // console.log(response.data)
@@ -640,6 +647,7 @@
           .catch(e => {
             console.log('Error : ' + e)
           })
+        this.summaryStorageDataCountDone = this.summaryStorageDataCountDone + 1
       },
       getOsDisk(index, ssd, currency) {
         var maxdisks = '1'
@@ -651,6 +659,7 @@
             'Ocp-Apim-Subscription-Key': ''
           }
         }
+        this.summaryStorageOsCountTotal = this.summaryStorageOsCountTotal + 1
         axios.post(vmchooserurl, '', vmchooserconfig)
           .then(response => {
             // console.log(response.data)
@@ -680,6 +689,7 @@
           .catch(e => {
             console.log('Error : ' + e)
           })
+        this.summaryStorageOsCountDone = this.summaryStorageOsCountDone + 1
       },
       getVmSize(index, region, cores, memory, ssd, nics, capacity, iops, throughput, temp, peakcpu, peakmemory, currency, contract, burstable) {
         // console.log('Disk (' + index + '): ' + capacity)
@@ -691,6 +701,7 @@
             'Ocp-Apim-Subscription-Key': ''
           }
         }
+        this.summaryComputeCountTotal = this.summaryComputeCountTotal + 1
         axios.post(vmchooserurl, '', vmchooserconfig)
           .then(response => {
             // console.log(response.data)
@@ -756,6 +767,7 @@
           .catch(e => {
             console.log('Error : ' + e)
           })
+        this.summaryComputeCountDone = this.summaryComputeCountDone + 1
       },
       pad(num, totalStringSize) {
         let asString = num + ''
