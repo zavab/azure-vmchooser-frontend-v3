@@ -218,7 +218,7 @@
               tempRow['Memory (GB)'],
               tempRow['SSD [Yes/No]'],
               tempRow['NICs'],
-              tempRow['Max Disk Size (TB)'],
+              tempRow['Max Disk Size (TB)'] * 1024,
               tempRow['IOPS'],
               tempRow['Throughput (MB/s)'],
               tempRow['Min Temp Disk Size (GB)'],
@@ -313,7 +313,7 @@
                 filter: 'agNumberColumnFilter'
               },
               {
-                headerName: 'Max. Data Disks Capacity (in GB)',
+                headerName: 'Min. Data Disks Capacity (in GB)',
                 field: 'maxdatadisksize',
                 width: 250,
                 editable: true,
@@ -682,6 +682,7 @@
           })
       },
       getVmSize(index, region, cores, memory, ssd, nics, capacity, iops, throughput, temp, peakcpu, peakmemory, currency, contract, burstable) {
+        // console.log('Disk (' + index + '): ' + capacity)
         var maxresults = '1'
         var vmchooserurl = config.apiGetVmSize + '?maxresults=' + maxresults + '&cores=' + cores + '&memory=' + memory + '&ssd=' + ssd + '&throughput=' + throughput + '&iops=' + iops + '&data=' + capacity + '&nics=' + nics + '&burstable=' + burstable + '&contract=' + contract + '&avgcpupeak=' + peakcpu + '&avgmempeak=' + peakmemory + '&region=' + region + '&currency=' + currency
         var vmchooserconfig = {
@@ -748,9 +749,8 @@
             price_USD: 0.22211
             */
             this.getOsDisk(index, ssd, currency)
-            var CapacityInGb = capacity * 1024
             if (capacity >= 0.127) {
-              this.getDataDiskConfig(index, ssd, currency, response.data[0].MaxDataDiskCount, throughput, iops, CapacityInGb)
+              this.getDataDiskConfig(index, ssd, currency, response.data[0].MaxDataDiskCount, throughput, iops, capacity)
             }
           })
           .catch(e => {
