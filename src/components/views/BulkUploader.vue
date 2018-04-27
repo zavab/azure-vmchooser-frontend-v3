@@ -626,6 +626,7 @@
             rowNode.setDataValue('storage_data_config_iops', response.data.DiskConfigIops)
             rowNode.setDataValue('storage_data_config_throughput', response.data.DiskConfigThroughput)
             rowNode.setDataValue('storage_data_price', response.data.DiskPrice)
+            this.summaryStorageDataCountDone = this.summaryStorageDataCountDone + 1
             /*
               {…}
               DiskCapacity: 128
@@ -647,7 +648,6 @@
           .catch(e => {
             console.log('Error : ' + e)
           })
-        this.summaryStorageDataCountDone = this.summaryStorageDataCountDone + 1
       },
       getOsDisk(index, ssd, currency) {
         var maxdisks = '1'
@@ -668,6 +668,7 @@
             rowNode.setDataValue('storage_os_size', response.data.DiskSize)
             rowNode.setDataValue('storage_os_capacity', response.data.DiskConfigCapacity)
             rowNode.setDataValue('storage_os_price', response.data.DiskPrice)
+            this.summaryStorageOsCountDone = this.summaryStorageOsCountDone + 1
             /*
               {…}
               DiskCapacity: 128
@@ -689,7 +690,6 @@
           .catch(e => {
             console.log('Error : ' + e)
           })
-        this.summaryStorageOsCountDone = this.summaryStorageOsCountDone + 1
       },
       getVmSize(index, region, cores, memory, ssd, nics, capacity, iops, throughput, temp, peakcpu, peakmemory, currency, contract, burstable) {
         // console.log('Disk (' + index + '): ' + capacity)
@@ -724,6 +724,7 @@
             rowNode.setDataValue('compute_data_maxthroughput', response.data[0].MaxVmThroughputMBs)
             rowNode.setDataValue('compute_net_maxnics', response.data[0].MaxDataDiskCount)
             rowNode.setDataValue('compute_net_maxbandwidth', response.data[0].Bandwidth)
+            this.summaryComputeCountDone = this.summaryComputeCountDone + 1
             /*
             ACU: 210
             Bandwidth: 6000
@@ -759,7 +760,12 @@
             price_SEK: 1.748272232
             price_USD: 0.22211
             */
+            // Initialize the values with 0 for the summary
+            rowNode.setDataValue('storage_os_price', 0)
+            rowNode.setDataValue('storage_data_price', 0)
+            // Get os price
             this.getOsDisk(index, ssd, currency)
+            // Get data price
             if (capacity >= 0.127) {
               this.getDataDiskConfig(index, ssd, currency, response.data[0].MaxDataDiskCount, throughput, iops, capacity)
             }
@@ -767,7 +773,6 @@
           .catch(e => {
             console.log('Error : ' + e)
           })
-        this.summaryComputeCountDone = this.summaryComputeCountDone + 1
       },
       pad(num, totalStringSize) {
         let asString = num + ''
