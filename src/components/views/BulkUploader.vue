@@ -748,8 +748,9 @@
             price_USD: 0.22211
             */
             this.getOsDisk(index, ssd, currency)
+            var CapacityInGb = capacity * 1024
             if (capacity >= 0.127) {
-              this.getDataDiskConfig(index, ssd, currency, response.data[0].MaxDataDiskCount, throughput, iops, capacity)
+              this.getDataDiskConfig(index, ssd, currency, response.data[0].MaxDataDiskCount, throughput, iops, CapacityInGb)
             }
           })
           .catch(e => {
