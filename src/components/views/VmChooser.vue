@@ -122,6 +122,15 @@
             </div>
             <br />
             <div class="input-group">
+              <select class="form-control" v-model="os">
+                <option disabled value="">Operating system</option>
+                <option value="linux">Linux</option>
+                <option value="windows">Windows</option>
+              </select>
+              <span class="input-group-addon">Type</span>
+            </div>
+            <br />
+            <div class="input-group">
               <input class="form-control" placeholder="Peak cpu usage" type="text" v-model="peakcpu">
               <span class="input-group-addon">%</span>
             </div>
@@ -247,6 +256,7 @@
                         <th style="width: 182px;" colspan="1" rowspan="1" aria-controls="example1" tabindex="0">Max. Disks</th>
                         <th style="width: 142px;" colspan="1" rowspan="1" aria-controls="example1" tabindex="0">Max. IOPS</th>
                         <th style="width: 101px;" colspan="1" rowspan="1" aria-controls="example1" tabindex="0">Max. Throughput</th>
+                        <th style="width: 101px;" colspan="1" rowspan="1" aria-controls="example1" tabindex="0">OS</th>
                       </tr>
                     </thead>
                     <tbody v-if="posts && posts.length">
@@ -269,6 +279,7 @@
                         <td>{{post.MaxDataDiskCount}}</td>
                         <td>{{post.MaxVmIops}}</td>
                         <td>{{post.MaxVmThroughputMBs}}</td>
+                        <td>{{post.OperatingSystem}}</td>
                       </tr>
                     </tbody>
                     <tfoot>
@@ -291,6 +302,7 @@
                         <th colspan="1" rowspan="1">Max. Disks</th>
                         <th colspan="1" rowspan="1">Max. IOPS</th>
                         <th colspan="1" rowspan="1">Max. Throughput</th>
+                        <th colspan="1" rowspan="1">OS</th>
                       </tr>
                     </tfoot>
                   </table>
@@ -354,13 +366,14 @@
         peakmemory: '',
         region: 'europe-west',
         currency: 'EUR',
-        maxresults: '10'
+        maxresults: '10',
+        os: 'linux'
       }
     },
     methods: {
       checkCreds() {
-        const { maxresults, cores, memory, acu, capacity, iops, throughput, type, nics, bandwidth, tier, hyperthreaded, burstable, isolated, contract, peakcpu, peakmemory, region, currency } = this
-        var vmchooserurl = config.apiGetVmSize + '?maxresults=' + maxresults + '&cores=' + cores + '&memory=' + memory + '&acu=' + acu + '&ssd=' + type + '&throughput=' + throughput + '&iops=' + iops + '&data=' + capacity + '&nics=' + nics + '&bandwidth=' + bandwidth + '&tier=' + tier + '&ht=' + hyperthreaded + '&burstable=' + burstable + '&isolated=' + isolated + '&contract=' + contract + '&avgcpupeak=' + peakcpu + '&avgmempeak=' + peakmemory + '&region=' + region + '&currency=' + currency
+        const { maxresults, cores, memory, acu, capacity, iops, throughput, type, nics, bandwidth, tier, hyperthreaded, burstable, isolated, contract, peakcpu, peakmemory, region, currency, os } = this
+        var vmchooserurl = config.apiGetVmSize + '?maxresults=' + maxresults + '&cores=' + cores + '&memory=' + memory + '&acu=' + acu + '&ssd=' + type + '&throughput=' + throughput + '&iops=' + iops + '&data=' + capacity + '&nics=' + nics + '&bandwidth=' + bandwidth + '&tier=' + tier + '&ht=' + hyperthreaded + '&burstable=' + burstable + '&isolated=' + isolated + '&contract=' + contract + '&avgcpupeak=' + peakcpu + '&avgmempeak=' + peakmemory + '&region=' + region + '&currency=' + currency + '&os=' + os
         var vmchooserconfig = {
           headers: {
             'Access-Control-Allow-Origin': '*',
