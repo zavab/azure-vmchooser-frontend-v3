@@ -244,6 +244,7 @@
                         <th style="width: 142px;" colspan="1" rowspan="1" aria-controls="example1" tabindex="0">Tier</th>
                         <th style="width: 101px;" colspan="1" rowspan="1" aria-controls="example1" tabindex="0">Region</th>
                         <th style="width: 167px;" colspan="1" rowspan="1" aria-controls="example1" tabindex="0">Contract</th>
+                        <th style="width: 101px;" colspan="1" rowspan="1" aria-controls="example1" tabindex="0">OS</th>
                         <th style="width: 207px;" colspan="1" rowspan="1" aria-controls="example1" tabindex="0">ACU</th>
                         <th style="width: 182px;" colspan="1" rowspan="1" aria-controls="example1" tabindex="0">SSD</th>
                         <th style="width: 142px;" colspan="1" rowspan="1" aria-controls="example1" tabindex="0">Cores</th>
@@ -256,7 +257,6 @@
                         <th style="width: 182px;" colspan="1" rowspan="1" aria-controls="example1" tabindex="0">Max. Disks</th>
                         <th style="width: 142px;" colspan="1" rowspan="1" aria-controls="example1" tabindex="0">Max. IOPS</th>
                         <th style="width: 101px;" colspan="1" rowspan="1" aria-controls="example1" tabindex="0">Max. Throughput</th>
-                        <th style="width: 101px;" colspan="1" rowspan="1" aria-controls="example1" tabindex="0">OS</th>
                       </tr>
                     </thead>
                     <tbody v-if="posts && posts.length">
@@ -267,6 +267,7 @@
                         <td>{{post.Tier}}</td>
                         <td>{{post.Region}}</td>
                         <td>{{post.Contract}}</td>
+                        <td>{{post.OperatingSystem}}</td>
                         <td>{{post.ACU}}</td>
                         <td>{{post.SSD}}</td>
                         <td>{{post.Cores}}</td>
@@ -279,7 +280,6 @@
                         <td>{{post.MaxDataDiskCount}}</td>
                         <td>{{post.MaxVmIops}}</td>
                         <td>{{post.MaxVmThroughputMBs}}</td>
-                        <td>{{post.OperatingSystem}}</td>
                       </tr>
                     </tbody>
                     <tfoot>
@@ -290,6 +290,7 @@
                         <th colspan="1" rowspan="1">Tier</th>
                         <th colspan="1" rowspan="1">Region</th>
                         <th colspan="1" rowspan="1">Contract</th>
+                        <th colspan="1" rowspan="1">OS</th>
                         <th colspan="1" rowspan="1">ACU</th>
                         <th colspan="1" rowspan="1">SSD</th>
                         <th colspan="1" rowspan="1">Cores</th>
@@ -302,7 +303,6 @@
                         <th colspan="1" rowspan="1">Max. Disks</th>
                         <th colspan="1" rowspan="1">Max. IOPS</th>
                         <th colspan="1" rowspan="1">Max. Throughput</th>
-                        <th colspan="1" rowspan="1">OS</th>
                       </tr>
                     </tfoot>
                   </table>

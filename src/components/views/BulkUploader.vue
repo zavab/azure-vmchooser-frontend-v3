@@ -216,6 +216,9 @@
         var tempData = []
         for (var i = 0; i < newResults.data.length; i++) {
           var tempRow = newResults.data[i]
+          if (tempRow['OS'] === undefined) {
+            tempRow['OS'] = 'linux'
+          }
           if (tempRow['VM Name']) {
             this.getVmSize(
               i,
@@ -232,7 +235,8 @@
               tempRow['Peak Memory Usage (%)'],
               tempRow['Currency'],
               tempRow['Contract'],
-              tempRow['Burstable']
+              tempRow['Burstable'],
+              tempRow['OS']
             )
             tempData.push({
               name: tempRow['VM Name'],
@@ -249,7 +253,8 @@
               throughput: tempRow['Throughput (MB/s)'],
               peakcpu: tempRow['Peak CPU Usage (%)'],
               peakmemory: tempRow['Peak Memory Usage (%)'],
-              burstable: tempRow['Burstable']
+              burstable: tempRow['Burstable'],
+              os: tempRow['OS']
             })
           }
         }
@@ -375,6 +380,12 @@
               {
                 headerName: 'Contract',
                 field: 'contract',
+                width: 150,
+                editable: true
+              },
+              {
+                headerName: 'Operating System',
+                field: 'os',
                 width: 150,
                 editable: true
               },
@@ -691,10 +702,10 @@
             console.log('Error : ' + e)
           })
       },
-      getVmSize(index, region, cores, memory, ssd, nics, capacity, iops, throughput, temp, peakcpu, peakmemory, currency, contract, burstable) {
+      getVmSize(index, region, cores, memory, ssd, nics, capacity, iops, throughput, temp, peakcpu, peakmemory, currency, contract, burstable, os) {
         // console.log('Disk (' + index + '): ' + capacity)
         var maxresults = '1'
-        var vmchooserurl = config.apiGetVmSize + '?maxresults=' + maxresults + '&cores=' + cores + '&memory=' + memory + '&ssd=' + ssd + '&throughput=' + throughput + '&iops=' + iops + '&data=' + capacity + '&nics=' + nics + '&burstable=' + burstable + '&contract=' + contract + '&avgcpupeak=' + peakcpu + '&avgmempeak=' + peakmemory + '&region=' + region + '&currency=' + currency
+        var vmchooserurl = config.apiGetVmSize + '?maxresults=' + maxresults + '&cores=' + cores + '&memory=' + memory + '&ssd=' + ssd + '&throughput=' + throughput + '&iops=' + iops + '&data=' + capacity + '&nics=' + nics + '&burstable=' + burstable + '&contract=' + contract + '&avgcpupeak=' + peakcpu + '&avgmempeak=' + peakmemory + '&region=' + region + '&currency=' + currency + '&os=' + os
         var vmchooserconfig = {
           headers: {
             'Access-Control-Allow-Origin': '*',
@@ -819,7 +830,8 @@
             event.data.peakmemory,
             event.data.currency,
             event.data.contract,
-            event.data.burstable
+            event.data.burstable,
+            event.data.os
           )
           // console.log(event)
           // console.log(event.data.region)
