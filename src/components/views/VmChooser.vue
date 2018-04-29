@@ -240,6 +240,7 @@
                       <tr role="row">
                         <th colspan="1" rowspan="1" aria-controls="example1" tabindex="0">Name</th>
                         <th style="width: 207px;" colspan="1" rowspan="1" aria-controls="example1" tabindex="0">Price / Hour</th>
+                        <th style="width: 207px;" colspan="1" rowspan="1" aria-controls="example1" tabindex="0">Price / Month</th>
                         <th style="width: 182px;" colspan="1" rowspan="1" aria-controls="example1" tabindex="0">Currency</th>
                         <th style="width: 142px;" colspan="1" rowspan="1" aria-controls="example1" tabindex="0">Tier</th>
                         <th style="width: 101px;" colspan="1" rowspan="1" aria-controls="example1" tabindex="0">Region</th>
@@ -263,6 +264,7 @@
                       <tr v-for="post of posts" role="row">
                         <td class="sorting_1">{{post.Name}}</td>
                         <td>{{post.Price}}</td>
+                        <td>{{post.PricePerMonth}}</td>
                         <td>{{post.Currency}}</td>
                         <td>{{post.Tier}}</td>
                         <td>{{post.Region}}</td>
@@ -286,6 +288,7 @@
                       <tr>
                         <th colspan="1" rowspan="1">Name</th>
                         <th colspan="1" rowspan="1">Price / Hour</th>
+                        <th colspan="1" rowspan="1">Price / Month</th>
                         <th colspan="1" rowspan="1">Currency</th>
                         <th colspan="1" rowspan="1">Tier</th>
                         <th colspan="1" rowspan="1">Region</th>
@@ -371,6 +374,13 @@
       }
     },
     methods: {
+      calcMonthlyPrice() {
+        for (var i = 0; i < this.posts.length; i++) {
+          var post = this.posts[i]
+          post.PricePerMonth = (post.Price * 730).toFixed(4)
+          post.Price = post.Price.toFixed(4)
+        }
+      },
       checkCreds() {
         const { maxresults, cores, memory, acu, capacity, iops, throughput, type, nics, bandwidth, tier, hyperthreaded, burstable, isolated, contract, peakcpu, peakmemory, region, currency, os } = this
         var vmchooserurl = config.apiGetVmSize + '?maxresults=' + maxresults + '&cores=' + cores + '&memory=' + memory + '&acu=' + acu + '&ssd=' + type + '&throughput=' + throughput + '&iops=' + iops + '&data=' + capacity + '&nics=' + nics + '&bandwidth=' + bandwidth + '&tier=' + tier + '&ht=' + hyperthreaded + '&burstable=' + burstable + '&isolated=' + isolated + '&contract=' + contract + '&avgcpupeak=' + peakcpu + '&avgmempeak=' + peakmemory + '&region=' + region + '&currency=' + currency + '&os=' + os
@@ -385,6 +395,8 @@
             this.posts = response.data
             if (!this.posts) {
               this.response = 'No results found'
+            } else {
+              this.calcMonthlyPrice()
             }
           })
           .catch(e => {
