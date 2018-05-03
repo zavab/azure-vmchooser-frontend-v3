@@ -5,7 +5,7 @@
       <div>
         <div class="tab-content">
           <div class="input-group">
-            <input class="form-control" placeholder="Provide VM T-Shirt size (f.e. bm1s)" type="text" v-model="vmsize">
+            <input class="form-control" placeholder="Provide VM T-Shirt size (f.e. B1MS)" type="text" v-model="vmsize">
             <span class="input-group-addon">Name</span>
           </div>
           <br />
