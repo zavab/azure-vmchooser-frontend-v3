@@ -118,12 +118,12 @@
               </thead>
               <tbody>
                 <tr role="row">
-                  <td>PAGY</td>
-                  <td>{{result.Price_Linux_PAGY}} {{currency}} </td>
-                  <td>{{Price_Linux_PAGY_Month}} {{currency}} </td>
+                  <td>PAYG</td>
+                  <td>{{result.Price_Linux_PAYG}} {{currency}} </td>
+                  <td>{{Price_Linux_PAYG_Month}} {{currency}} </td>
                   <td>{{Diff_Os_PAYG_Month}} {{currency}} </td>
-                  <td>{{result.Price_Windows_PAGY}} {{currency}} </td>
-                  <td>{{Price_Windows_PAGY_Month}} {{currency}} </td>
+                  <td>{{result.Price_Windows_PAYG}} {{currency}} </td>
+                  <td>{{Price_Windows_PAYG_Month}} {{currency}} </td>
                 </tr>
                 <tr role="row" v-if="result.Price_Linux_RI1Y">
                   <td colspan="6"></td>
@@ -185,22 +185,22 @@
               </thead>
               <tbody>
                 <tr role="row">
-                  <td>PAGY</td>
+                  <td>PAYG</td>
                   <td>{{RuntimeCost_Linux_PAYG}} {{currency}} </td>
                   <td>{{Diff_RuntimeCost_PAYG}} {{currency}} </td>
                   <td>{{RuntimeCost_Windows_PAYG}} {{currency}} </td>
                 </tr>
                 <tr role="row" v-if="result.Price_Linux_RI1Y">
                   <td>RI1Y</td>
-                  <td>(-{{RuntimeCost_Linux_RI1Y_Percentage}} %) {{RuntimeCost_Linux_RI1Y}} {{currency}} </td>
+                  <td>({{RuntimeCost_Linux_RI1Y_Percentage}} %) {{RuntimeCost_Linux_RI1Y}} {{currency}} </td>
                   <td>{{Diff_RuntimeCost_RI1Y}} {{currency}} </td>
-                  <td>(-{{RuntimeCost_Windows_RI1Y_Percentage}} %) {{RuntimeCost_Windows_RI1Y}} {{currency}} </td>
+                  <td>({{RuntimeCost_Windows_RI1Y_Percentage}} %) {{RuntimeCost_Windows_RI1Y}} {{currency}} </td>
                 </tr>
                 <tr role="row" v-if="result.Price_Linux_RI3Y">
                   <td>RI3Y</td>
-                  <td>(-{{RuntimeCost_Linux_RI3Y_Percentage}} %) {{RuntimeCost_Linux_RI3Y}} {{currency}} </td>
+                  <td>({{RuntimeCost_Linux_RI3Y_Percentage}} %) {{RuntimeCost_Linux_RI3Y}} {{currency}} </td>
                   <td>{{Diff_RuntimeCost_RI3Y}} {{currency}} </td>
-                  <td>(-{{RuntimeCost_Windows_RI3Y_Percentage}} %) {{RuntimeCost_Windows_RI3Y}} {{currency}} </td>
+                  <td>({{RuntimeCost_Windows_RI3Y_Percentage}} %) {{RuntimeCost_Windows_RI3Y}} {{currency}} </td>
                 </tr>
               </tbody>
             </table>
@@ -237,16 +237,16 @@
     },
     computed: {
       Diff_Linux_RI3Y_Percentage: function () {
-        return ((this.result.Diff_Linux_RI3Y / this.result.Price_Linux_PAGY) * 100).toPrecision(2)
+        return ((this.result.Diff_Linux_RI3Y / this.result.Price_Linux_PAYG) * 100).toPrecision(2)
       },
       Diff_Windows_RI3Y_Percentage: function () {
-        return ((this.result.Diff_Windows_RI3Y / this.result.Price_Windows_PAGY) * 100).toPrecision(2)
+        return ((this.result.Diff_Windows_RI3Y / this.result.Price_Windows_PAYG) * 100).toPrecision(2)
       },
       Diff_Linux_RI1Y_Percentage: function () {
-        return ((this.result.Diff_Linux_RI1Y / this.result.Price_Linux_PAGY) * 100).toPrecision(2)
+        return ((this.result.Diff_Linux_RI1Y / this.result.Price_Linux_PAYG) * 100).toPrecision(2)
       },
       Diff_Windows_RI1Y_Percentage: function () {
-        return ((this.result.Diff_Windows_RI1Y / this.result.Price_Windows_PAGY) * 100).toPrecision(2)
+        return ((this.result.Diff_Windows_RI1Y / this.result.Price_Windows_PAYG) * 100).toPrecision(2)
       },
       Diff_Windows_RI3Y_Month: function () {
         return (this.result.Diff_Windows_RI3Y * 730).toFixed(2)
@@ -260,8 +260,8 @@
       Diff_Linux_RI1Y_Month: function () {
         return (this.result.Diff_Linux_RI1Y * 730).toFixed(2)
       },
-      Price_Linux_PAGY_Month: function () {
-        return (this.result.Price_Linux_PAGY * 730).toFixed(2)
+      Price_Linux_PAYG_Month: function () {
+        return (this.result.Price_Linux_PAYG * 730).toFixed(2)
       },
       Price_Linux_RI1Y_Month: function () {
         return (this.result.Price_Linux_RI1Y * 730).toFixed(2)
@@ -269,8 +269,8 @@
       Price_Linux_RI3Y_Month: function () {
         return (this.result.Price_Linux_RI3Y * 730).toFixed(2)
       },
-      Price_Windows_PAGY_Month: function () {
-        return (this.result.Price_Windows_PAGY * 730).toFixed(2)
+      Price_Windows_PAYG_Month: function () {
+        return (this.result.Price_Windows_PAYG * 730).toFixed(2)
       },
       Price_Windows_RI1Y_Month: function () {
         return (this.result.Price_Windows_RI1Y * 730).toFixed(2)
@@ -279,7 +279,7 @@
         return (this.result.Price_Windows_RI3Y * 730).toFixed(2)
       },
       Diff_Os_PAYG_Month: function () {
-        return (this.result.Diff_Os_PAGY * 730)
+        return (this.result.Diff_Os_PAYG * 730)
       },
       Diff_Os_RI1Y_Month: function () {
         return (this.result.Diff_Os_RI1Y * 730)
@@ -288,7 +288,7 @@
         return (this.result.Diff_Os_RI3Y * 730)
       },
       RuntimeCost_Linux_PAYG: function () {
-        return (this.result.Price_Linux_PAGY * this.runtimepermonth * this.runtimeinmonths).toFixed(2)
+        return (this.result.Price_Linux_PAYG * this.runtimepermonth * this.runtimeinmonths).toFixed(2)
       },
       RuntimeCost_Linux_RI1Y: function () {
         return (this.Price_Linux_RI1Y_Month * this.runtimeinmonths).toFixed(2)
@@ -297,7 +297,7 @@
         return (this.Price_Linux_RI3Y_Month * this.runtimeinmonths).toFixed(2)
       },
       RuntimeCost_Windows_PAYG: function () {
-        return (this.result.Price_Windows_PAGY * this.runtimepermonth * this.runtimeinmonths).toFixed(2)
+        return (this.result.Price_Windows_PAYG * this.runtimepermonth * this.runtimeinmonths).toFixed(2)
       },
       RuntimeCost_Windows_RI1Y: function () {
         return (this.Price_Windows_RI1Y_Month * this.runtimeinmonths).toFixed(2)
@@ -321,10 +321,18 @@
         return ((1 - (this.RuntimeCost_Windows_RI3Y / this.RuntimeCost_Windows_PAYG)) * 100).toPrecision(2)
       },
       RuntimeCost_Linux_RI1Y_Percentage: function () {
-        return ((1 - (this.RuntimeCost_Linux_RI1Y / this.RuntimeCost_Linux_PAYG)) * 100).toPrecision(2)
+        if (this.RuntimeCost_Linux_RI1Y > this.RuntimeCost_Linux_PAYG) {
+          console.log('larger')
+          console.log(this.RuntimeCost_Linux_RI1Y + ' > ' + this.RuntimeCost_Linux_PAYG)
+          return ((1 - (this.RuntimeCost_Linux_PAYG / this.RuntimeCost_Linux_RI1Y)) * 100).toPrecision(2)
+        } else {
+          console.log('smaller')
+          console.log(this.RuntimeCost_Linux_RI1Y + ' > ' + this.RuntimeCost_Linux_PAYG)
+          return ((1 - (this.RuntimeCost_Linux_RI1Y / this.RuntimeCost_Linux_PAYG)) * 100).toPrecision(2)
+        }
       },
       RuntimeCost_Linux_RI3Y_Percentage: function () {
-        return ((1 - (this.RuntimeCost_Linux_RI3Y / this.RuntimeCost_Linux_PAYG)) * 100).toPrecision(2)
+        return ((1 - (this.RuntimeCost_Linux_RI3Y / this.RuntimeCost_Windows_PAYG)) * 100).toPrecision(2)
       }
     },
     methods: {
@@ -351,13 +359,13 @@
             "Name": "f8",
             "Tier": "standard",
             "Region": "europe-west",
-            "Price_Windows_PAGY": 0.822,
+            "Price_Windows_PAYG": 0.822,
             "Price_Windows_RI1Y": 0.70008,
             "Price_Windows_RI3Y": 0.59011,
-            "Price_Linux_PAGY": 0.454,
+            "Price_Linux_PAYG": 0.454,
             "Price_Linux_RI1Y": 0.33208,
             "Price_Linux_RI3Y": 0.22211,
-            "Diff_Os_PAGY": 0.368,
+            "Diff_Os_PAYG": 0.368,
             "Diff_Os_RI1Y": 0.36800,
             "Diff_Os_RI3Y": 0.36800,
             "Diff_Windows_RI1Y": 0.12192,
