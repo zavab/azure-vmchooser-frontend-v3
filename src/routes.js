@@ -4,6 +4,7 @@ import NotFoundView from './components/404.vue'
 // Import Views - Dash
 import DashboardView from './components/views/Dashboard.vue'
 import VmChooserView from './components/views/VmChooser.vue'
+import VmOptimizerView from './components/views/VmOptimizer.vue'
 import DiskChooserView from './components/views/DiskChooser.vue'
 import BulkUploaderView from './components/views/BulkUploader.vue'
 
@@ -24,6 +25,11 @@ const routes = [
         component: VmChooserView,
         name: 'VmChooser',
         meta: { description: 'Let VmChooser find the best t-shirt size match for you!' }
+      }, {
+        path: 'vmoptimizer',
+        component: VmOptimizerView,
+        name: 'VmOptimizer',
+        meta: { description: 'Should I go pay-as-you-go or perpetual for my Windows license?' }
       }, {
         path: 'diskchooser',
         component: DiskChooserView,

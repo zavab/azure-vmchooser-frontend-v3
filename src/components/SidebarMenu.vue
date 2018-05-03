@@ -19,6 +19,12 @@
         <span class="page">Bulk Uploader</span>
       </a>
     </router-link>
+    <router-link tag="li" class="pageLink" to="/vmoptimizer">
+      <a>
+        <i class="fa fa-balance-scale"></i>
+        <span class="page">VM Optimizer</span>
+      </a>
+    </router-link>
   </ul>
 </template>
 <script>
