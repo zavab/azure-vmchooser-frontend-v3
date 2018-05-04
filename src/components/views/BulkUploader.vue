@@ -776,8 +776,7 @@
             rowNode.setDataValue('storage_data_price', 0)
             // Get os price
             this.getOsDisk(index, ssd, currency)
-            // Get data price
-            if (capacity >= 0.127) {
+            if (capacity >= 127) {
               this.getDataDiskConfig(index, ssd, currency, response.data[0].MaxDataDiskCount, throughput, iops, capacity)
             }
           })
