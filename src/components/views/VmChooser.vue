@@ -55,6 +55,11 @@
               <span class="input-group-addon">MB/s</span>
             </div>
             <br />
+            <div class="input-group">
+              <input class="form-control" placeholder="Minimum temp disk capacity" type="text" v-model="temp">
+              <span class="input-group-addon">GB</span>
+            </div>
+            <br />
           </div>
           <div role="tabpanel" class="tab-pane" id="network">
             <div class="input-group">
@@ -357,6 +362,7 @@
         capacity: '',
         iops: '',
         throughput: '',
+        temp: '',
         type: '',
         nics: '',
         bandwidth: '',
@@ -382,8 +388,8 @@
         }
       },
       checkCreds() {
-        const { maxresults, cores, memory, acu, capacity, iops, throughput, type, nics, bandwidth, tier, hyperthreaded, burstable, isolated, contract, peakcpu, peakmemory, region, currency, os } = this
-        var vmchooserurl = config.apiGetVmSize + '?maxresults=' + maxresults + '&cores=' + cores + '&memory=' + memory + '&acu=' + acu + '&ssd=' + type + '&throughput=' + throughput + '&iops=' + iops + '&data=' + capacity + '&nics=' + nics + '&bandwidth=' + bandwidth + '&tier=' + tier + '&ht=' + hyperthreaded + '&burstable=' + burstable + '&isolated=' + isolated + '&contract=' + contract + '&avgcpupeak=' + peakcpu + '&avgmempeak=' + peakmemory + '&region=' + region + '&currency=' + currency + '&os=' + os
+        const { maxresults, cores, memory, acu, capacity, iops, throughput, temp, type, nics, bandwidth, tier, hyperthreaded, burstable, isolated, contract, peakcpu, peakmemory, region, currency, os } = this
+        var vmchooserurl = config.apiGetVmSize + '?maxresults=' + maxresults + '&cores=' + cores + '&memory=' + memory + '&acu=' + acu + '&ssd=' + type + '&temp=' + temp + '&throughput=' + throughput + '&iops=' + iops + '&data=' + capacity + '&nics=' + nics + '&bandwidth=' + bandwidth + '&tier=' + tier + '&ht=' + hyperthreaded + '&burstable=' + burstable + '&isolated=' + isolated + '&contract=' + contract + '&avgcpupeak=' + peakcpu + '&avgmempeak=' + peakmemory + '&region=' + region + '&currency=' + currency + '&os=' + os
         var vmchooserconfig = {
           headers: {
             'Access-Control-Allow-Origin': '*',
