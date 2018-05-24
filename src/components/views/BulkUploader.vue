@@ -610,6 +610,53 @@
                 filter: 'text'
               }
             ]
+          },
+          {
+            headerName: 'VM Optimizer - Contract Variants (price per hour)',
+            children: [
+              {
+                headerName: 'VM Size',
+                field: 'contract_vmsize',
+                width: 150,
+                filter: 'text'
+              },
+              {
+                headerName: 'Linux - PAYG',
+                field: 'contract_lnx_payg',
+                width: 150,
+                filter: 'text'
+              },
+              {
+                headerName: 'Linux - RI1Y',
+                field: 'contract_lnx_ri1y',
+                width: 150,
+                filter: 'text'
+              },
+              {
+                headerName: 'Linux - RI3Y',
+                field: 'contract_lnx_ri3y',
+                width: 150,
+                filter: 'text'
+              },
+              {
+                headerName: 'Windows - PAYG',
+                field: 'contract_win_payg',
+                width: 150,
+                filter: 'text'
+              },
+              {
+                headerName: 'Windows - RI1Y',
+                field: 'contract_win_ri1y',
+                width: 150,
+                filter: 'text'
+              },
+              {
+                headerName: 'Windows - RI3Y',
+                field: 'contract_win_ri3y',
+                width: 150,
+                filter: 'text'
+              }
+            ]
           }
         ]
       },
@@ -779,9 +826,56 @@
             if (capacity >= 127) {
               this.getDataDiskConfig(index, ssd, currency, response.data[0].MaxDataDiskCount, throughput, iops, capacity)
             }
+            this.getVmOptimizerOptions(index, response.data[0].Name, 'standard', region, currency)
           })
           .catch(e => {
             console.log('Error : ' + e)
+          })
+      },
+      getVmOptimizerOptions(index, vmsize, tier, region, currency) {
+        var vmchooserurl = config.apiCalcVmOptimizations + '?vmsize=' + vmsize + '&tier=' + tier + '&region=' + region + '&currency=' + currency
+        var vmchooserconfig = {
+          headers: {
+            'Access-Control-Allow-Origin': '*',
+            'Ocp-Apim-Subscription-Key': ''
+          }
+        }
+        axios.post(vmchooserurl, '', vmchooserconfig)
+          /*
+          {
+
+            "Currency": "EUR",
+            "Name": "f8",
+            "Tier": "standard",
+            "Region": "europe-west",
+            "Price_Windows_PAYG": 0.822,
+            "Price_Windows_RI1Y": 0.70008,
+            "Price_Windows_RI3Y": 0.59011,
+            "Price_Linux_PAYG": 0.454,
+            "Price_Linux_RI1Y": 0.33208,
+            "Price_Linux_RI3Y": 0.22211,
+            "Diff_Os_PAYG": 0.368,
+            "Diff_Os_RI1Y": 0.36800,
+            "Diff_Os_RI3Y": 0.36800,
+            "Diff_Windows_RI1Y": 0.12192,
+            "Diff_Windows_RI3Y": 0.23189,
+            "Diff_Linux_RI1Y": 0.12192,
+            "Diff_Linux_RI3Y": 0.23189
+          }
+          */
+          .then(response => {
+            // console.log(response.data)
+            var rowNode = this.gridOptions.api.getRowNode(index)
+            rowNode.setDataValue('contract_vmsize', vmsize)
+            rowNode.setDataValue('contract_lnx_payg', response.data.Price_Linux_PAYG)
+            rowNode.setDataValue('contract_lnx_ri1y', response.data.Price_Linux_RI1Y)
+            rowNode.setDataValue('contract_lnx_ri3y', response.data.Price_Linux_RI3Y)
+            rowNode.setDataValue('contract_win_payg', response.data.Price_Windows_PAYG)
+            rowNode.setDataValue('contract_win_ri1y', response.data.Price_Windows_RI1Y)
+            rowNode.setDataValue('contract_win_ri3y', response.data.Price_Windows_RI3Y)
+          })
+          .catch(e => {
+            this.errors.push(e)
           })
       },
       pad(num, totalStringSize) {
