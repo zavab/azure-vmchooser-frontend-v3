@@ -5,7 +5,12 @@
       <div>
         <div class="tab-content">
           <div class="input-group">
-            <input class="form-control" placeholder="Provide VM T-Shirt size (f.e. B1MS)" type="text" v-model="vmsize">
+            <select class="form-control" v-model="vmsize">
+              <option disabled value="">Select VM Size</option>
+              <option v-for="vmsizeinfo in vmsizes" :value="vmsizeinfo.Slug">
+                {{ vmsizeinfo.Name }}
+              </option>
+            </select>
             <span class="input-group-addon">Name</span>
           </div>
           <br />
@@ -232,7 +237,8 @@
         vmsize: '',
         runtimepermonth: '',
         runtimeinmonths: '',
-        result: []
+        result: [],
+        vmsizes: []
       }
     },
     computed: {
@@ -360,6 +366,23 @@
       }
     },
     methods: {
+      getMetaData() {
+        var vmchooserurl = config.apiGetVmSizes
+        var vmchooserconfig = {
+          headers: {
+            'Access-Control-Allow-Origin': '*',
+            'Ocp-Apim-Subscription-Key': ''
+          }
+        }
+        axios.post(vmchooserurl, '', vmchooserconfig)
+          .then(response => {
+            console.log(response.data)
+            this.vmsizes = response.data
+          })
+          .catch(e => {
+            this.errors.push(e)
+          })
+      },
       checkCreds() {
         const { vmsize, tier, region, currency } = this
         if (this.runtimeinmonths < 1) {
@@ -409,6 +432,9 @@
         // console.log(result)
         this.result = result
       }
+    },
+    mounted: function () {
+      this.getMetaData()
     }
   }
 </script>
