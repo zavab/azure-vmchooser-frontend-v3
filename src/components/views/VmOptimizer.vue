@@ -422,6 +422,10 @@
     mounted: function () {
       this.getMetaDataRegions()
       this.getMetaDataVmSizes()
+      if (this.$route.params.id) {
+        console.log(this.$route.params.id)
+        this.vmsize = this.$route.params.id
+      }
     }
   }
 </script>

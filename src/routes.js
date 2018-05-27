@@ -31,6 +31,11 @@ const routes = [
         name: 'VmOptimizer',
         meta: { description: 'Find tipping points to Optimize the runtime budget of your VM...' }
       }, {
+        path: 'vmoptimizer/:id',
+        component: VmOptimizerView,
+        name: 'VmOptimizer',
+        meta: { description: 'Find tipping points to Optimize the runtime budget of your VM...' }
+      }, {
         path: 'diskchooser',
         component: DiskChooserView,
         name: 'DiskChooser',

@@ -267,7 +267,7 @@
                     </thead>
                     <tbody v-if="posts && posts.length">
                       <tr v-for="post of posts" role="row">
-                        <td class="sorting_1">{{post.Name}}</td>
+                        <td class="sorting_1"><a :href="post.linkVmoptimizer">{{post.Name}}</a></td>
                         <td>{{post.Price}}</td>
                         <td>{{post.PricePerMonth}}</td>
                         <td>{{post.Currency}}</td>
@@ -387,6 +387,12 @@
           post.Price = post.Price.toFixed(4)
         }
       },
+      setVmoptimizerLink() {
+        for (var i = 0; i < this.posts.length; i++) {
+          var post = this.posts[i]
+          post.linkVmoptimizer = '/vmoptimizer/' + post.Name
+        }
+      },
       checkCreds() {
         const { maxresults, cores, memory, acu, capacity, iops, throughput, temp, type, nics, bandwidth, tier, hyperthreaded, burstable, isolated, contract, peakcpu, peakmemory, region, currency, os } = this
         var vmchooserurl = config.apiGetVmSize + '?maxresults=' + maxresults + '&cores=' + cores + '&memory=' + memory + '&acu=' + acu + '&ssd=' + type + '&temp=' + temp + '&throughput=' + throughput + '&iops=' + iops + '&data=' + capacity + '&nics=' + nics + '&bandwidth=' + bandwidth + '&tier=' + tier + '&ht=' + hyperthreaded + '&burstable=' + burstable + '&isolated=' + isolated + '&contract=' + contract + '&avgcpupeak=' + peakcpu + '&avgmempeak=' + peakmemory + '&region=' + region + '&currency=' + currency + '&os=' + os
@@ -403,6 +409,7 @@
               this.response = 'No results found'
             } else {
               this.calcMonthlyPrice()
+              this.setVmoptimizerLink()
             }
           })
           .catch(e => {
