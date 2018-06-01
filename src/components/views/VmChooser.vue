@@ -149,42 +149,10 @@
           <div role="tabpanel" class="tab-pane" id="settings">
             <div class="input-group">
               <select class="form-control" v-model="region">
-                <option disabled value="">Deployment region</option>
-                <option value="asia-pacific-east">Asia Pacific East</option>
-                <option value="asia-pacific-southeast">Asia Pacific South-East</option>
-                <option value="australia-east">Australia East</option>
-                <option value="australia-southeast">Australia South East</option>
-                <option value="brazil-south">Brazil South</option>
-                <option value="canada-central">Canada Central</option>
-                <option value="canada-east">Canada East</option>
-                <option value="central-india">India Central</option>
-                <option value="west-india">India West</option>
-                <option value="south-india">India South</option>
-                <option value="europe-north">Europe North</option>
-                <option value="europe-west" selected="selected">Europe West</option>
-                <option value="france-central">France Central</option>
-                <option value="france-south">France South</option>
-                <option value="germany-central">Germany Central</option>
-                <option value="germany-northeast">Germany North East</option>
-                <option value="japan-east">Japan East</option>
-                <option value="japan-west">Japan West</option>
-                <option value="korea-central">Korea Central</option>
-                <option value="korea-south">Korea South</option>
-                <option value="united-kingdom-south">UK South</option>
-                <option value="united-kingdom-west">UK West</option>
-                <option value="us-central">US Central</option>
-                <option value="us-east">US East</option>
-                <option value="us-east-2">US East 2</option>
-                <option value="usgov-arizona">US Gov Arizona</option>
-                <option value="usgov-iowa">US Gov Iowa</option>
-                <option value="usgov-texas">US Gov Texas</option>
-                <option value="usgov-virginia">US Gov Virginia</option>
-                <option value="us-north-central">US North Central</option>
-                <option value="us-south-central">US South Central</option>
-                <option value="us-west">US West</option>
-                <option value="us-west-2">US West 2</option>
-                <option value="us-west-central">US West Central</option>
-                <option value="all">Just give me all options!</option>
+                <option disabled value="">Deployment Region</option>
+                <option v-for="region in regions" :value="region.Slug">
+                  {{ region.Name }}
+                </option>
               </select>
               <span class="input-group-addon">Location</span>
             </div>
@@ -349,6 +317,7 @@
           ]
         })
       })
+      this.getMetaDataRegions()
     },
     data() {
       return {
@@ -376,7 +345,8 @@
         region: 'europe-west',
         currency: 'EUR',
         maxresults: '10',
-        os: 'linux'
+        os: 'linux',
+        regions: []
       }
     },
     methods: {
@@ -392,6 +362,23 @@
           var post = this.posts[i]
           post.linkVmoptimizer = '/vmoptimizer/' + post.Name
         }
+      },
+      getMetaDataRegions() {
+        var vmchooserurl = config.apiGetRegions
+        var vmchooserconfig = {
+          headers: {
+            'Access-Control-Allow-Origin': '*',
+            'Ocp-Apim-Subscription-Key': ''
+          }
+        }
+        axios.post(vmchooserurl, '', vmchooserconfig)
+          .then(response => {
+            // console.log(response.data)
+            this.regions = response.data
+          })
+          .catch(e => {
+            this.errors.push(e)
+          })
       },
       checkCreds() {
         const { maxresults, cores, memory, acu, capacity, iops, throughput, temp, type, nics, bandwidth, tier, hyperthreaded, burstable, isolated, contract, peakcpu, peakmemory, region, currency, os } = this

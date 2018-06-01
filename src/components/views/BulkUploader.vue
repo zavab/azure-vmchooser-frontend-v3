@@ -212,6 +212,14 @@
         this.summaryOsDisks = storageos.toFixed(2)
         this.summaryDataDisks = storagedata.toFixed(2)
       },
+      checkMemory(memory) {
+        var fixedmemory = memory
+        if (memory > 1000 && memory % 1024 === 0) {
+          fixedmemory = (memory / 1024)
+          alert('Could it be that you entered the memory in MB instead of GB? Reverting the memory from ' + memory + ' GB to ' + fixedmemory + ' GB')
+        }
+        return fixedmemory
+      },
       updateRowData(newResults) {
         var tempData = []
         for (var i = 0; i < newResults.data.length; i++) {
@@ -224,7 +232,7 @@
               i,
               tempRow['Region'],
               tempRow['Cores'],
-              tempRow['Memory (GB)'],
+              this.checkMemory(tempRow['Memory (GB)']),
               tempRow['SSD [Yes/No]'],
               tempRow['NICs'],
               tempRow['Max Disk Size (TB)'] * 1024,
@@ -242,7 +250,7 @@
               name: tempRow['VM Name'],
               region: tempRow['Region'],
               cores: tempRow['Cores'],
-              memory: tempRow['Memory (GB)'],
+              memory: this.checkMemory(tempRow['Memory (GB)']),
               contract: tempRow['Contract'],
               currency: tempRow['Currency'],
               ssd: tempRow['SSD [Yes/No]'],
