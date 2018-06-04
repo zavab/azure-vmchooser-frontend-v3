@@ -227,6 +227,15 @@
           if (tempRow['OS'] === undefined) {
             tempRow['OS'] = 'linux'
           }
+          if (tempRow['SAPHANA'] === undefined) {
+            tempRow['SAPHANA'] = 'All'
+          }
+          if (tempRow['SAPS2T'] === undefined) {
+            tempRow['SAPS2T'] = '-127'
+          }
+          if (tempRow['SAPS3T'] === undefined) {
+            tempRow['SAPS3T'] = '-127'
+          }
           if (tempRow['VM Name']) {
             this.getVmSize(
               i,
@@ -244,7 +253,10 @@
               tempRow['Currency'],
               tempRow['Contract'],
               tempRow['Burstable'],
-              tempRow['OS']
+              tempRow['OS'],
+              tempRow['SAPHANA'],
+              tempRow['SAPS2T'],
+              tempRow['SAPS3T']
             )
             tempData.push({
               name: tempRow['VM Name'],
@@ -262,7 +274,10 @@
               peakcpu: tempRow['Peak CPU Usage (%)'],
               peakmemory: tempRow['Peak Memory Usage (%)'],
               burstable: tempRow['Burstable'],
-              os: tempRow['OS']
+              os: tempRow['OS'],
+              saphana: tempRow['SAPHANA'],
+              saps2t: tempRow['SAPS2T'],
+              saps3t: tempRow['SAPS3T']
             })
           }
         }
@@ -400,6 +415,25 @@
               {
                 headerName: 'Burstable',
                 field: 'burstable',
+                width: 150,
+                columnGroupShow: 'closed',
+                editable: true
+              },
+              {
+                headerName: 'SAP HANA',
+                field: 'saphana',
+                width: 150,
+                editable: true
+              },
+              {
+                headerName: 'SAPS 2-Tier',
+                field: 'saps2t',
+                width: 150,
+                editable: true
+              },
+              {
+                headerName: 'SAPS 3-Tier',
+                field: 'saps3t',
                 width: 150,
                 columnGroupShow: 'closed',
                 editable: true
@@ -669,7 +703,13 @@
         ]
       },
       getDataDiskConfig(index, ssd, currency, maxdisks, throughput, iops, capacity) {
-        var vmchooserurl = config.apiGetDiskConfig + '?ssd=' + ssd + '&currency=' + currency + '&throughput=' + throughput + '&iops=' + iops + '&data=' + capacity + '&maxdisks=' + maxdisks
+        var vmchooserurl = config.apiGetDiskConfig +
+          '?ssd=' + ssd +
+          '&currency=' + currency +
+          '&throughput=' + throughput +
+          '&iops=' + iops +
+          '&data=' + capacity +
+          '&maxdisks=' + maxdisks
         var vmchooserconfig = {
           headers: {
             'Access-Control-Allow-Origin': '*',
@@ -718,7 +758,11 @@
       getOsDisk(index, ssd, currency) {
         var maxdisks = '1'
         var osdisk = '100' // 100GB to revert back to an S10 / P10
-        var vmchooserurl = config.apiGetDiskConfig + '?ssd=' + ssd + '&currency=' + currency + '&data=' + osdisk + '&maxdisks=' + maxdisks
+        var vmchooserurl = config.apiGetDiskConfig +
+          '?ssd=' + ssd +
+          '&currency=' + currency +
+          '&data=' + osdisk +
+          '&maxdisks=' + maxdisks
         var vmchooserconfig = {
           headers: {
             'Access-Control-Allow-Origin': '*',
@@ -757,10 +801,28 @@
             console.log('Error : ' + e)
           })
       },
-      getVmSize(index, region, cores, memory, ssd, nics, capacity, iops, throughput, temp, peakcpu, peakmemory, currency, contract, burstable, os) {
+      getVmSize(index, region, cores, memory, ssd, nics, capacity, iops, throughput, temp, peakcpu, peakmemory, currency, contract, burstable, os, saphana, saps2t, saps3t) {
         // console.log('Disk (' + index + '): ' + capacity)
         var maxresults = '1'
-        var vmchooserurl = config.apiGetVmSize + '?maxresults=' + maxresults + '&cores=' + cores + '&memory=' + memory + '&ssd=' + ssd + '&throughput=' + throughput + '&iops=' + iops + '&data=' + capacity + '&nics=' + nics + '&burstable=' + burstable + '&contract=' + contract + '&avgcpupeak=' + peakcpu + '&avgmempeak=' + peakmemory + '&region=' + region + '&currency=' + currency + '&os=' + os
+        var vmchooserurl = config.apiGetVmSize +
+          '?maxresults=' + maxresults +
+          '&cores=' + cores +
+          '&memory=' + memory +
+          '&ssd=' + ssd +
+          '&throughput=' + throughput +
+          '&iops=' + iops +
+          '&data=' + capacity +
+          '&nics=' + nics +
+          '&burstable=' + burstable +
+          '&contract=' + contract +
+          '&avgcpupeak=' + peakcpu +
+          '&avgmempeak=' + peakmemory +
+          '&region=' + region +
+          '&currency=' + currency +
+          '&os=' + os +
+          '&saphana=' + saphana +
+          '&saps2t=' + saps2t +
+          '&saps3t=' + saps3t
         var vmchooserconfig = {
           headers: {
             'Access-Control-Allow-Origin': '*',
