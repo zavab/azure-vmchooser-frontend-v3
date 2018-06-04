@@ -8,6 +8,7 @@
           <li role="presentation"><a href="#storage" aria-controls="storage" role="tab" data-toggle="tab">Storage</a></li>
           <li role="presentation"><a href="#network" aria-controls="network" role="tab" data-toggle="tab">Network</a></li>
           <li role="presentation"><a href="#attributes" aria-controls="attributes" role="tab" data-toggle="tab">Attributes</a></li>
+          <li role="presentation"><a href="#sap" aria-controls="sap" role="tab" data-toggle="tab">SAP</a></li>
           <li role="presentation"><a href="#optimize" aria-controls="optimize" role="tab" data-toggle="tab">Optimize</a></li>
           <li role="presentation"><a href="#settings" aria-controls="settings" role="tab" data-toggle="tab">Settings</a></li>
         </ul>
@@ -104,85 +105,97 @@
               <span class="input-group-addon">Burstable</span>
             </div>
             <br />
-            <div class="input-group">
-              <select class="form-control" v-model="isolated">
-                <option disabled value="">Isolated?</option>
-                <option value="No">No</option>
-                <option value="Yes">Yes</option>
-                <option value="All">No Preference</option>
-              </select>
-              <span class="input-group-addon">Isolated</span>
             </div>
-            <br />
-          </div>
-          <div role="tabpanel" class="tab-pane" id="optimize">
-            <div class="input-group">
-              <select class="form-control" v-model="contract">
-                <option disabled value="">Contract type</option>
-                <option value="payg">Pay-as-you-Go</option>
-                <option value="ri1y">Reserved Instance - 1 Year Term</option>
-                <option value="ri3y">Reserved Instance - 3 Year Term</option>
-              </select>
-              <span class="input-group-addon">Type</span>
+            <div role="tabpanel" class="tab-pane" id="sap">
+              <div class="input-group">
+                <select class="form-control" v-model="saphana">
+                  <option disabled value="">HANA Support</option>
+                  <option value="yes">Yes</option>
+                  <option value="no">No</option>
+                  <option value="All">No Preference</option>
+                </select>
+                <span class="input-group-addon">HANA</span>
+              </div>
+              <br />
+              <div class="input-group">
+                <input class="form-control" placeholder="Minimum SAPS 2-Tier" type="text" v-model="saps2t">
+                <span class="input-group-addon">SAPS</span>
+              </div>
+              <br />
+              <div class="input-group">
+                <input class="form-control" placeholder="Minimum SAPS 3-Tier" type="text" v-model="saps3t">
+                <span class="input-group-addon">SAPS</span>
+              </div>
+              <br />
             </div>
-            <br />
-            <div class="input-group">
-              <select class="form-control" v-model="os">
-                <option disabled value="">Operating system</option>
-                <option value="linux">Linux</option>
-                <option value="windows">Windows</option>
-              </select>
-              <span class="input-group-addon">Type</span>
+            <div role="tabpanel" class="tab-pane" id="optimize">
+              <div class="input-group">
+                <select class="form-control" v-model="contract">
+                  <option disabled value="">Contract type</option>
+                  <option value="payg">Pay-as-you-Go</option>
+                  <option value="ri1y">Reserved Instance - 1 Year Term</option>
+                  <option value="ri3y">Reserved Instance - 3 Year Term</option>
+                </select>
+                <span class="input-group-addon">Type</span>
+              </div>
+              <br />
+              <div class="input-group">
+                <select class="form-control" v-model="os">
+                  <option disabled value="">Operating system</option>
+                  <option value="linux">Linux</option>
+                  <option value="windows">Windows</option>
+                </select>
+                <span class="input-group-addon">Type</span>
+              </div>
+              <br />
+              <div class="input-group">
+                <input class="form-control" placeholder="Peak cpu usage" type="text" v-model="peakcpu">
+                <span class="input-group-addon">%</span>
+              </div>
+              <br />
+              <div class="input-group">
+                <input class="form-control" placeholder="Peak memory usage" type="text" v-model="peakmemory">
+                <span class="input-group-addon">%</span>
+              </div>
+              <br />
             </div>
-            <br />
-            <div class="input-group">
-              <input class="form-control" placeholder="Peak cpu usage" type="text" v-model="peakcpu">
-              <span class="input-group-addon">%</span>
+            <div role="tabpanel" class="tab-pane" id="settings">
+              <div class="input-group">
+                <select class="form-control" v-model="region">
+                  <option disabled value="">Deployment Region</option>
+                  <option v-for="region in regions" :value="region.Slug">
+                    {{ region.Name }}
+                  </option>
+                </select>
+                <span class="input-group-addon">Location</span>
+              </div>
+              <br />
+              <div class="input-group">
+                <select class="form-control" v-model="currency">
+                  <option disabled value="">Currency</option>
+                  <option value="EUR">Euro</option>
+                  <option value="USD">US Dollar</option>
+                  <option value="GBP">British Pound</option>
+                  <option value="AUD">Australian Dollar</option>
+                  <option value="JPY">Japanese Yen</option>
+                  <option value="CAD">Canadian Dollar</option>
+                  <option value="DKK">Danish Krone</option>
+                  <option value="CHF">Swiss Franc</option>
+                  <option value="SEK">Swedish Krona</option>
+                  <option value="IDR">Indonesian Rupee</option>
+                  <option value="INR">Indian Rupee</option>
+                </select>
+                <span class="input-group-addon">Currency</span>
+              </div>
+              <br />
+              <div class="input-group">
+                <input class="form-control" placeholder="How many results do you want to see? (Default: 5)" type="text" v-model="maxresults">
+                <span class="input-group-addon">#</span>
+              </div>
+              <br />
             </div>
-            <br />
-            <div class="input-group">
-              <input class="form-control" placeholder="Peak memory usage" type="text" v-model="peakmemory">
-              <span class="input-group-addon">%</span>
-            </div>
-            <br />
-          </div>
-          <div role="tabpanel" class="tab-pane" id="settings">
-            <div class="input-group">
-              <select class="form-control" v-model="region">
-                <option disabled value="">Deployment Region</option>
-                <option v-for="region in regions" :value="region.Slug">
-                  {{ region.Name }}
-                </option>
-              </select>
-              <span class="input-group-addon">Location</span>
-            </div>
-            <br />
-            <div class="input-group">
-              <select class="form-control" v-model="currency">
-                <option disabled value="">Currency</option>
-                <option value="EUR">Euro</option>
-                <option value="USD">US Dollar</option>
-                <option value="GBP">British Pound</option>
-                <option value="AUD">Australian Dollar</option>
-                <option value="JPY">Japanese Yen</option>
-                <option value="CAD">Canadian Dollar</option>
-                <option value="DKK">Danish Krone</option>
-                <option value="CHF">Swiss Franc</option>
-                <option value="SEK">Swedish Krona</option>
-                <option value="IDR">Indonesian Rupee</option>
-                <option value="INR">Indian Rupee</option>
-              </select>
-              <span class="input-group-addon">Currency</span>
-            </div>
-            <br />
-            <div class="input-group">
-              <input class="form-control" placeholder="How many results do you want to see? (Default: 5)" type="text" v-model="maxresults">
-              <span class="input-group-addon">#</span>
-            </div>
-            <br />
           </div>
         </div>
-      </div>
       
       <div class="input-group">
         <form @submit.prevent="checkCreds">
@@ -231,6 +244,9 @@
                         <th style="width: 182px;" colspan="1" rowspan="1" aria-controls="example1" tabindex="0">Max. Disks</th>
                         <th style="width: 142px;" colspan="1" rowspan="1" aria-controls="example1" tabindex="0">Max. IOPS</th>
                         <th style="width: 101px;" colspan="1" rowspan="1" aria-controls="example1" tabindex="0">Max. Throughput</th>
+                        <th style="width: 101px;" colspan="1" rowspan="1" aria-controls="example1" tabindex="0">HANA Support</th>
+                        <th style="width: 101px;" colspan="1" rowspan="1" aria-controls="example1" tabindex="0">SAPS 2-Tier</th>
+                        <th style="width: 101px;" colspan="1" rowspan="1" aria-controls="example1" tabindex="0">SAPS 3-Tier</th>
                       </tr>
                     </thead>
                     <tbody v-if="posts && posts.length">
@@ -255,6 +271,9 @@
                         <td>{{post.MaxDataDiskCount}}</td>
                         <td>{{post.MaxVmIops}}</td>
                         <td>{{post.MaxVmThroughputMBs}}</td>
+                        <td>{{post.SAPHANA}}</td>
+                        <td>{{post.SAPS2T}}</td>
+                        <td>{{post.SAPS3T}}</td>
                       </tr>
                     </tbody>
                     <tfoot>
@@ -279,6 +298,9 @@
                         <th colspan="1" rowspan="1">Max. Disks</th>
                         <th colspan="1" rowspan="1">Max. IOPS</th>
                         <th colspan="1" rowspan="1">Max. Throughput</th>
+                        <th colspan="1" rowspan="1">HANA Support</th>
+                        <th colspan="1" rowspan="1">SAPS 2-Tier</th>
+                        <th colspan="1" rowspan="1">SAPS 3-Tier</th>
                       </tr>
                     </tfoot>
                   </table>
@@ -346,7 +368,10 @@
         currency: 'EUR',
         maxresults: '10',
         os: 'linux',
-        regions: []
+        regions: [],
+        saphana: '',
+        saps2t: '',
+        saps3t: ''
       }
     },
     methods: {
@@ -381,8 +406,32 @@
           })
       },
       checkCreds() {
-        const { maxresults, cores, memory, acu, capacity, iops, throughput, temp, type, nics, bandwidth, tier, hyperthreaded, burstable, isolated, contract, peakcpu, peakmemory, region, currency, os } = this
-        var vmchooserurl = config.apiGetVmSize + '?maxresults=' + maxresults + '&cores=' + cores + '&memory=' + memory + '&acu=' + acu + '&ssd=' + type + '&temp=' + temp + '&throughput=' + throughput + '&iops=' + iops + '&data=' + capacity + '&nics=' + nics + '&bandwidth=' + bandwidth + '&tier=' + tier + '&ht=' + hyperthreaded + '&burstable=' + burstable + '&isolated=' + isolated + '&contract=' + contract + '&avgcpupeak=' + peakcpu + '&avgmempeak=' + peakmemory + '&region=' + region + '&currency=' + currency + '&os=' + os
+        const { maxresults, cores, memory, acu, capacity, iops, throughput, temp, type, nics, bandwidth, tier, hyperthreaded, burstable, isolated, contract, peakcpu, peakmemory, region, currency, os, saphana, saps2t, saps3t } = this
+        var vmchooserurl = config.apiGetVmSize +
+          '?maxresults=' + maxresults +
+          '&cores=' + cores +
+          '&memory=' + memory +
+          '&acu=' + acu +
+          '&ssd=' + type +
+          '&temp=' + temp +
+          '&throughput=' + throughput +
+          '&iops=' + iops +
+          '&data=' + capacity +
+          '&nics=' + nics +
+          '&bandwidth=' + bandwidth +
+          '&tier=' + tier +
+          '&ht=' + hyperthreaded +
+          '&burstable=' + burstable +
+          '&isolated=' + isolated +
+          '&contract=' + contract +
+          '&avgcpupeak=' + peakcpu +
+          '&avgmempeak=' + peakmemory +
+          '&region=' + region +
+          '&currency=' + currency +
+          '&os=' + os +
+          '&saphana=' + saphana +
+          '&saps2t=' + saps2t +
+          '&saps3t=' + saps3t
         var vmchooserconfig = {
           headers: {
             'Access-Control-Allow-Origin': '*',
