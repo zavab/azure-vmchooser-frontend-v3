@@ -105,7 +105,27 @@
               <span class="input-group-addon">Burstable</span>
             </div>
             <br />
+            <div class="input-group">
+              <select class="form-control" v-model="isolated">
+                <option disabled value="">Isolated?</option>
+                <option value="No">No</option>
+                <option value="Yes">Yes</option>
+                <option value="All">No Preference</option>
+              </select>
+              <span class="input-group-addon">Isolated</span>
             </div>
+            <br />
+            <div class="input-group">
+              <select class="form-control" v-model="constrained">
+                <option disabled value="">Constrained possible?</option>
+                <option value="No">No</option>
+                <option value="Yes">Yes</option>
+                <option value="All">No Preference</option>
+              </select>
+              <span class="input-group-addon">Constrained Cores</span>
+            </div>
+            <br />
+          </div>
             <div role="tabpanel" class="tab-pane" id="sap">
               <div class="input-group">
                 <select class="form-control" v-model="saphana">
@@ -361,6 +381,7 @@
         hyperthreaded: '',
         burstable: '',
         isolated: '',
+        constrained: '',
         contract: '',
         peakcpu: '',
         peakmemory: '',
@@ -406,7 +427,7 @@
           })
       },
       checkCreds() {
-        const { maxresults, cores, memory, acu, capacity, iops, throughput, temp, type, nics, bandwidth, tier, hyperthreaded, burstable, isolated, contract, peakcpu, peakmemory, region, currency, os, saphana, saps2t, saps3t } = this
+        const { maxresults, cores, memory, acu, capacity, iops, throughput, temp, type, nics, bandwidth, tier, hyperthreaded, burstable, isolated, constrained, contract, peakcpu, peakmemory, region, currency, os, saphana, saps2t, saps3t } = this
         var vmchooserurl = config.apiGetVmSize +
           '?maxresults=' + maxresults +
           '&cores=' + cores +
@@ -423,6 +444,7 @@
           '&ht=' + hyperthreaded +
           '&burstable=' + burstable +
           '&isolated=' + isolated +
+          '&constrained=' + constrained +
           '&contract=' + contract +
           '&avgcpupeak=' + peakcpu +
           '&avgmempeak=' + peakmemory +
