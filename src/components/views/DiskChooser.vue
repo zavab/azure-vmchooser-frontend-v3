@@ -25,11 +25,22 @@
       <div class="input-group">
         <select class="form-control" v-model="type">
           <option disabled value="">Select disk type</option>
+          <option value="standardhdd">Standard HDD</option>
+          <option value="standardssd">Standard SSD</option>
+          <option value="premiumssd">Premium SSD</option>
+          <option value="All">All options</option>
+        </select>
+        <span class="input-group-addon">Type</span>
+      </div>
+      <br />
+      <div class="input-group">
+        <select class="form-control" v-model="diskclass">
+          <option disabled value="">Select disk class (in case type is set to all)</option>
           <option value="No">Standard only</option>
           <option value="Yes">Premium only</option>
           <option value="All">All options</option>
         </select>
-        <span class="input-group-addon">Type</span>
+        <span class="input-group-addon">Class</span>
       </div>
       <br />
       <div class="input-group">
@@ -132,6 +143,7 @@
         iops: '',
         throughput: '',
         type: '',
+        diskclass: '',
         currency: '',
         price: '',
         diskcount: '',
@@ -149,8 +161,14 @@
     },
     methods: {
       checkCreds() {
-        const { capacity, iops, throughput, type } = this
-        var vmchooserurl = config.apiGetDiskConfig + '?ssd=' + type + '&throughput=' + throughput + '&iops=' + iops + '&data=' + capacity + '&maxdisks=' + this.maxdisks
+        const { capacity, iops, throughput, type, diskclass } = this
+        var vmchooserurl = config.apiGetDiskConfig +
+          '?ssd=' + diskclass +
+          '&disktype=' + type +
+          '&throughput=' + throughput +
+          '&iops=' + iops +
+          '&data=' + capacity +
+          '&maxdisks=' + this.maxdisks
         var vmchooserconfig = {
           headers: {
             'Access-Control-Allow-Origin': '*',
