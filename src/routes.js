@@ -44,7 +44,10 @@ const routes = [
         path: 'bulkuploader',
         component: BulkUploaderView,
         name: 'BulkUploader',
-        meta: { description: 'When finding one VM is not enough...' }
+        meta: {
+          description: 'When finding one VM is not enough...',
+          requiresAuth: false
+        }
       }
     ]
   }, {

@@ -291,45 +291,45 @@
       },
       RuntimeCost_Windows_RI1Y_Percentage: function () {
         if (parseFloat(this.RuntimeCost_Windows_RI1Y) > parseFloat(this.RuntimeCost_Windows_PAYG)) {
-          console.log('larger')
-          console.log(this.RuntimeCost_Windows_RI1Y + ' > ' + this.RuntimeCost_Windows_PAYG)
+          // console.log('larger')
+          // console.log(this.RuntimeCost_Windows_RI1Y + ' > ' + this.RuntimeCost_Windows_PAYG)
           return ((1 - (this.RuntimeCost_Windows_PAYG / this.RuntimeCost_Windows_RI1Y)) * 100).toPrecision(2)
         } else {
-          console.log('smaller')
-          console.log(this.RuntimeCost_Windows_RI1Y + ' > ' + this.RuntimeCost_Windows_PAYG)
+          // console.log('smaller')
+          // console.log(this.RuntimeCost_Windows_RI1Y + ' > ' + this.RuntimeCost_Windows_PAYG)
           return ((1 - (this.RuntimeCost_Windows_RI1Y / this.RuntimeCost_Windows_PAYG)) * 100).toPrecision(2)
         }
       },
       RuntimeCost_Windows_RI3Y_Percentage: function () {
         if (parseFloat(this.RuntimeCost_Windows_RI3Y) > parseFloat(this.RuntimeCost_Windows_PAYG)) {
-          console.log('larger')
-          console.log(this.RuntimeCost_Windows_RI3Y + ' > ' + this.RuntimeCost_Windows_PAYG)
+          // console.log('larger')
+          // console.log(this.RuntimeCost_Windows_RI3Y + ' > ' + this.RuntimeCost_Windows_PAYG)
           return ((1 - (this.RuntimeCost_Windows_PAYG / this.RuntimeCost_Windows_RI3Y)) * 100).toPrecision(2)
         } else {
-          console.log('smaller')
-          console.log(this.RuntimeCost_Windows_RI3Y + ' > ' + this.RuntimeCost_Windows_PAYG)
+          // console.log('smaller')
+          // console.log(this.RuntimeCost_Windows_RI3Y + ' > ' + this.RuntimeCost_Windows_PAYG)
           return ((1 - (this.RuntimeCost_Windows_RI3Y / this.RuntimeCost_Windows_PAYG)) * 100).toPrecision(2)
         }
       },
       RuntimeCost_Linux_RI1Y_Percentage: function () {
         if (parseFloat(this.RuntimeCost_Linux_RI1Y) > parseFloat(this.RuntimeCost_Linux_PAYG)) {
-          console.log('larger')
-          console.log(this.RuntimeCost_Linux_RI1Y + ' > ' + this.RuntimeCost_Linux_PAYG)
+          // console.log('larger')
+          // console.log(this.RuntimeCost_Linux_RI1Y + ' > ' + this.RuntimeCost_Linux_PAYG)
           return ((1 - (this.RuntimeCost_Linux_PAYG / this.RuntimeCost_Linux_RI1Y)) * 100).toPrecision(2)
         } else {
-          console.log('smaller')
-          console.log(this.RuntimeCost_Linux_RI1Y + ' > ' + this.RuntimeCost_Linux_PAYG)
+          // console.log('smaller')
+          // console.log(this.RuntimeCost_Linux_RI1Y + ' > ' + this.RuntimeCost_Linux_PAYG)
           return ((1 - (this.RuntimeCost_Linux_RI1Y / this.RuntimeCost_Linux_PAYG)) * 100).toPrecision(2)
         }
       },
       RuntimeCost_Linux_RI3Y_Percentage: function () {
         if (parseFloat(this.RuntimeCost_Linux_RI3Y) > parseFloat(this.RuntimeCost_Linux_PAYG)) {
-          console.log('larger')
-          console.log(this.RuntimeCost_Linux_RI3Y + ' > ' + this.RuntimeCost_Linux_PAYG)
+          // console.log('larger')
+          // console.log(this.RuntimeCost_Linux_RI3Y + ' > ' + this.RuntimeCost_Linux_PAYG)
           return ((1 - (this.RuntimeCost_Linux_PAYG / this.RuntimeCost_Linux_RI3Y)) * 100).toPrecision(2)
         } else {
-          console.log('smaller')
-          console.log(this.RuntimeCost_Linux_RI3Y + ' > ' + this.RuntimeCost_Linux_PAYG)
+          // console.log('smaller')
+          // console.log(this.RuntimeCost_Linux_RI3Y + ' > ' + this.RuntimeCost_Linux_PAYG)
           return ((1 - (this.RuntimeCost_Linux_RI3Y / this.RuntimeCost_Linux_PAYG)) * 100).toPrecision(2)
         }
       }
@@ -423,7 +423,7 @@
       this.getMetaDataRegions()
       this.getMetaDataVmSizes()
       if (this.$route.params.id) {
-        console.log(this.$route.params.id)
+        // console.log(this.$route.params.id)
         this.vmsize = this.$route.params.id
       }
     }

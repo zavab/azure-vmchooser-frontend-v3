@@ -23,6 +23,20 @@ Vue.filter('pluralize', pluralize)
 
 Vue.use(VueRouter)
 
+// Login to AAD
+import { default as Adal } from 'vue-adal'
+import config from './config'
+Vue.use(Adal, {
+  config: {
+    tenant: config.aadtenant,
+    clientId: config.aadclientid,
+    redirectUri: config.aadredirecturl,
+    cacheLocation: 'localStorage'
+  },
+  requireAuthOnInitialize: false,
+  router: router
+})
+
 // Routing logic
 var router = new VueRouter({
   routes: routes,
@@ -35,14 +49,12 @@ var router = new VueRouter({
 
 // Some middleware to help us ensure the user is authenticated.
 router.beforeEach((to, from, next) => {
-  if (to.matched.some(record => record.meta.requiresAuth) && (!router.app.$store.state.token || router.app.$store.state.token === 'null')) {
-    // this route requires auth, check if logged in
-    // if not, redirect to login page.
+  if (to.matched.some(record => record.meta.requiresAuth && !Vue.prototype.$adal.user.userName)) {
     window.console.log('Not authenticated')
-    next({
-      path: '/login',
-      query: { redirect: to.fullPath }
-    })
+    console.log(this.$adal)
+    // console.log(Vue.prototype.$adal)
+    console.log(Vue.prototype.$adal.user.userName)
+    next()
   } else {
     next()
   }
@@ -51,7 +63,7 @@ router.beforeEach((to, from, next) => {
 sync(store, router)
 
 // Check local storage to handle refreshes
-if (window.localStorage) {
+/* if (window.localStorage) {
   var localUserString = window.localStorage.getItem('user') || 'null'
   var localUser = JSON.parse(localUserString)
 
@@ -59,7 +71,7 @@ if (window.localStorage) {
     store.commit('SET_USER', localUser)
     store.commit('SET_TOKEN', window.localStorage.getItem('token'))
   }
-}
+} */
 
 // Start out app!
 // eslint-disable-next-line no-new

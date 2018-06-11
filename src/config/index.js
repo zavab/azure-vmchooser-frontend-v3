@@ -7,5 +7,8 @@ export default {
   apiCalcVmOptimizations: 'https://vmchooser.azure-api.net/dev-v2/api/CalcVmOptimizations',
   apiGetDiskConfig: 'https://vmchooser.azure-api.net/dev-v2/api/GetDiskConfig',
   fixedLayout: false,
-  hideLogoOnMobile: false
+  hideLogoOnMobile: false,
+  aadclientid: 'f4b67345-011d-4b77-b746-05e152a61812',
+  aadredirecturl: 'http://localhost:8080/',
+  aadtenant: 'common'
 }

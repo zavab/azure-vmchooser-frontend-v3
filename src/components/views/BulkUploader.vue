@@ -964,20 +964,20 @@
       },
 
       onModelUpdated() {
-        console.log('onModelUpdated')
+        // console.log('onModelUpdated')
         this.calculateRowCount()
       },
 
       onReady() {
-        console.log('onReady')
+        // console.log('onReady')
         this.calculateRowCount()
       },
 
       onRowValueChanged(event) {
-        console.log('onRowValueChanged')
+        // console.log('onRowValueChanged')
         console.log(event.columnApi.columnController.primaryHeaderRowCount)
         if (event.columnApi.columnController.primaryHeaderRowCount < 7) {
-          console.log(event)
+          // console.log(event)
           this.getVmSize(
             event.rowIndex,
             event.data.region,
@@ -1011,27 +1011,27 @@
       },
 
       onSelectionChanged() {
-        console.log('selectionChanged')
+        // console.log('selectionChanged')
       },
 
       onBeforeFilterChanged() {
-        console.log('beforeFilterChanged')
+        // console.log('beforeFilterChanged')
       },
 
       onAfterFilterChanged() {
-        console.log('afterFilterChanged')
+        // console.log('afterFilterChanged')
       },
 
       onFilterModified() {
-        console.log('onFilterModified')
+        // console.log('onFilterModified')
       },
 
       onBeforeSortChanged() {
-        console.log('onBeforeSortChanged')
+        // console.log('onBeforeSortChanged')
       },
 
       onAfterSortChanged() {
-        console.log('onAfterSortChanged')
+        // console.log('onAfterSortChanged')
       },
 
       onVirtualRowRemoved(event) {
@@ -1041,7 +1041,7 @@
       },
 
       onRowClicked(event) {
-        console.log('onRowClicked: ' + event.node.data.name)
+        // console.log('onRowClicked: ' + event.node.data.name)
       },
 
       onQuickFilterChanged(event) {
@@ -1051,7 +1051,7 @@
       // here we use one generic event to handle all the column type events.
       // the method just prints the event name
       onColumnEvent(event) {
-        console.log('onColumnEvent: ' + event)
+        // console.log('onColumnEvent: ' + event)
       }
     },
     beforeMount() {
