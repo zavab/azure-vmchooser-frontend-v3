@@ -23,7 +23,7 @@ Vue.filter('pluralize', pluralize)
 
 Vue.use(VueRouter)
 
-// Login to AAD
+/* Login to AAD
 import { default as Adal } from 'vue-adal'
 import config from './config'
 Vue.use(Adal, {
@@ -35,7 +35,7 @@ Vue.use(Adal, {
   },
   requireAuthOnInitialize: false,
   router: router
-})
+}) */
 
 // Routing logic
 var router = new VueRouter({
@@ -49,7 +49,8 @@ var router = new VueRouter({
 
 // Some middleware to help us ensure the user is authenticated.
 router.beforeEach((to, from, next) => {
-  if (to.matched.some(record => record.meta.requiresAuth && !Vue.prototype.$adal.user.userName)) {
+  // if (to.matched.some(record => record.meta.requiresAuth && !Vue.prototype.$adal.user.userName)) {
+  if (to.matched.some(record => record.meta.requiresAuth)) {
     window.console.log('Not authenticated')
     console.log(this.$adal)
     // console.log(Vue.prototype.$adal)

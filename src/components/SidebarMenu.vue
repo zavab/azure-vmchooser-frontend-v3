@@ -25,6 +25,19 @@
         <span class="page">VM Optimizer</span>
       </a>
     </router-link>
+    <li class="header">Information</li>
+    <li class="pageLink">
+      <a href="https://docs.vmchooser.com/" target="_blank">
+        <i class="fa fa-book"></i>
+        <span class="page">Documentation</span>
+      </a>
+    </li>
+    <li class="pageLink">
+      <a href="https://github.com/kvaes?tab=repositories&q=vmchooser" target="_blank">
+        <i class="fa fa-github"></i>
+        <span class="page">GitHub Repositories</span>
+      </a>
+    </li>
   </ul>
 </template>
 <script>
