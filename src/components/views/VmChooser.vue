@@ -34,8 +34,8 @@
             <div class="input-group">
               <select class="form-control" v-model="type">
                 <option disabled value="">Select disk type</option>
-                <option value="No">Standard SSD/HDD only</option>
-                <option value="Yes">Premium SSD only</option>
+                <option value="No">HDD only</option>
+                <option value="Yes">SSD only</option>
                 <option value="All">All options</option>
               </select>
               <span class="input-group-addon">Type</span>
