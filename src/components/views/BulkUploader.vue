@@ -236,6 +236,9 @@
           if (tempRow['SAPS3T'] === undefined) {
             tempRow['SAPS3T'] = '-127'
           }
+          if (tempRow['SISLA'] === undefined) {
+            tempRow['SISLA'] = 'No'
+          }
           if (tempRow['VM Name']) {
             this.getVmSize(
               i,
@@ -256,7 +259,8 @@
               tempRow['OS'],
               tempRow['SAPHANA'],
               tempRow['SAPS2T'],
-              tempRow['SAPS3T']
+              tempRow['SAPS3T'],
+              tempRow['SISLA']
             )
             tempData.push({
               name: tempRow['VM Name'],
@@ -277,7 +281,8 @@
               os: tempRow['OS'],
               saphana: tempRow['SAPHANA'],
               saps2t: tempRow['SAPS2T'],
-              saps3t: tempRow['SAPS3T']
+              saps3t: tempRow['SAPS3T'],
+              sisla: tempRow['SISLA']
             })
           }
         }
@@ -434,6 +439,13 @@
               {
                 headerName: 'SAPS 3-Tier',
                 field: 'saps3t',
+                width: 150,
+                columnGroupShow: 'closed',
+                editable: true
+              },
+              {
+                headerName: 'Single Instance SLA',
+                field: 'sisla',
                 width: 150,
                 columnGroupShow: 'closed',
                 editable: true
@@ -699,12 +711,54 @@
                 filter: 'text'
               }
             ]
+          },
+          {
+            headerName: 'VM Optimizer - Contract Variants (price per month)',
+            children: [
+              {
+                headerName: 'Linux - PAYG - Month',
+                field: 'contract_lnx_payg_month',
+                width: 150,
+                filter: 'text'
+              },
+              {
+                headerName: 'Linux - RI1Y - Month',
+                field: 'contract_lnx_ri1y_month',
+                width: 150,
+                filter: 'text'
+              },
+              {
+                headerName: 'Linux - RI3Y - Month',
+                field: 'contract_lnx_ri3y_month',
+                width: 150,
+                filter: 'text'
+              },
+              {
+                headerName: 'Windows - PAYG - Month',
+                field: 'contract_win_payg_month',
+                width: 150,
+                filter: 'text'
+              },
+              {
+                headerName: 'Windows - RI1Y - Month',
+                field: 'contract_win_ri1y_month',
+                width: 150,
+                filter: 'text'
+              },
+              {
+                headerName: 'Windows - RI3Y - Month',
+                field: 'contract_win_ri3y_month',
+                width: 150,
+                filter: 'text'
+              }
+            ]
           }
         ]
       },
-      getDataDiskConfig(index, ssd, currency, maxdisks, throughput, iops, capacity) {
+      getDataDiskConfig(index, ssdclass, ssdtype, currency, maxdisks, throughput, iops, capacity) {
         var vmchooserurl = config.apiGetDiskConfig +
-          '?ssd=' + ssd +
+          '?ssd=' + ssdclass +
+          '&disktype=' + ssdtype +
           '&currency=' + currency +
           '&throughput=' + throughput +
           '&iops=' + iops +
@@ -755,11 +809,12 @@
             console.log('Error : ' + e)
           })
       },
-      getOsDisk(index, ssd, currency) {
+      getOsDisk(index, ssdclass, ssdtype, currency) {
         var maxdisks = '1'
         var osdisk = '100' // 100GB to revert back to an S10 / P10
         var vmchooserurl = config.apiGetDiskConfig +
-          '?ssd=' + ssd +
+          '?ssd=' + ssdclass +
+          '&disktype=' + ssdtype +
           '&currency=' + currency +
           '&data=' + osdisk +
           '&maxdisks=' + maxdisks
@@ -801,8 +856,16 @@
             console.log('Error : ' + e)
           })
       },
-      getVmSize(index, region, cores, memory, ssd, nics, capacity, iops, throughput, temp, peakcpu, peakmemory, currency, contract, burstable, os, saphana, saps2t, saps3t) {
+      getVmSize(index, region, cores, memory, ssd, nics, capacity, iops, throughput, temp, peakcpu, peakmemory, currency, contract, burstable, os, saphana, saps2t, saps3t, sisla) {
         // console.log('Disk (' + index + '): ' + capacity)
+
+        // SISLA or "single instance sla"
+        var ssdtype = 'All'
+        if (sisla === 'Yes') {
+          ssd = 'Yes'
+          ssdtype = 'premiumssd'
+        }
+
         var maxresults = '1'
         var vmchooserurl = config.apiGetVmSize +
           '?maxresults=' + maxresults +
@@ -893,9 +956,9 @@
             rowNode.setDataValue('storage_data_price', 0)
 
             // Get os price
-            this.getOsDisk(index, ssd, currency)
+            this.getOsDisk(index, ssd, ssdtype, currency)
             if (capacity >= 127) {
-              this.getDataDiskConfig(index, ssd, currency, response.data[0].MaxDataDiskCount, throughput, iops, capacity)
+              this.getDataDiskConfig(index, ssd, ssdtype, currency, response.data[0].MaxDataDiskCount, throughput, iops, capacity)
             }
             this.getVmOptimizerOptions(index, response.data[0].Name, 'standard', region, currency)
           })
@@ -944,6 +1007,13 @@
             rowNode.setDataValue('contract_win_payg', response.data.Price_Windows_PAYG)
             rowNode.setDataValue('contract_win_ri1y', response.data.Price_Windows_RI1Y)
             rowNode.setDataValue('contract_win_ri3y', response.data.Price_Windows_RI3Y)
+            var month = 730
+            rowNode.setDataValue('contract_lnx_payg_month', response.data.Price_Linux_PAYG * month)
+            rowNode.setDataValue('contract_lnx_ri1y_month', response.data.Price_Linux_RI1Y * month)
+            rowNode.setDataValue('contract_lnx_ri3y_month', response.data.Price_Linux_RI3Y * month)
+            rowNode.setDataValue('contract_win_payg_month', response.data.Price_Windows_PAYG * month)
+            rowNode.setDataValue('contract_win_ri1y_month', response.data.Price_Windows_RI1Y * month)
+            rowNode.setDataValue('contract_win_ri3y_month', response.data.Price_Windows_RI3Y * month)
           })
           .catch(e => {
             this.errors.push(e)
