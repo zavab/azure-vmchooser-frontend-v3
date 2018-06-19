@@ -2,15 +2,14 @@
   "ExpandedNodes": [
     "",
     "\\build",
+    "\\config",
     "\\src",
     "\\src\\components",
     "\\src\\components\\views",
     "\\src\\config",
     "\\src\\config\\preview",
-    "\\src\\config\\prod",
-    "\\static\\js",
-    "\\static\\js\\plugins"
+    "\\src\\config\\prod"
   ],
-  "SelectedNode": "\\build",
+  "SelectedNode": "\\src\\main.js",
   "PreviewInSolutionExplorer": false
 }

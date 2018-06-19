@@ -891,6 +891,7 @@
             // Initialize the values with 0 for the summary
             rowNode.setDataValue('storage_os_price', 0)
             rowNode.setDataValue('storage_data_price', 0)
+
             // Get os price
             this.getOsDisk(index, ssd, currency)
             if (capacity >= 127) {
