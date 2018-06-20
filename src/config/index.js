@@ -10,5 +10,6 @@ export default {
   hideLogoOnMobile: false,
   aadclientid: 'f4b67345-011d-4b77-b746-05e152a61812',
   aadredirecturl: 'http://localhost:8080/',
-  aadtenant: 'common'
+  aadtenant: 'common',
+  appinsightsid: '35fa4a13-f342-402a-bd79-1ca986b03f82'
 }

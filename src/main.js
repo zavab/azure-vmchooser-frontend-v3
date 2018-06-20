@@ -37,6 +37,14 @@ Vue.use(Adal, {
   router: router
 }) */
 
+// Application Insights Tracking
+import VueAppInsights from 'vue-application-insights'
+import config from './config'
+Vue.use(VueAppInsights, {
+  id: config.appinsightsid,
+  router
+})
+
 // Routing logic
 var router = new VueRouter({
   routes: routes,
