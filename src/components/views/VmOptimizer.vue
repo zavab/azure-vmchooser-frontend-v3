@@ -426,6 +426,8 @@
         // console.log(this.$route.params.id)
         this.vmsize = this.$route.params.id
       }
+      console.log(this.$appInsights)
+      this.$appInsights.trackPageView('VmOptimizer')
     }
   }
 </script>

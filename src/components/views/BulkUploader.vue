@@ -1134,6 +1134,9 @@
       this.createRowData()
       this.createColumnDefs()
       this.showGrid = true
+    },
+    mounted() {
+      this.$appInsights.trackPageView('BulkUploader')
     }
   }
 

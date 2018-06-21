@@ -349,6 +349,7 @@
   export default {
     name: 'VmChooser',
     mounted() {
+      this.$appInsights.trackPageView('VmChooser')
       this.$nextTick(() => {
         $('#example1').DataTable({
           ordering: false,

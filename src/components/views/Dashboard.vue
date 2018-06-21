@@ -97,6 +97,9 @@ export default {
     isMobile () {
       return (window.innerWidth <= 800 && window.innerHeight <= 600)
     }
+  },
+  mounted() {
+    this.$appInsights.trackPageView('DashBoard')
   }
 }
 </script>

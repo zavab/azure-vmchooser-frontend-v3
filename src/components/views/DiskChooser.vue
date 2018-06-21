@@ -124,7 +124,8 @@
 
   export default {
     name: 'DiskChooser',
-    mounted () {
+    mounted() {
+      this.$appInsights.trackPageView('DiskChooser')
       this.$nextTick(() => {
         $('#example1').DataTable({
           ordering: false,
