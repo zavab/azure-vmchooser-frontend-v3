@@ -861,7 +861,8 @@
 
         // SISLA or "single instance sla"
         var ssdtype = 'All'
-        if (sisla === 'Yes') {
+        sisla = sisla.toLowerCase()
+        if (sisla === 'yes') {
           ssd = 'Yes'
           ssdtype = 'premiumssd'
         }
@@ -1024,7 +1025,6 @@
         while (asString.length < totalStringSize) asString = '0' + asString
         return asString
       },
-
       calculateRowCount() {
         if (this.gridOptions.api && this.rowData) {
           let model = this.gridOptions.api.getModel()
