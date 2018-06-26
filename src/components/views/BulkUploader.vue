@@ -260,7 +260,8 @@
               tempRow['SAPHANA'],
               tempRow['SAPS2T'],
               tempRow['SAPS3T'],
-              tempRow['SISLA']
+              tempRow['SISLA'],
+              tempRow['OVERRIDEDISKTYPE']
             )
             tempData.push({
               name: tempRow['VM Name'],
@@ -282,7 +283,8 @@
               saphana: tempRow['SAPHANA'],
               saps2t: tempRow['SAPS2T'],
               saps3t: tempRow['SAPS3T'],
-              sisla: tempRow['SISLA']
+              sisla: tempRow['SISLA'],
+              overridedisktype: tempRow['OVERRIDEDISKTYPE']
             })
           }
         }
@@ -446,6 +448,13 @@
               {
                 headerName: 'Single Instance SLA',
                 field: 'sisla',
+                width: 150,
+                columnGroupShow: 'closed',
+                editable: true
+              },
+              {
+                headerName: 'Override Disk Type',
+                field: 'overridedisktype',
                 width: 150,
                 columnGroupShow: 'closed',
                 editable: true
@@ -856,11 +865,17 @@
             console.log('Error : ' + e)
           })
       },
-      getVmSize(index, region, cores, memory, ssd, nics, capacity, iops, throughput, temp, peakcpu, peakmemory, currency, contract, burstable, os, saphana, saps2t, saps3t, sisla) {
+      getVmSize(index, region, cores, memory, ssd, nics, capacity, iops, throughput, temp, peakcpu, peakmemory, currency, contract, burstable, os, saphana, saps2t, saps3t, sisla, overridedisktype) {
         // console.log('Disk (' + index + '): ' + capacity)
 
+        // Initialize
+        var ssdtype = overridedisktype
+        if (ssdtype === undefined) {
+          ssdtype = 'All'
+          console.log('ssdtype was undefined')
+        }
+
         // SISLA or "single instance sla"
-        var ssdtype = 'All'
         sisla = sisla.toLowerCase()
         if (sisla === 'yes') {
           ssd = 'Yes'
@@ -1065,7 +1080,12 @@
             event.data.currency,
             event.data.contract,
             event.data.burstable,
-            event.data.os
+            event.data.os,
+            event.data.saphana,
+            event.data.saps2t,
+            event.data.saps3t,
+            event.data.sisla,
+            event.data.overridedisktype
           )
           // console.log(event)
           // console.log(event.data.region)
