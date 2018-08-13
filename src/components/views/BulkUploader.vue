@@ -468,37 +468,37 @@
                 headerName: 'VM Size Name',
                 field: 'compute_name',
                 width: 150,
-                filter: 'text'
+                filter: 'number'
               },
               {
                 headerName: 'Price per Hour',
                 field: 'compute_price_hour',
                 width: 150,
-                filter: 'text'
+                filter: 'number'
               },
               {
                 headerName: 'Price per Day',
                 field: 'compute_price_day',
                 width: 150,
-                filter: 'text'
+                filter: 'number'
               },
               {
                 headerName: 'Price per Month (730 hours)',
                 field: 'compute_price_month',
                 width: 200,
-                filter: 'text'
+                filter: 'number'
               },
               {
                 headerName: 'Cores',
                 field: 'compute_cores',
                 width: 100,
-                filter: 'text'
+                filter: 'number'
               },
               {
                 headerName: 'Memory (GB)',
                 field: 'compute_memory',
                 width: 150,
-                filter: 'text'
+                filter: 'number'
               },
               {
                 headerName: 'ACU',
@@ -599,7 +599,7 @@
                 headerName: 'OS Disk Price (per Month)',
                 field: 'storage_os_price',
                 width: 200,
-                filter: 'text'
+                filter: 'number'
               }
             ]
           },
@@ -670,7 +670,7 @@
                 headerName: 'Data Disk Price (per Month)',
                 field: 'storage_data_price',
                 width: 200,
-                filter: 'text'
+                filter: 'number'
               }
             ]
           },
@@ -687,37 +687,37 @@
                 headerName: 'Linux - PAYG',
                 field: 'contract_lnx_payg',
                 width: 150,
-                filter: 'text'
+                filter: 'number'
               },
               {
                 headerName: 'Linux - RI1Y',
                 field: 'contract_lnx_ri1y',
                 width: 150,
-                filter: 'text'
+                filter: 'number'
               },
               {
                 headerName: 'Linux - RI3Y',
                 field: 'contract_lnx_ri3y',
                 width: 150,
-                filter: 'text'
+                filter: 'number'
               },
               {
                 headerName: 'Windows - PAYG',
                 field: 'contract_win_payg',
                 width: 150,
-                filter: 'text'
+                filter: 'number'
               },
               {
                 headerName: 'Windows - RI1Y',
                 field: 'contract_win_ri1y',
                 width: 150,
-                filter: 'text'
+                filter: 'number'
               },
               {
                 headerName: 'Windows - RI3Y',
                 field: 'contract_win_ri3y',
                 width: 150,
-                filter: 'text'
+                filter: 'number'
               }
             ]
           },
@@ -728,41 +728,44 @@
                 headerName: 'Linux - PAYG - Month',
                 field: 'contract_lnx_payg_month',
                 width: 150,
-                filter: 'text'
+                filter: 'number'
               },
               {
                 headerName: 'Linux - RI1Y - Month',
                 field: 'contract_lnx_ri1y_month',
                 width: 150,
-                filter: 'text'
+                filter: 'number'
               },
               {
                 headerName: 'Linux - RI3Y - Month',
                 field: 'contract_lnx_ri3y_month',
                 width: 150,
-                filter: 'text'
+                filter: 'number'
               },
               {
                 headerName: 'Windows - PAYG - Month',
                 field: 'contract_win_payg_month',
                 width: 150,
-                filter: 'text'
+                filter: 'number'
               },
               {
                 headerName: 'Windows - RI1Y - Month',
                 field: 'contract_win_ri1y_month',
                 width: 150,
-                filter: 'text'
+                filter: 'number'
               },
               {
                 headerName: 'Windows - RI3Y - Month',
                 field: 'contract_win_ri3y_month',
                 width: 150,
-                filter: 'text'
+                filter: 'number'
               }
             ]
           }
         ]
+      },
+      fixNumberFormatting(input) {
+        return input.toLocaleString()
       },
       getDataDiskConfig(index, ssdclass, ssdtype, currency, maxdisks, throughput, iops, capacity) {
         var vmchooserurl = config.apiGetDiskConfig +
@@ -794,7 +797,7 @@
             rowNode.setDataValue('storage_data_config_capacity', response.data.DiskConfigCapacity)
             rowNode.setDataValue('storage_data_config_iops', response.data.DiskConfigIops)
             rowNode.setDataValue('storage_data_config_throughput', response.data.DiskConfigThroughput)
-            rowNode.setDataValue('storage_data_price', response.data.DiskPrice)
+            rowNode.setDataValue('storage_data_price', this.fixNumberFormatting(response.data.DiskPrice))
             this.summaryStorageDataCountDone = this.summaryStorageDataCountDone + 1
             /*
               {…}
@@ -841,7 +844,7 @@
             rowNode.setDataValue('storage_os_type', response.data.DiskType)
             rowNode.setDataValue('storage_os_size', response.data.DiskSize)
             rowNode.setDataValue('storage_os_capacity', response.data.DiskConfigCapacity)
-            rowNode.setDataValue('storage_os_price', response.data.DiskPrice)
+            rowNode.setDataValue('storage_os_price', this.fixNumberFormatting(response.data.DiskPrice))
             this.summaryStorageOsCountDone = this.summaryStorageOsCountDone + 1
             /*
               {…}
@@ -914,9 +917,9 @@
             // console.log(response.data)
             var rowNode = this.gridOptions.api.getRowNode(index)
             rowNode.setDataValue('compute_name', response.data[0].Name)
-            rowNode.setDataValue('compute_price_hour', response.data[0].Price)
-            rowNode.setDataValue('compute_price_day', response.data[0].Price * 24)
-            rowNode.setDataValue('compute_price_month', response.data[0].Price * 730)
+            rowNode.setDataValue('compute_price_hour', this.fixNumberFormatting(response.data[0].Price))
+            rowNode.setDataValue('compute_price_day', this.fixNumberFormatting(response.data[0].Price * 24))
+            rowNode.setDataValue('compute_price_month', this.fixNumberFormatting(response.data[0].Price * 730))
             rowNode.setDataValue('compute_cores', response.data[0].Cores)
             rowNode.setDataValue('compute_memory', response.data[0].Memory)
             rowNode.setDataValue('compute_acu', response.data[0].ACU)
@@ -1017,19 +1020,19 @@
             // console.log(response.data)
             var rowNode = this.gridOptions.api.getRowNode(index)
             rowNode.setDataValue('contract_vmsize', vmsize)
-            rowNode.setDataValue('contract_lnx_payg', response.data.Price_Linux_PAYG)
-            rowNode.setDataValue('contract_lnx_ri1y', response.data.Price_Linux_RI1Y)
-            rowNode.setDataValue('contract_lnx_ri3y', response.data.Price_Linux_RI3Y)
-            rowNode.setDataValue('contract_win_payg', response.data.Price_Windows_PAYG)
-            rowNode.setDataValue('contract_win_ri1y', response.data.Price_Windows_RI1Y)
-            rowNode.setDataValue('contract_win_ri3y', response.data.Price_Windows_RI3Y)
+            rowNode.setDataValue('contract_lnx_payg', this.fixNumberFormatting(response.data.Price_Linux_PAYG))
+            rowNode.setDataValue('contract_lnx_ri1y', this.fixNumberFormatting(response.data.Price_Linux_RI1Y))
+            rowNode.setDataValue('contract_lnx_ri3y', this.fixNumberFormatting(response.data.Price_Linux_RI3Y))
+            rowNode.setDataValue('contract_win_payg', this.fixNumberFormatting(response.data.Price_Windows_PAYG))
+            rowNode.setDataValue('contract_win_ri1y', this.fixNumberFormatting(response.data.Price_Windows_RI1Y))
+            rowNode.setDataValue('contract_win_ri3y', this.fixNumberFormatting(response.data.Price_Windows_RI3Y))
             var month = 730
-            rowNode.setDataValue('contract_lnx_payg_month', response.data.Price_Linux_PAYG * month)
-            rowNode.setDataValue('contract_lnx_ri1y_month', response.data.Price_Linux_RI1Y * month)
-            rowNode.setDataValue('contract_lnx_ri3y_month', response.data.Price_Linux_RI3Y * month)
-            rowNode.setDataValue('contract_win_payg_month', response.data.Price_Windows_PAYG * month)
-            rowNode.setDataValue('contract_win_ri1y_month', response.data.Price_Windows_RI1Y * month)
-            rowNode.setDataValue('contract_win_ri3y_month', response.data.Price_Windows_RI3Y * month)
+            rowNode.setDataValue('contract_lnx_payg_month', this.fixNumberFormatting(response.data.Price_Linux_PAYG * month))
+            rowNode.setDataValue('contract_lnx_ri1y_month', this.fixNumberFormatting(response.data.Price_Linux_RI1Y * month))
+            rowNode.setDataValue('contract_lnx_ri3y_month', this.fixNumberFormatting(response.data.Price_Linux_RI3Y * month))
+            rowNode.setDataValue('contract_win_payg_month', this.fixNumberFormatting(response.data.Price_Windows_PAYG * month))
+            rowNode.setDataValue('contract_win_ri1y_month', this.fixNumberFormatting(response.data.Price_Windows_RI1Y * month))
+            rowNode.setDataValue('contract_win_ri3y_month', this.fixNumberFormatting(response.data.Price_Windows_RI3Y * month))
           })
           .catch(e => {
             this.errors.push(e)
