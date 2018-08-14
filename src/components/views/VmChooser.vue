@@ -162,8 +162,10 @@
               <div class="input-group">
                 <select class="form-control" v-model="os">
                   <option disabled value="">Operating system</option>
-                  <option value="linux">Linux</option>
+                  <option value="linux">Linux or Windows via AHUB</option>
                   <option value="windows">Windows</option>
+                  <option value="sql-standard">Windows + SQL Standard</option>
+                  <option value="sql-enterprise">Windows +  SQL Enterprise</option>
                 </select>
                 <span class="input-group-addon">Type</span>
               </div>
