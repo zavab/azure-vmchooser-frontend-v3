@@ -39,7 +39,7 @@
       <div class="col-md-3 col-sm-6 col-xs-12">
         <router-link class="pageLink" to="/bulkuploader">
           <div class="info-box">
-            <span class="info-box-icon bg-aqua"><i class="fa fa-sliders"></i></span>
+            <span class="info-box-icon bg-aqua"><i class="fa fa-sliders-h"></i></span>
             <div class="info-box-content">
               <span class="info-box-number">Bulk Uploader</span>
               <span class="info-box-text"><small>Upload CSV</small></span>
@@ -57,6 +57,21 @@
             <div class="info-box-content">
               <span class="info-box-number">VM Optimizer</span>
               <span class="info-box-text"><small>Budget Optimization</small></span>
+            </div>
+            <!-- /.info-box-content -->
+          </div>
+          <!-- /.info-box -->
+        </router-link>
+      </div>
+      <!-- /.col -->
+      <!-- /.col -->
+      <div class="col-md-3 col-sm-6 col-xs-12">
+        <router-link class="pageLink" to="/sqlchooser">
+          <div class="info-box">
+            <span class="info-box-icon bg-aqua"><i class="fa fa-coins"></i></span>
+            <div class="info-box-content">
+              <span class="info-box-number">SQL Service Finder</span>
+              <span class="info-box-text"><small>SQL Deploys</small></span>
             </div>
             <!-- /.info-box-content -->
           </div>

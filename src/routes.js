@@ -7,6 +7,7 @@ import VmChooserView from './components/views/VmChooser.vue'
 import VmOptimizerView from './components/views/VmOptimizer.vue'
 import DiskChooserView from './components/views/DiskChooser.vue'
 import BulkUploaderView from './components/views/BulkUploader.vue'
+import SqlChooserView from './components/views/SqlChooser.vue'
 
 // Routes
 const routes = [
@@ -25,6 +26,11 @@ const routes = [
         component: VmChooserView,
         name: 'VmChooser',
         meta: { description: 'Let VmChooser find the best t-shirt size match for you!' }
+      }, {
+        path: 'sqlchooser',
+        component: SqlChooserView,
+        name: 'sqlchooser',
+        meta: { description: 'What SQL deployment is right for me?' }
       }, {
         path: 'vmoptimizer',
         component: VmOptimizerView,

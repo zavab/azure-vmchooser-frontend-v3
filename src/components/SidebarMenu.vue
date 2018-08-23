@@ -15,7 +15,7 @@
     </router-link>
     <router-link tag="li" class="pageLink" to="/bulkuploader">
       <a>
-        <i class="fa fa-sliders"></i>
+        <i class="fa fa-sliders-h"></i>
         <span class="page">Bulk Uploader</span>
       </a>
     </router-link>
@@ -23,6 +23,12 @@
       <a>
         <i class="fa fa-balance-scale"></i>
         <span class="page">VM Optimizer</span>
+      </a>
+    </router-link>
+    <router-link tag="li" class="pageLink" to="/sqlchooser">
+      <a>
+        <i class="fa fa-coins"></i>
+        <span class="page">SQL Service Finder</span>
       </a>
     </router-link>
     <li class="header">Information</li>

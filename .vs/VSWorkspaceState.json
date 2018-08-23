@@ -4,12 +4,13 @@
     "\\build",
     "\\config",
     "\\src",
+    "\\src\\api",
+    "\\src\\assets",
     "\\src\\components",
     "\\src\\components\\views",
-    "\\src\\config",
-    "\\src\\config\\preview",
-    "\\src\\config\\prod"
+    "\\src\\filters",
+    "\\src\\store"
   ],
-  "SelectedNode": "\\src\\components\\views\\BulkUploader.vue",
+  "SelectedNode": "\\src\\components\\views\\SqlChooser.vue",
   "PreviewInSolutionExplorer": false
 }
