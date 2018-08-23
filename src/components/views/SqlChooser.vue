@@ -83,6 +83,52 @@
       <div v-if=response class="text-red"><p class="vertical-5p lead">{{response}}</p></div>
     </div>
 
+    <div class="row center-block" v-if="showsummary">
+      <h2>Summary Overview</h2>
+      <div class="col-md-12">
+        <div class="box">
+          <div class="box-body no-padding table-responsive">
+            <table class="table table-striped">
+              <thead>
+                <tr role="row">
+                  <th colspan="1" rowspan="1">Scenario</th>
+                  <th colspan="1" rowspan="1">Compute</th>
+                  <th colspan="1" rowspan="1">Storage</th>
+                  <th colspan="1" rowspan="1">Total</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr role="row" v-if="vmsizeprice > 0">
+                  <td>IaaS : VM Based</td>
+                  <td>{{calcVmSizePrice}} {{currency}}</td>
+                  <td>{{calcVmStoragePrice}} {{currency}}</td>
+                  <td>{{calcTotalPrice}} {{currency}}</td>
+                </tr>
+                <tr role="row" v-if="singleTotalPrice > 0">
+                  <td>PaaS : Single Database</td>
+                  <td>{{singleComputePrice}} {{currency}}</td>
+                  <td>{{singleStoragePrice}} {{currency}}</td>
+                  <td>{{calcSingleTotalPrice}} {{currency}}</td>
+                </tr>
+                <tr role="row" v-if="elasticTotalPrice > 0">
+                  <td>PaaS : Elastic Database</td>
+                  <td>{{elasticComputePrice}} {{currency}}</td>
+                  <td>{{elasticStoragePrice}} {{currency}}</td>
+                  <td>{{calcElasticTotalPrice}} {{currency}}</td>
+                </tr>
+                <tr role="row" v-if="managedTotalPrice > 0">
+                  <td>PaaS : Managed Instance</td>
+                  <td>{{managedComputePrice}} {{currency}}</td>
+                  <td>{{managedStoragePrice}} {{currency}}</td>
+                  <td>{{calcManagedTotalPrice}} {{currency}}</td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+    </div>
+
     <div class="row center-block" v-if="vmsizeprice > 0">
       <h2>IaaS : Based on virtual machines</h2>
       <div class="col-md-12">
@@ -272,6 +318,7 @@
     name: 'SqlChooser',
     data() {
       return {
+        showsummary: '',
         posts: [],
         errors: [],
         response: '',
@@ -373,6 +420,9 @@
       },
       calcVmDataDiskPrice() {
         return this.fixNumberFormatting(this.calcNodeCount * this.vmdatadiskprice)
+      },
+      calcVmStoragePrice() {
+        return this.fixNumberFormatting(this.calcNodeCount * (this.vmdatadiskprice + this.vmosdiskprice))
       },
       calcTotalPrice() {
         return this.fixNumberFormatting((this.vmsizeprice + this.vmosdiskprice + this.vmdatadiskprice) * this.calcNodeCount)
@@ -633,6 +683,7 @@
         } else { this.os = 'sql-enterprise' }
         this.getVmSize(this.region, this.cores, this.memory, this.data, this.iops, this.currency, this.contract, this.os)
         this.getSqlService(this.region, this.cores, this.memory, this.data, this.iops, this.throughput, this.currency, this.contract, this.license)
+        this.showsummary = 'yes'
       }
     },
     mounted: function () {
