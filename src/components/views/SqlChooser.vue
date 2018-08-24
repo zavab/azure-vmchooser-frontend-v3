@@ -45,6 +45,16 @@
           </div>
           <br />
           <div class="input-group">
+            <select class="form-control" v-model="contract">
+              <option disabled value="">Do you want a specific contract form?</option>
+              <option value="payg">Pay-as-you-Go</option>
+              <option value="ri1y">Reserved Instances - 1 year term</option>
+              <option value="ri3y">Reserved Instances - 3 year term</option>
+            </select>
+            <span class="input-group-addon">%</span>
+          </div>
+          <br />
+          <div class="input-group">
             <select class="form-control" v-model="sla">
               <option disabled value="">What is the minimum uptime SLA do you require?</option>
               <option value="9">99,9</option>
