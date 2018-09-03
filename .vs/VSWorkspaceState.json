@@ -5,12 +5,12 @@
     "\\config",
     "\\src",
     "\\src\\api",
-    "\\src\\assets",
-    "\\src\\components",
-    "\\src\\components\\views",
-    "\\src\\filters",
-    "\\src\\store"
+    "\\src\\config",
+    "\\src\\config\\preview",
+    "\\src\\config\\prod",
+    "\\static",
+    "\\static\\css"
   ],
-  "SelectedNode": "\\src\\components\\views\\SqlChooser.vue",
+  "SelectedNode": "\\src",
   "PreviewInSolutionExplorer": false
 }

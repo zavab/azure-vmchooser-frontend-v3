@@ -484,9 +484,11 @@
         this.managedMaxThroughput = ''
         this.managedComputePrice = ''
         this.managedTotalPrice = ''
+        this.showsummary = ''
       },
       setSqlServiceCompute(data, index) {
         // console.log(data)
+        this.showsummary = 'yes'
 
         // Single
         if (data.PurchaseModel === 'single') {
@@ -621,6 +623,7 @@
             this.vmdatadiskcapacity = response.data.DiskConfigCapacity
             this.vmdatadiskiops = response.data.DiskConfigIops
             this.vmdatadiskthroughput = response.data.DiskConfigThroughput
+            this.showsummary = 'yes'
           })
           .catch(e => {
             console.log('Error : ' + e)
@@ -693,7 +696,6 @@
         } else { this.os = 'sql-enterprise' }
         this.getVmSize(this.region, this.cores, this.memory, this.data, this.iops, this.currency, this.contract, this.os)
         this.getSqlService(this.region, this.cores, this.memory, this.data, this.iops, this.throughput, this.currency, this.contract, this.license)
-        this.showsummary = 'yes'
       }
     },
     mounted: function () {
