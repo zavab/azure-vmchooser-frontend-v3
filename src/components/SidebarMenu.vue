@@ -28,7 +28,7 @@
     <router-link tag="li" class="pageLink" to="/sqlchooser">
       <a>
         <i class="fa fa-coins"></i>
-        <span class="page">SQL Service Finder</span>
+        <span class="page">SQL Service Finder (Preview)</span>
       </a>
     </router-link>
     <li class="header">Information</li>

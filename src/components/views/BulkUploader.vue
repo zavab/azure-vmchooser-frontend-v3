@@ -1,5 +1,10 @@
 <template>
   <div style="width: 100%;">
+    <div class="alert alert-success alert-dismissible">
+      <button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>
+      <h4><i class="icon fa fa-check"></i> Does VMchooser make your job easier?</h4>
+      Give me a shout-out on <a href="https://twitter.com/kvaes/" target="_blank">Twitter</a>  or in your win-wire!
+    </div>
     <div style="padding: 4px;">
       <div style="float: right;">
         <a href="/vmchooser.csv">Sample CSV File</a>

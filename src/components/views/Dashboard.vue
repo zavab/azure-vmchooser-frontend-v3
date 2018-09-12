@@ -70,7 +70,7 @@
           <div class="info-box">
             <span class="info-box-icon bg-aqua"><i class="fa fa-coins"></i></span>
             <div class="info-box-content">
-              <span class="info-box-number">SQL Service Finder</span>
+              <span class="info-box-number">SQL Service Finder (Preview)</span>
               <span class="info-box-text"><small>SQL Deploys</small></span>
             </div>
             <!-- /.info-box-content -->
