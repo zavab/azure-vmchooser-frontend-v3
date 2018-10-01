@@ -23,23 +23,10 @@ Vue.filter('pluralize', pluralize)
 
 Vue.use(VueRouter)
 
-/* Login to AAD
-import { default as Adal } from 'vue-adal'
 import config from './config'
-Vue.use(Adal, {
-  config: {
-    tenant: config.aadtenant,
-    clientId: config.aadclientid,
-    redirectUri: config.aadredirecturl,
-    cacheLocation: 'localStorage'
-  },
-  requireAuthOnInitialize: false,
-  router: router
-}) */
 
 // Application Insights Tracking
 import VueAppInsights from 'vue-application-insights'
-import config from './config'
 Vue.use(VueAppInsights, {
   id: config.appinsightsid,
   router
@@ -55,32 +42,30 @@ var router = new VueRouter({
   }
 })
 
-// Some middleware to help us ensure the user is authenticated.
+// AAD
+import * as AuthenticationContext from 'adal-angular/lib/adal'
+var authContext = new AuthenticationContext(config)
+
 router.beforeEach((to, from, next) => {
-  // if (to.matched.some(record => record.meta.requiresAuth && !Vue.prototype.$adal.user.userName)) {
-  if (to.matched.some(record => record.meta.requiresAuth)) {
-    window.console.log('Not authenticated')
-    console.log(this.$adal)
-    // console.log(Vue.prototype.$adal)
-    console.log(Vue.prototype.$adal.user.userName)
+  if (authContext.isCallback(window.location.hash) || window.self !== window.top) {
+    authContext.handleWindowCallback()
+  }
+  if (to.meta.requiresAuthentication) {
+    var user = authContext.getCachedUser()
+    if (typeof (user) !== 'undefined' && user !== null) {
+      // console.log(user.profile)
+    } else {
+      console.log('not logged in')
+      authContext.login()
+    }
     next()
   } else {
     next()
   }
 })
 
+// Not Sure what this does again... #honest
 sync(store, router)
-
-// Check local storage to handle refreshes
-/* if (window.localStorage) {
-  var localUserString = window.localStorage.getItem('user') || 'null'
-  var localUser = JSON.parse(localUserString)
-
-  if (localUser && store.state.user !== localUser) {
-    store.commit('SET_USER', localUser)
-    store.commit('SET_TOKEN', window.localStorage.getItem('token'))
-  }
-} */
 
 // Start out app!
 // eslint-disable-next-line no-new

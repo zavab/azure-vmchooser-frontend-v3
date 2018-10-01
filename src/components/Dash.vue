@@ -14,9 +14,20 @@
         <!-- Navbar Right Menu -->
         <div class="navbar-custom-menu">
           <ul class="nav navbar-nav">
-            
-  
-      
+
+            <!-- User Account Menu -->
+            <li class="dropdown user user-menu">
+              <a href="javascript:;" class="dropdown-toggle" data-toggle="dropdown">
+                <span class="hidden-xs">{{ aadusernamecomputed }}</span>
+              </a>
+            </li>
+            <!-- Logout -->
+            <li class="dropdown user user-menu" v-if="aadusernamecomputed">
+              <a href="/logout" class="dropdown-toggle" data-toggle="dropdown">
+                <span class="fas fa-sign-out-alt"><a href="/logout"></a></span>
+              </a>
+            </li>
+
           </ul>
         </div>
       </nav>
@@ -55,47 +66,57 @@
 </template>
 
 <script>
-import faker from 'faker'
-import { mapState } from 'vuex'
-import config from '../config'
-import Sidebar from './Sidebar'
-import 'hideseek'
+  import faker from 'faker'
+  import { mapState } from 'vuex'
+  import config from '../config'
+  import Sidebar from './Sidebar'
+  import 'hideseek'
+  import * as AuthenticationContext from 'adal-angular/lib/adal'
 
-export default {
-  name: 'Dash',
-  components: {
-    Sidebar
-  },
-  data: function () {
-    return {
-      // section: 'Dash',
-      year: new Date().getFullYear(),
-      classes: {
-        fixed_layout: config.fixedLayout,
-        hide_logo: config.hideLogoOnMobile
-      },
-      error: ''
-    }
-  },
-  computed: {
-    ...mapState([
-      'userInfo'
-    ]),
-    demo () {
+  export default {
+    name: 'Dash',
+    components: {
+      Sidebar
+    },
+    data: function () {
       return {
-        displayName: faker.name.findName(),
-        avatar: faker.image.avatar(),
-        email: faker.internet.email(),
-        randomCard: faker.helpers.createCard()
+        // section: 'Dash',
+        year: new Date().getFullYear(),
+        classes: {
+          fixed_layout: config.fixedLayout,
+          hide_logo: config.hideLogoOnMobile
+        },
+        error: '',
+        authContext: '',
+        user: ''
       }
-    }
-  },
-  methods: {
-    changeloading () {
-      this.$store.commit('TOGGLE_SEARCHING')
+    },
+    computed: {
+      ...mapState([
+        'userInfo'
+      ]),
+      demo () {
+        return {
+          displayName: faker.name.findName(),
+          avatar: faker.image.avatar(),
+          email: faker.internet.email(),
+          randomCard: faker.helpers.createCard()
+        }
+      },
+      aadusernamecomputed() {
+        return this.user.userName
+      }
+    },
+    methods: {
+      changeloading () {
+        this.$store.commit('TOGGLE_SEARCHING')
+      }
+    },
+    mounted: function () {
+      this.authContext = new AuthenticationContext(config)
+      this.user = this.authContext.getCachedUser()
     }
   }
-}
 </script>
 
 <style lang="scss">

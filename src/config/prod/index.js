@@ -10,8 +10,8 @@ export default {
   apiGetSqlServiceStorage: 'https://vmchooser.azure-api.net/v2/api/GetSqlServiceStorage',
   fixedLayout: false,
   hideLogoOnMobile: false,
-  aadclientid: 'f4b67345-011d-4b77-b746-05e152a61812',
-  aadredirecturl: 'https://azurevmchooser.kvaes.be/',
-  aadtenant: 'common',
+  clientId: 'f4b67345-011d-4b77-b746-05e152a61812',
+  redirectUri: 'https://azurevmchooser.kvaes.be/',
+  tenant: 'common',
   appinsightsid: '9d8a32cb-4057-40ad-8885-c87bef681795'
 }

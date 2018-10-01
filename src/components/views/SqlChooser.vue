@@ -700,8 +700,8 @@
     },
     mounted: function () {
       this.getMetaDataRegions()
-      console.log(this.$appInsights)
-      this.$appInsights.trackPageView('VmOptimizer')
+      // console.log(this.$appInsights)
+      this.$appInsights.trackPageView('SqlChooser')
     }
   }
 </script>

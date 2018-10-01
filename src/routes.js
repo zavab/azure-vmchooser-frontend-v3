@@ -8,6 +8,8 @@ import VmOptimizerView from './components/views/VmOptimizer.vue'
 import DiskChooserView from './components/views/DiskChooser.vue'
 import BulkUploaderView from './components/views/BulkUploader.vue'
 import SqlChooserView from './components/views/SqlChooser.vue'
+import UserProfileVew from './components/views/UserProfile.vue'
+import UserLogoutView from './components/views/UserLogout.vue'
 
 // Routes
 const routes = [
@@ -30,7 +32,26 @@ const routes = [
         path: 'sqlchooser',
         component: SqlChooserView,
         name: 'sqlchooser',
-        meta: { description: 'What SQL deployment is right for me?' }
+        meta: {
+          description: 'What SQL deployment is right for me?',
+          requiresAuthentication: false
+        }
+      }, {
+        path: 'logout',
+        component: UserLogoutView,
+        name: 'logout',
+        meta: {
+          description: 'Sad to see you leave...',
+          requiresAuthentication: true
+        }
+      }, {
+        path: 'profile',
+        component: UserProfileVew,
+        name: 'profile',
+        meta: {
+          description: 'A tad more info on yourself...',
+          requiresAuthentication: true
+        }
       }, {
         path: 'vmoptimizer',
         component: VmOptimizerView,
