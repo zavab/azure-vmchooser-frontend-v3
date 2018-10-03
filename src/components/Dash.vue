@@ -104,7 +104,11 @@
         }
       },
       aadusernamecomputed() {
-        return this.user.userName
+        if (typeof (this.user) !== 'undefined' && this.user !== null) {
+          return this.user.userName
+        } else {
+          return ''
+        }
       }
     },
     methods: {

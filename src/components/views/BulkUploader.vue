@@ -85,8 +85,8 @@
   import axios from 'axios'
   import config from '../../config'
 
-  import '../../../node_modules/ag-grid/dist/styles/ag-grid.css'
-  import '../../../node_modules/ag-grid/dist/styles/ag-theme-balham.css'
+  import '../../../node_modules/ag-grid-community/dist/styles/ag-grid.css'
+  import '../../../node_modules/ag-grid-community/dist/styles/ag-theme-balham.css'
 
   const STATUS_INITIAL = 0
   const STATUS_SAVING = 1
