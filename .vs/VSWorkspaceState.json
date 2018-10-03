@@ -7,9 +7,8 @@
     "\\src\\api",
     "\\src\\components",
     "\\src\\components\\views",
-    "\\src\\config",
-    "\\static\\css"
+    "\\src\\config"
   ],
-  "SelectedNode": "\\static",
+  "SelectedNode": "\\src\\components\\views\\Dashboard.vue",
   "PreviewInSolutionExplorer": false
 }
