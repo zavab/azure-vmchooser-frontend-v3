@@ -37,8 +37,6 @@
                    :enableSorting="true"
                    :enableFilter="true"
                    :suppressRowClickSelection="true"
-                   :toolPanelSuppressGroups="true"
-                   :toolPanelSuppressValues="true"
                    rowSelection="multiple"
                    :modelUpdated="onModelUpdated"
                    :rowValueChanged="onRowValueChanged"
@@ -229,20 +227,23 @@
         var tempData = []
         for (var i = 0; i < newResults.data.length; i++) {
           var tempRow = newResults.data[i]
-          if (tempRow['OS'] === undefined) {
+          if (tempRow['OS'] === undefined || tempRow['OS'] === null) {
             tempRow['OS'] = 'linux'
           }
-          if (tempRow['SAPHANA'] === undefined) {
+          if (tempRow['SAPHANA'] === undefined || tempRow['SAPHANA'] === null) {
             tempRow['SAPHANA'] = 'All'
           }
-          if (tempRow['SAPS2T'] === undefined) {
+          if (tempRow['SAPS2T'] === undefined || tempRow['SAPS2T'] === null) {
             tempRow['SAPS2T'] = '-127'
           }
-          if (tempRow['SAPS3T'] === undefined) {
+          if (tempRow['SAPS3T'] === undefined || tempRow['SAPS3T'] === null) {
             tempRow['SAPS3T'] = '-127'
           }
-          if (tempRow['SISLA'] === undefined) {
+          if (tempRow['SISLA'] === undefined || tempRow['SISLA'] === null) {
             tempRow['SISLA'] = 'No'
+          }
+          if (tempRow['SSD [Yes/No]'] !== undefined) {
+            tempRow['SSD'] = tempRow['SSD [Yes/No]']
           }
           if (tempRow['VM Name']) {
             this.getVmSize(
@@ -250,7 +251,7 @@
               tempRow['Region'],
               tempRow['Cores'],
               this.checkMemory(tempRow['Memory (GB)']),
-              tempRow['SSD [Yes/No]'],
+              tempRow['SSD'],
               tempRow['NICs'],
               tempRow['Max Disk Size (TB)'] * 1024,
               tempRow['IOPS'],
@@ -275,7 +276,7 @@
               memory: this.checkMemory(tempRow['Memory (GB)']),
               contract: tempRow['Contract'],
               currency: tempRow['Currency'],
-              ssd: tempRow['SSD [Yes/No]'],
+              ssd: tempRow['SSD'],
               nics: tempRow['NICs'],
               maxdatadisksize: tempRow['Max Disk Size (TB)'] * 1024,
               temp: tempRow['Min Temp Disk Size (GB)'],
