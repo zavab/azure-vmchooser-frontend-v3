@@ -218,8 +218,8 @@
       checkMemory(memory) {
         var fixedmemory = memory
         if (memory > 1000 && memory % 1024 === 0) {
-          fixedmemory = (memory / 1024)
-          alert('Could it be that you entered the memory in MB instead of GB? Reverting the memory from ' + memory + ' GB to ' + fixedmemory + ' GB')
+          // fixedmemory = (memory / 1024)
+          alert('Could it be that you entered the memory in MB instead of GB? If you meant to match for TB of memory, ignore this message. If not, please adapt your input file as memory needs to be specified in GB (and not in MB).')
         }
         return fixedmemory
       },
