@@ -245,6 +245,9 @@
           if (tempRow['SSD [Yes/No]'] !== undefined) {
             tempRow['SSD'] = tempRow['SSD [Yes/No]']
           }
+          if (tempRow['OSDISK'] === undefined || tempRow['OSDISK'] === null) {
+            tempRow['OSDISK'] = '100'
+          }
           if (tempRow['VM Name']) {
             this.getVmSize(
               i,
@@ -267,7 +270,8 @@
               tempRow['SAPS2T'],
               tempRow['SAPS3T'],
               tempRow['SISLA'],
-              tempRow['OVERRIDEDISKTYPE']
+              tempRow['OVERRIDEDISKTYPE'],
+              tempRow['OSDISK']
             )
             tempData.push({
               name: tempRow['VM Name'],
@@ -290,7 +294,8 @@
               saps2t: tempRow['SAPS2T'],
               saps3t: tempRow['SAPS3T'],
               sisla: tempRow['SISLA'],
-              overridedisktype: tempRow['OVERRIDEDISKTYPE']
+              overridedisktype: tempRow['OVERRIDEDISKTYPE'],
+              osdisk: tempRow['OSDISK']
             })
           }
         }
@@ -429,40 +434,48 @@
                 headerName: 'Burstable',
                 field: 'burstable',
                 width: 150,
-                columnGroupShow: 'closed',
                 editable: true
               },
               {
                 headerName: 'SAP HANA',
                 field: 'saphana',
                 width: 150,
+                columnGroupShow: 'open',
                 editable: true
               },
               {
                 headerName: 'SAPS 2-Tier',
                 field: 'saps2t',
                 width: 150,
+                columnGroupShow: 'open',
                 editable: true
               },
               {
                 headerName: 'SAPS 3-Tier',
                 field: 'saps3t',
                 width: 150,
-                columnGroupShow: 'closed',
+                columnGroupShow: 'open',
                 editable: true
               },
               {
                 headerName: 'Single Instance SLA',
                 field: 'sisla',
                 width: 150,
-                columnGroupShow: 'closed',
+                columnGroupShow: 'open',
                 editable: true
               },
               {
                 headerName: 'Override Disk Type',
                 field: 'overridedisktype',
                 width: 150,
-                columnGroupShow: 'closed',
+                columnGroupShow: 'open',
+                editable: true
+              },
+              {
+                headerName: 'OS Disk Size',
+                field: 'osdisk',
+                width: 150,
+                columnGroupShow: 'open',
                 editable: true
               }
             ]
@@ -827,9 +840,8 @@
             console.log('Error : ' + e)
           })
       },
-      getOsDisk(index, ssdclass, ssdtype, currency) {
+      getOsDisk(index, ssdclass, ssdtype, currency, osdisk) {
         var maxdisks = '1'
-        var osdisk = '100' // 100GB to revert back to an S10 / P10
         var vmchooserurl = config.apiGetDiskConfig +
           '?ssd=' + ssdclass +
           '&disktype=' + ssdtype +
@@ -874,7 +886,7 @@
             console.log('Error : ' + e)
           })
       },
-      getVmSize(index, region, cores, memory, ssd, nics, capacity, iops, throughput, temp, peakcpu, peakmemory, currency, contract, burstable, os, saphana, saps2t, saps3t, sisla, overridedisktype) {
+      getVmSize(index, region, cores, memory, ssd, nics, capacity, iops, throughput, temp, peakcpu, peakmemory, currency, contract, burstable, os, saphana, saps2t, saps3t, sisla, overridedisktype, osdisk) {
         // console.log('Disk (' + index + '): ' + capacity)
 
         // Initialize
@@ -981,7 +993,7 @@
             rowNode.setDataValue('storage_data_price', 0)
 
             // Get os price
-            this.getOsDisk(index, ssd, ssdtype, currency)
+            this.getOsDisk(index, ssd, ssdtype, currency, osdisk)
             if (capacity >= 127) {
               this.getDataDiskConfig(index, ssd, ssdtype, currency, response.data[0].MaxDataDiskCount, throughput, iops, capacity)
             }
@@ -1094,7 +1106,8 @@
             event.data.saps2t,
             event.data.saps3t,
             event.data.sisla,
-            event.data.overridedisktype
+            event.data.overridedisktype,
+            event.data.osdisk
           )
           // console.log(event)
           // console.log(event.data.region)
