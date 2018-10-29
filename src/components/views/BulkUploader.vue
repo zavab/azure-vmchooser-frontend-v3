@@ -230,7 +230,7 @@
           if (tempRow['OS'] === undefined || tempRow['OS'] === null) {
             tempRow['OS'] = 'linux'
           }
-          if (tempRow['SAPHANA'] === undefined || tempRow['SAPHANA'] === null) {
+          if (tempRow['SAPHANA'] === undefined || tempRow['SAPHANA'] === null || tempRow['SAPHANA'].toLowerCase !== 'yes') {
             tempRow['SAPHANA'] = 'All'
           }
           if (tempRow['SAPS2T'] === undefined || tempRow['SAPS2T'] === null) {
