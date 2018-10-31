@@ -83,8 +83,8 @@
       <div v-if=response class="text-red"><p class="vertical-5p lead">{{errormsg}}</p></div>
     </div>
 
-    <div class="row center-block">
-      <h2>Disk Configuration</h2>
+    <div class="row center-block" v-if="calcTotalPrice > 0">
+      <h2>Backup Sizer</h2>
       <div class="col-md-12">
         <div class="box">
           <div class="box-body no-padding table-responsive">
