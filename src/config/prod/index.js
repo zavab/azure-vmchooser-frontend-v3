@@ -8,6 +8,7 @@ export default {
   apiGetDiskConfig: 'https://vmchooser.azure-api.net/v2/api/GetDiskConfig',
   apiGetSqlService: 'https://vmchooser.azure-api.net/v2/api/GetSqlService',
   apiGetSqlServiceStorage: 'https://vmchooser.azure-api.net/v2/api/GetSqlServiceStorage',
+  apiGetBackup: 'https://vmchooser.azure-api.net/v2/api/GetBackup',
   fixedLayout: false,
   hideLogoOnMobile: false,
   clientId: 'f4b67345-011d-4b77-b746-05e152a61812',
