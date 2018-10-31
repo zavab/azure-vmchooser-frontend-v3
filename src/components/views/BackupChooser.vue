@@ -85,10 +85,10 @@
 
     <div class="row center-block">
       <h2>Backup Sizer</h2>
-      <div class="col-md-12">
+      <div class="col-md-12" v-if="sizetotal > 0">
         <div class="box">
           <div class="box-body no-padding table-responsive">
-            <table class="table table-striped" v-if="calcSizeTotal > 0">
+            <table class="table table-striped">
               <tbody>
                 <tr>
                   <td><b>Total Price</b></td>
@@ -103,27 +103,27 @@
                   <td>{{calcCostStorage}} {{currency}}</td>
                 </tr>
                 <tr><td><br /></td></tr>
-                <tr v-if="calcSizeTotal > 0">
+                <tr>
                   <td><b>Total size on backup vault</b></td>
                   <td>{{calcSizeTotal}} GB</td>
                 </tr>
-                <tr v-if="calcSizeTotal > 0">
+                <tr>
                   <td>Base Backup Size</td>
-                  <td>{{size}} GB</td>
+                  <td>{{calcBaseSize}} GB</td>
                 </tr>
-                <tr v-if="calcSizeTotal > 0">
+                <tr>
                   <td>Daily Volume Size</td>
                   <td>{{calcDailySize}} GB</td>
                 </tr>
-                <tr v-if="calcSizeTotal > 0">
+                <tr>
                   <td>Weekly Volume Size</td>
                   <td>{{calcWeeklySize}} GB</td>
                 </tr>
-                <tr v-if="calcSizeTotal > 0">
+                <tr>
                   <td>Monthly Volume Size</td>
                   <td>{{calcMonthlySize}} GB</td>
                 </tr>
-                <tr v-if="calcSizeTotal > 0">
+                <tr>
                   <td>Yearly Volume Size</td>
                   <td>{{calcYearlySize}} GB</td>
                 </tr>
@@ -188,6 +188,9 @@
       },
       calcSizeTotal() {
         return this.fixNumberFormatting(parseFloat(this.sizetotal))
+      },
+      calcBaseSize() {
+        return this.fixNumberFormatting(parseFloat(this.size) * ((100 - parseFloat(this.compression)) / 100))
       },
       calcDailySize() {
         return this.fixNumberFormatting(parseFloat(this.size) * parseFloat(this.daily) * ((100 - parseFloat(this.compression)) / 100) * (parseFloat(this.churn) / 100))
