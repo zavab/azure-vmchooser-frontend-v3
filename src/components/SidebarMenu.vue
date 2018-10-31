@@ -13,6 +13,12 @@
         <span class="page">Data Disk Configuration</span>
       </a>
     </router-link>
+    <router-link tag="li" class="pageLink" to="/backupchooser">
+      <a>
+        <i class="fa fa-copy"></i>
+        <span class="page">Backup Sizing (Preview)</span>
+      </a>
+    </router-link>
     <router-link tag="li" class="pageLink" to="/bulkuploader">
       <a>
         <i class="fa fa-sliders-h"></i>
@@ -28,7 +34,7 @@
     <router-link tag="li" class="pageLink" to="/sqlchooser">
       <a>
         <i class="fa fa-coins"></i>
-        <span class="page">SQL Service Finder (Preview)</span>
+        <span class="page">SQL Service Finder</span>
       </a>
     </router-link>
     <li class="header">Information</li>

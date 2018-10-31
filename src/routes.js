@@ -10,6 +10,7 @@ import BulkUploaderView from './components/views/BulkUploader.vue'
 import SqlChooserView from './components/views/SqlChooser.vue'
 import UserProfileVew from './components/views/UserProfile.vue'
 import UserLogoutView from './components/views/UserLogout.vue'
+import BackupChooserView from './components/views/BackupChooser.vue'
 
 // Routes
 const routes = [
@@ -67,6 +68,11 @@ const routes = [
         component: DiskChooserView,
         name: 'DiskChooser',
         meta: { description: 'Let DiskChooser find the most efficient disk configuration/layout for you!' }
+      }, {
+        path: 'backupchooser',
+        component: BackupChooserView,
+        name: 'BackupChooser',
+        meta: { description: 'Given a set of specs, what will your backup cost be...' }
       }, {
         path: 'bulkuploader',
         component: BulkUploaderView,
