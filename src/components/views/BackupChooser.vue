@@ -83,12 +83,12 @@
       <div v-if=response class="text-red"><p class="vertical-5p lead">{{errormsg}}</p></div>
     </div>
 
-    <div class="row center-block" v-if="calcTotalPrice > 0">
+    <div class="row center-block">
       <h2>Backup Sizer</h2>
       <div class="col-md-12">
         <div class="box">
           <div class="box-body no-padding table-responsive">
-            <table class="table table-striped">
+            <table class="table table-striped" v-if="calcSizeTotal > 0">
               <tbody>
                 <tr>
                   <td><b>Total Price</b></td>
@@ -103,9 +103,29 @@
                   <td>{{calcCostStorage}} {{currency}}</td>
                 </tr>
                 <tr><td><br /></td></tr>
-                <tr>
+                <tr v-if="calcSizeTotal > 0">
                   <td><b>Total size on backup vault</b></td>
                   <td>{{calcSizeTotal}} GB</td>
+                </tr>
+                <tr v-if="calcSizeTotal > 0">
+                  <td>Base Backup Size</td>
+                  <td>{{size}} GB</td>
+                </tr>
+                <tr v-if="calcSizeTotal > 0">
+                  <td>Daily Volume Size</td>
+                  <td>{{calcDailySize}} GB</td>
+                </tr>
+                <tr v-if="calcSizeTotal > 0">
+                  <td>Weekly Volume Size</td>
+                  <td>{{calcWeeklySize}} GB</td>
+                </tr>
+                <tr v-if="calcSizeTotal > 0">
+                  <td>Monthly Volume Size</td>
+                  <td>{{calcMonthlySize}} GB</td>
+                </tr>
+                <tr v-if="calcSizeTotal > 0">
+                  <td>Yearly Volume Size</td>
+                  <td>{{calcYearlySize}} GB</td>
                 </tr>
               </tbody>
             </table>
@@ -168,6 +188,18 @@
       },
       calcSizeTotal() {
         return this.fixNumberFormatting(parseFloat(this.sizetotal))
+      },
+      calcDailySize() {
+        return this.fixNumberFormatting(parseFloat(this.size) * parseFloat(this.daily) * ((100 - parseFloat(this.compression)) / 100) * (parseFloat(this.churn) / 100))
+      },
+      calcWeeklySize() {
+        return this.fixNumberFormatting(parseFloat(this.size) * parseFloat(this.weekly) * ((100 - parseFloat(this.compression)) / 100) * (parseFloat(this.churn) / 100))
+      },
+      calcMonthlySize() {
+        return this.fixNumberFormatting(parseFloat(this.size) * parseFloat(this.monthly) * ((100 - parseFloat(this.compression)) / 100) * (parseFloat(this.churn) / 100))
+      },
+      calcYearlySize() {
+        return this.fixNumberFormatting(parseFloat(this.size) * parseFloat(this.yearly) * ((100 - parseFloat(this.compression)) / 100) * (parseFloat(this.churn) / 100))
       }
     },
     methods: {
@@ -192,26 +224,14 @@
         return input.toLocaleString()
       },
       crunch() {
-        if (this.churn === undefined || this.churn === null) {
+        if (!parseFloat(this.churn) > 0) {
           this.churn = 2
         }
-        if (this.compression === undefined || this.compression === null) {
+        if (!parseFloat(this.compression) > 0) {
           this.compression = 30
         }
-        if (this.size === undefined || this.size === null) {
+        if (!parseFloat(this.size) > 0) {
           this.size = 100
-        }
-        if (this.daily === undefined || this.daily === null) {
-          this.daily = 0
-        }
-        if (this.weekly === undefined || this.weekly === null) {
-          this.weekly = 0
-        }
-        if (this.monthly === undefined || this.monthly === null) {
-          this.monthly = 0
-        }
-        if (this.yearly === undefined || this.yearly === null) {
-          this.yearly = 0
         }
 
         var vmchooserurl = config.apiGetBackup +
