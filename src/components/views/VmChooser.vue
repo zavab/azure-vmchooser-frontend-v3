@@ -125,6 +125,26 @@
               <span class="input-group-addon">Constrained Cores</span>
             </div>
             <br />
+            <div class="input-group">
+              <select class="form-control" v-model="gpu">
+                <option disabled value="">GPU card available?</option>
+                <option value="No">No</option>
+                <option value="Yes">Yes</option>
+                <option value="All">No Preference</option>
+              </select>
+              <span class="input-group-addon">GPU</span>
+            </div>
+            <br />
+            <div class="input-group">
+              <select class="form-control" v-model="infiniband">
+                <option disabled value="">Infiniband present?</option>
+                <option value="No">No</option>
+                <option value="Yes">Yes</option>
+                <option value="All">No Preference</option>
+              </select>
+              <span class="input-group-addon">Infiniband</span>
+            </div>
+            <br />
           </div>
             <div role="tabpanel" class="tab-pane" id="sap">
               <div class="input-group">
@@ -385,6 +405,8 @@
         burstable: '',
         isolated: '',
         constrained: '',
+        infiniband: '',
+        gpu: '',
         contract: '',
         peakcpu: '',
         peakmemory: '',
@@ -430,7 +452,7 @@
           })
       },
       checkCreds() {
-        const { maxresults, cores, memory, acu, capacity, iops, throughput, temp, type, nics, bandwidth, tier, hyperthreaded, burstable, isolated, constrained, contract, peakcpu, peakmemory, region, currency, os, saphana, saps2t, saps3t } = this
+        const { maxresults, cores, memory, acu, capacity, iops, throughput, temp, type, nics, bandwidth, tier, hyperthreaded, burstable, isolated, constrained, contract, peakcpu, peakmemory, region, currency, os, saphana, saps2t, saps3t, gpu, infiniband } = this
         var vmchooserurl = config.apiGetVmSize +
           '?maxresults=' + maxresults +
           '&cores=' + cores +
@@ -448,6 +470,8 @@
           '&burstable=' + burstable +
           '&isolated=' + isolated +
           '&constrained=' + constrained +
+          '&infiniband=' + infiniband +
+          '&gpu=' + gpu +
           '&contract=' + contract +
           '&avgcpupeak=' + peakcpu +
           '&avgmempeak=' + peakmemory +
