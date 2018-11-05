@@ -248,6 +248,13 @@
           if (tempRow['OSDISK'] === undefined || tempRow['OSDISK'] === null) {
             tempRow['OSDISK'] = '100'
           }
+          if (tempRow['INFINIBAND'] === undefined || tempRow['INFINIBAND'] === null) {
+            tempRow['INFINIBAND'] = 'All'
+          }
+          if (tempRow['GPU'] === undefined || tempRow['GPU'] === null) {
+            tempRow['GPU'] = 'All'
+          }
+
           if (tempRow['VM Name']) {
             this.getVmSize(
               i,
@@ -271,7 +278,9 @@
               tempRow['SAPS3T'],
               tempRow['SISLA'],
               tempRow['OVERRIDEDISKTYPE'],
-              tempRow['OSDISK']
+              tempRow['OSDISK'],
+              tempRow['GPU'],
+              tempRow['INFINIBAND']
             )
             tempData.push({
               name: tempRow['VM Name'],
@@ -295,7 +304,9 @@
               saps3t: tempRow['SAPS3T'],
               sisla: tempRow['SISLA'],
               overridedisktype: tempRow['OVERRIDEDISKTYPE'],
-              osdisk: tempRow['OSDISK']
+              osdisk: tempRow['OSDISK'],
+              gpu: tempRow['GPU'],
+              infiniband: tempRow['INFINIBAND']
             })
           }
         }
@@ -474,6 +485,20 @@
               {
                 headerName: 'OS Disk Size',
                 field: 'osdisk',
+                width: 150,
+                columnGroupShow: 'open',
+                editable: true
+              },
+              {
+                headerName: 'GPU',
+                field: 'gpu',
+                width: 150,
+                columnGroupShow: 'open',
+                editable: true
+              },
+              {
+                headerName: 'Infiniband',
+                field: 'infiniband',
                 width: 150,
                 columnGroupShow: 'open',
                 editable: true
@@ -886,9 +911,8 @@
             console.log('Error : ' + e)
           })
       },
-      getVmSize(index, region, cores, memory, ssd, nics, capacity, iops, throughput, temp, peakcpu, peakmemory, currency, contract, burstable, os, saphana, saps2t, saps3t, sisla, overridedisktype, osdisk) {
+      getVmSize(index, region, cores, memory, ssd, nics, capacity, iops, throughput, temp, peakcpu, peakmemory, currency, contract, burstable, os, saphana, saps2t, saps3t, sisla, overridedisktype, osdisk, gpu, infiniband) {
         // console.log('Disk (' + index + '): ' + capacity)
-
         // Initialize
         var ssdtype = overridedisktype
         if (ssdtype === undefined) {
@@ -914,6 +938,8 @@
           '&data=' + capacity +
           '&nics=' + nics +
           '&burstable=' + burstable +
+          '&gpu=' + gpu +
+          '&infiniband=' + infiniband +
           '&contract=' + contract +
           '&avgcpupeak=' + peakcpu +
           '&avgmempeak=' + peakmemory +
@@ -929,6 +955,7 @@
             'Ocp-Apim-Subscription-Key': ''
           }
         }
+
         this.summaryComputeCountTotal = this.summaryComputeCountTotal + 1
         axios.post(vmchooserurl, '', vmchooserconfig)
           .then(response => {
@@ -1107,7 +1134,9 @@
             event.data.saps3t,
             event.data.sisla,
             event.data.overridedisktype,
-            event.data.osdisk
+            event.data.osdisk,
+            event.data.gpu,
+            event.data.infiniband
           )
           // console.log(event)
           // console.log(event.data.region)
