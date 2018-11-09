@@ -145,6 +145,16 @@
               <span class="input-group-addon">Infiniband</span>
             </div>
             <br />
+            <div class="input-group">
+              <select class="form-control" v-model="sgx">
+                <option disabled value="">SGX Capable CPU?</option>
+                <option value="No">No</option>
+                <option value="Yes">Yes</option>
+                <option value="All">No Preference</option>
+              </select>
+              <span class="input-group-addon">SGX</span>
+            </div>
+            <br />
           </div>
             <div role="tabpanel" class="tab-pane" id="sap">
               <div class="input-group">
@@ -280,6 +290,9 @@
                         <th style="width: 101px;" colspan="1" rowspan="1" aria-controls="example1" tabindex="0">Memory</th>
                         <th style="width: 167px;" colspan="1" rowspan="1" aria-controls="example1" tabindex="0">Burstable</th>
                         <th style="width: 207px;" colspan="1" rowspan="1" aria-controls="example1" tabindex="0">Isolated</th>
+                        <th style="width: 207px;" colspan="1" rowspan="1" aria-controls="example1" tabindex="0">Infiniband</th>
+                        <th style="width: 207px;" colspan="1" rowspan="1" aria-controls="example1" tabindex="0">GPU</th>
+                        <th style="width: 207px;" colspan="1" rowspan="1" aria-controls="example1" tabindex="0">SGX</th>
                         <th style="width: 182px;" colspan="1" rowspan="1" aria-controls="example1" tabindex="0">HyperThreaded</th>
                         <th style="width: 142px;" colspan="1" rowspan="1" aria-controls="example1" tabindex="0">Max. NICs</th>
                         <th style="width: 101px;" colspan="1" rowspan="1" aria-controls="example1" tabindex="0">Bandwidth</th>
@@ -307,6 +320,9 @@
                         <td>{{post.Memory}}</td>
                         <td>{{post.Burstable}}</td>
                         <td>{{post.Isolated}}</td>
+                        <td>{{post.Infiniband}}</td>
+                        <td>{{post.GPU}}</td>
+                        <td>{{post.SGX}}</td>
                         <td>{{post.Hyperthreaded}}</td>
                         <td>{{post.MaxNics}}</td>
                         <td>{{post.Bandwidth}}</td>
@@ -334,6 +350,9 @@
                         <th colspan="1" rowspan="1">Memory</th>
                         <th colspan="1" rowspan="1">Burstable</th>
                         <th colspan="1" rowspan="1">Isolated</th>
+                        <th colspan="1" rowspan="1">Infiniband</th>
+                        <th colspan="1" rowspan="1">GPU</th>
+                        <th colspan="1" rowspan="1">SGX</th>
                         <th colspan="1" rowspan="1">HyperThreaded</th>
                         <th colspan="1" rowspan="1">Max. Nics</th>
                         <th colspan="1" rowspan="1">Bandwidth</th>
@@ -407,6 +426,7 @@
         constrained: '',
         infiniband: '',
         gpu: '',
+        sgx: '',
         contract: '',
         peakcpu: '',
         peakmemory: '',
@@ -452,7 +472,7 @@
           })
       },
       checkCreds() {
-        const { maxresults, cores, memory, acu, capacity, iops, throughput, temp, type, nics, bandwidth, tier, hyperthreaded, burstable, isolated, constrained, contract, peakcpu, peakmemory, region, currency, os, saphana, saps2t, saps3t, gpu, infiniband } = this
+        const { maxresults, cores, memory, acu, capacity, iops, throughput, temp, type, nics, bandwidth, tier, hyperthreaded, burstable, isolated, constrained, contract, peakcpu, peakmemory, region, currency, os, saphana, saps2t, saps3t, gpu, infiniband, sgx } = this
         var vmchooserurl = config.apiGetVmSize +
           '?maxresults=' + maxresults +
           '&cores=' + cores +
@@ -472,6 +492,7 @@
           '&constrained=' + constrained +
           '&infiniband=' + infiniband +
           '&gpu=' + gpu +
+          '&sgx=' + sgx +
           '&contract=' + contract +
           '&avgcpupeak=' + peakcpu +
           '&avgmempeak=' + peakmemory +
