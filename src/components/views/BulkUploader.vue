@@ -64,7 +64,7 @@
     <div class="row center-block">
       <form enctype="multipart/form-data" novalidate v-if="isInitial || isSaving">
         <div class="dropbox">
-          <input id="files" type="file" multiple :name="uploadFieldName" :disabled="isSaving" @change="filesChange($event.target.name, $event.target.files); fileCount = $event.target.files.length" accept=".csv" class="input-file">
+          <input id="files" type="file" multiple :name="uploadFieldName" :disabled="isSaving" @change="filesChange($event.target.name, $event.target.files); fileCount = $event.target.files.length" accept=".csv,.xlsx" class="input-file">
           <p v-if="isInitial">
             Drag your file(s) here to begin<br> or click to browse
           </p>
@@ -82,6 +82,8 @@
   import Papa from 'papaparse'
   import axios from 'axios'
   import config from '../../config'
+
+  import XLSX from 'xlsx'
 
   import '../../../node_modules/ag-grid-community/dist/styles/ag-grid.css'
   import '../../../node_modules/ag-grid-community/dist/styles/ag-theme-balham.css'
@@ -152,7 +154,9 @@
         summaryStorageOsCountDone: 0,
         summaryStorageOsCountTotal: 0,
         summaryStorageDataCountDone: 0,
-        summaryStorageDataCountTotal: 0
+        summaryStorageDataCountTotal: 0,
+        regions: [],
+        AzureMigrateProperties: []
       }
     },
     computed: {
@@ -183,22 +187,154 @@
       exportToCsv() {
         this.gridOptions.api.exportDataAsCsv()
       },
+      getAzureMigrateProperties(search) {
+        const that = this
+        var json = that.AzureMigrateProperties
+        for (var i in json) {
+          if (json[i].myproperty.toUpperCase() === search.toUpperCase()) {
+            return (json[i].myvalue)
+          }
+        }
+        return null
+      },
+      setAzureMigrateProperties(properties) {
+        const that = this
+        var results = []
+        var number = 0
+        var character = 'A'
+        for (var key in properties) {
+          // var cell = properties[i]
+          number = key.replace(/^\D+/g, '')
+          var index = parseInt(number)
+          character = key.replace(/[^A-Za-z]+/g, '')
+          if (character.length < 3 && typeof results[index] === 'undefined') {
+            results[index] = []
+          }
+          if (character.toUpperCase() === 'A') {
+            results[index].myproperty = properties[key].v
+          }
+          if (character.toUpperCase() === 'B') {
+            results[index].myvalue = properties[key].v
+          }
+        }
+        that.AzureMigrateProperties = results
+      },
+      getAzureRegionSlug(name) {
+        var regions = this.regions
+        for (var key in regions) {
+          if (regions[key].Name.toUpperCase() === name.toUpperCase()) {
+            return (regions[key].Slug)
+          }
+        }
+        return null
+      },
+      getAzureRegions() {
+        var vmchooserurl = config.apiGetRegions
+        var vmchooserconfig = {
+          headers: {
+            'Access-Control-Allow-Origin': '*',
+            'Ocp-Apim-Subscription-Key': ''
+          }
+        }
+        axios.post(vmchooserurl, '', vmchooserconfig)
+          .then(response => {
+            this.regions = response.data
+          })
+          .catch(e => {
+            this.errors.push(e)
+          })
+      },
+      parseAzureMigrate(workbook) {
+        // Initialize Results
+        var results = []
+        // Read Worksheets
+        var worksheet = workbook.Sheets['All_Assessed_Machines']
+        var assessmentproperties = workbook.Sheets['Assessment_Properties']
+        // Parse Properties
+        this.setAzureMigrateProperties(assessmentproperties)
+        var currency = this.getAzureMigrateProperties('Currency')
+        var contract = this.getAzureMigrateProperties('Offer')
+        var contractmatches = contract.match(/\b(\w)/g)
+        contract = contractmatches.join('').toLowerCase()
+        var region = this.getAzureMigrateProperties('Target Location')
+        region = this.getAzureRegionSlug(region)
+        var HUB = this.getAzureMigrateProperties('Hybrid use benefit')
+        var os = 'linux'
+        if (HUB.toUpperCase() !== 'YES') {
+          os = 'Windows'
+        }
+        console.log(currency + '/' + contract + '/' + region + '/' + os)
+        // Sheet to JSON
+        var json = XLSX.utils.sheet_to_json(worksheet)
+        for (var i = 0; i < json.length; i++) {
+          results[i] = []
+          results[i]['VM Name'] = json[i]['Machine']
+          results[i]['Region'] = region
+          results[i]['Cores'] = json[i]['Cores']
+          results[i]['Memory (GB)'] = Math.ceil((json[i]['Memory(MB)'] / 1024), 0)
+          results[i]['SSD [Yes/No]'] = 'All'
+          results[i]['Max Disk Size (TB)'] = json[i]['Storage(GB)'] / 1024
+          results[i]['IOPS'] = json[i]['Disk read(ops/sec)'] + json[i]['Disk write(ops/sec)']
+          results[i]['Throughput (MB/s)'] = json[i]['Disk read(MBPS)'] + json[i]['Disk write(MBPS)']
+          results[i]['Min Temp Disk Size (GB)'] = 1
+          results[i]['Peak CPU Usage (%)'] = json[i]['CPU usage(%)']
+          results[i]['Peak Memory Usage (%)'] = json[i]['Memory usage(%)']
+          results[i]['Currency'] = currency
+          results[i]['Contract'] = contract
+          results[i]['Burstable'] = 'All'
+          results[i]['OS'] = os
+          results[i]['NICs'] = json[i]['Network adapters']
+          results[i]['OSDISK'] = 1
+          results[i]['OVERRIDEDISKTYPE'] = 'All'
+        }
+        return results
+      },
+      parseExcel(file) {
+        const that = this
+        var reader = new FileReader()
+        reader.onload = function (e) {
+          // pre-process data
+          var binary = ''
+          var bytes = new Uint8Array(e.target.result)
+          var length = bytes.byteLength
+          for (var i = 0; i < length; i++) {
+            binary += String.fromCharCode(bytes[i])
+          }
+          // Read Workbook
+          var workbook = XLSX.read(binary, { type: 'binary' })
+          // Azure Migrate Excel
+          if (workbook.Sheets['All_Assessed_Machines'] !== null) {
+            that.$appInsights.trackPageView('BulkUploader - XLSX - Azure Migrate')
+            var results = []
+            results.data = that.parseAzureMigrate(workbook)
+            that.updateRowData(results)
+          }
+        }
+        reader.readAsArrayBuffer(file)
+      },
       filesChange(fieldName, fileList) {
         const that = this
         if (!fileList.length) return
         for (var i = 0; i < fileList.length; i++) {
-          // console.log(fileList[i])
-          Papa.parse(fileList[i], {
-            header: true,
-            dynamicTyping: true,
-            complete: function (results) {
-              // console.log('results', results)
-              that.updateRowData(results)
-            },
-            error: function (errors) {
-              console.log('error', errors)
-            }
-          })
+          var filename = fileList[i].name
+          var extension = filename.split('.').pop()
+          if (extension.toLowerCase() === 'xlsx') {
+            this.parseExcel(fileList[i])
+          }
+          if (extension.toLowerCase() === 'csv') {
+            this.$appInsights.trackPageView('BulkUploader - CSV')
+            Papa.parse(fileList[i], {
+              header: true,
+              dynamicTyping: true,
+              complete: function (results) {
+                // console.log('results', results)
+                that.updateRowData(results)
+              },
+              error: function (errors) {
+                console.log('error', errors)
+              }
+            })
+          }
         }
       },
       getSummary() {
@@ -1208,6 +1344,7 @@
     },
     mounted() {
       this.$appInsights.trackPageView('BulkUploader')
+      this.getAzureRegions()
     }
   }
 
