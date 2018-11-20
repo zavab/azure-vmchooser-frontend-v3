@@ -391,6 +391,20 @@
             tempRow['GPU'] = 'All'
           }
 
+          // Backup Related
+          if (tempRow['RETENTIONPOINTS'] === undefined || tempRow['RETENTIONPOINTS'] === null) {
+            tempRow['RETENTIONPOINTS'] = '0'
+          }
+          if (tempRow['CHURN'] === undefined || tempRow['CHURN'] === null) {
+            tempRow['CHURN'] = '2'
+          }
+          if (tempRow['COMPRESSION'] === undefined || tempRow['COMPRESSION'] === null) {
+            tempRow['COMPRESSION'] = '30'
+          }
+          if (tempRow['RESILIENCY'] === undefined || tempRow['RESILIENCY'] === null) {
+            tempRow['RESILIENCY'] = 'lrs'
+          }
+
           if (tempRow['VM Name']) {
             this.getVmSize(
               i,
@@ -416,7 +430,11 @@
               tempRow['OVERRIDEDISKTYPE'],
               tempRow['OSDISK'],
               tempRow['GPU'],
-              tempRow['INFINIBAND']
+              tempRow['INFINIBAND'],
+              tempRow['RETENTIONPOINTS'],
+              tempRow['CHURN'],
+              tempRow['COMPRESSION'],
+              tempRow['RESILIENCY']
             )
             tempData.push({
               name: tempRow['VM Name'],
@@ -442,7 +460,11 @@
               overridedisktype: tempRow['OVERRIDEDISKTYPE'],
               osdisk: tempRow['OSDISK'],
               gpu: tempRow['GPU'],
-              infiniband: tempRow['INFINIBAND']
+              infiniband: tempRow['INFINIBAND'],
+              retentionpoints: tempRow['RETENTIONPOINTS'],
+              churn: tempRow['CHURN'],
+              compression: tempRow['COMPRESSION'],
+              resiliency: tempRow['RESILIENCY']
             })
           }
         }
@@ -621,6 +643,30 @@
               {
                 headerName: 'Infiniband',
                 field: 'infiniband',
+                width: 150,
+                editable: true
+              },
+              {
+                headerName: 'Retention Points (#)',
+                field: 'retentionpoints',
+                width: 150,
+                editable: true
+              },
+              {
+                headerName: 'Churn (Daily/%)',
+                field: 'churn',
+                width: 150,
+                editable: true
+              },
+              {
+                headerName: 'Compression (%)',
+                field: 'compression',
+                width: 150,
+                editable: true
+              },
+              {
+                headerName: 'Resiliency',
+                field: 'resiliency',
                 width: 150,
                 editable: true
               }
@@ -840,6 +886,35 @@
             ]
           },
           {
+            headerName: 'Backup',
+            children: [
+              {
+                headerName: 'Total Backup Cost (per Month)',
+                field: 'backup_cost_total',
+                width: 200,
+                filter: 'number'
+              },
+              {
+                headerName: 'Instance Backup Cost (per Month)',
+                field: 'backup_cost_instance',
+                width: 200,
+                filter: 'number'
+              },
+              {
+                headerName: 'Storage Backup Cost (per Month)',
+                field: 'backup_cost_storage',
+                width: 200,
+                filter: 'number'
+              },
+              {
+                headerName: 'Total Backup Size (in GB)',
+                field: 'backup_size_total',
+                width: 200,
+                filter: 'number'
+              }
+            ]
+          },
+          {
             headerName: 'VM Optimizer - Contract Variants (price per hour)',
             children: [
               {
@@ -931,6 +1006,47 @@
       },
       fixNumberFormatting(input) {
         return input.toLocaleString()
+      },
+      getBackup(index, region, currency, retentionpoints, churn, compression, size, resiliency) {
+        var vmchooserurl = config.apiGetBackup +
+          '?region=' + region +
+          '&currency=' + currency +
+          '&daily=' + retentionpoints +
+          '&weekly=' + 0 +
+          '&monthly=' + 0 +
+          '&yearly=' + 0 +
+          '&churn=' + churn +
+          '&compression=' + compression +
+          '&size=' + size +
+          '&resiliency=' + resiliency
+        var vmchooserconfig = {
+          headers: {
+            'Access-Control-Allow-Origin': '*',
+            'Ocp-Apim-Subscription-Key': ''
+          }
+        }
+        axios.post(vmchooserurl, '', vmchooserconfig)
+          /*
+              {
+                "CostInstance": "16.866",
+                "SizeTotal": "1324.000",
+                "CostStorage": "26.7967008000"
+              }
+          */
+          .then(response => {
+            this.costinstance = response.data['CostInstance']
+            this.coststorage = response.data['CostStorage']
+            this.sizetotal = response.data['SizeTotal']
+            var costtotal = this.fixNumberFormatting(parseFloat(this.costinstance) + parseFloat(this.coststorage))
+            var rowNode = this.gridOptions.api.getRowNode(index)
+            rowNode.setDataValue('backup_cost_total', costtotal)
+            rowNode.setDataValue('backup_cost_instance', response.data['CostInstance'])
+            rowNode.setDataValue('backup_cost_storage', response.data['CostStorage'])
+            rowNode.setDataValue('backup_size_total', response.data['SizeTotal'])
+          })
+          .catch(e => {
+            this.errors.push(e)
+          })
       },
       getDataDiskConfig(index, ssdclass, ssdtype, currency, maxdisks, throughput, iops, capacity) {
         var vmchooserurl = config.apiGetDiskConfig +
@@ -1032,7 +1148,7 @@
             console.log('Error : ' + e)
           })
       },
-      getVmSize(index, region, cores, memory, ssd, nics, capacity, iops, throughput, temp, peakcpu, peakmemory, currency, contract, burstable, os, saphana, saps2t, saps3t, sisla, overridedisktype, osdisk, gpu, infiniband) {
+      getVmSize(index, region, cores, memory, ssd, nics, capacity, iops, throughput, temp, peakcpu, peakmemory, currency, contract, burstable, os, saphana, saps2t, saps3t, sisla, overridedisktype, osdisk, gpu, infiniband, retentionpoints, churn, compression, resiliency) {
         // console.log('Disk (' + index + '): ' + capacity)
         // Initialize
         var ssdtype = overridedisktype
@@ -1144,6 +1260,9 @@
             this.getOsDisk(index, ssd, ssdtype, currency, osdisk)
             if (capacity >= 127) {
               this.getDataDiskConfig(index, ssd, ssdtype, currency, response.data[0].MaxDataDiskCount, throughput, iops, capacity)
+            }
+            if (retentionpoints > 0) {
+              this.getBackup(index, region, currency, retentionpoints, churn, compression, capacity, resiliency)
             }
             this.getVmOptimizerOptions(index, response.data[0].Name, 'standard', region, currency)
           })
@@ -1257,7 +1376,11 @@
             event.data.overridedisktype,
             event.data.osdisk,
             event.data.gpu,
-            event.data.infiniband
+            event.data.infiniband,
+            event.data.retentionpoints,
+            event.data.churn,
+            event.data.compression,
+            event.data.resiliency
           )
           // console.log(event)
           // console.log(event.data.region)
