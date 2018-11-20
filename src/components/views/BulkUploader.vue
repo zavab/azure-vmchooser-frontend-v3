@@ -10,7 +10,6 @@
         <a href="/vmchooser.csv">Sample CSV File</a>
         <input @keyup="onQuickFilterChanged" type="text" id="quickFilterInput"
                placeholder="Type text to filter..." />
-        <button @click="getSummary">Refresh Summary</button>
         <button @click="exportToCsv">Export to CSV</button>
       </div>
       <div>
@@ -18,12 +17,12 @@
         {{rowCount}}
       </div>
       <div>
-        <b>Compute Cost per month</b>
-        {{summaryCompute}} ({{summaryComputeCountDone}}/{{summaryComputeCountTotal}})
-        <b> - OS Disks per Month</b>
-        {{summaryOsDisks}} ({{summaryStorageOsCountDone}}/{{summaryStorageOsCountTotal}})
-        <b> - Data Disks per month</b>
-        {{summaryDataDisks}} ({{summaryStorageDataCountDone}}/{{summaryStorageDataCountTotal}})
+        <b>Compute Cost</b>
+        ({{summaryComputeCountDone}}/{{summaryComputeCountTotal}})
+        <b> - OS Disks</b>
+        ({{summaryStorageOsCountDone}}/{{summaryStorageOsCountTotal}})
+        <b> - Data Disks</b>
+        ({{summaryStorageDataCountDone}}/{{summaryStorageDataCountTotal}})
       </div>
     </div>
     <div style="clear: both;"></div>
@@ -183,6 +182,15 @@
         this.uploadedFiles = []
         this.uploadError = null
         this.posts = []
+      },
+      resetCounters() {
+        this.summaryComputeCountDone = 0
+        this.summaryComputeCountTotal = 0
+        this.summaryStorageDataCountDone = 0
+        this.summaryStorageDataCountTotal = 0
+        this.summaryStorageOsCountDone = 0
+        this.summaryStorageOsCountTotal = 0
+        this.rowCount = 0
       },
       exportToCsv() {
         this.gridOptions.api.exportDataAsCsv()
@@ -347,9 +355,9 @@
           storageos = storageos + tmpRow.storage_os_price
           storagedata = storagedata + tmpRow.storage_data_price
         }
-        this.summaryCompute = compute.toFixed(2)
-        this.summaryOsDisks = storageos.toFixed(2)
-        this.summaryDataDisks = storagedata.toFixed(2)
+        this.summaryCompute = parseFloat(compute).toFixed(2)
+        this.summaryOsDisks = parseFloat(storageos).toFixed(2)
+        this.summaryDataDisks = parseFloat(storagedata).toFixed(2)
       },
       checkMemory(memory) {
         var fixedmemory = memory
@@ -360,6 +368,7 @@
         return fixedmemory
       },
       updateRowData(newResults) {
+        this.resetCounters()
         var tempData = []
         for (var i = 0; i < newResults.data.length; i++) {
           var tempRow = newResults.data[i]
