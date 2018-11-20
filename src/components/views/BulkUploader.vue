@@ -507,7 +507,6 @@
                 headerName: 'NICs',
                 field: 'nics',
                 width: 150,
-                columnGroupShow: 'open',
                 editable: true,
                 filter: 'agNumberColumnFilter'
               },
@@ -516,7 +515,6 @@
                 field: 'maxdatadisksize',
                 width: 250,
                 editable: true,
-                columnGroupShow: 'open',
                 filter: 'agNumberColumnFilter'
               },
               {
@@ -524,7 +522,6 @@
                 field: 'iops',
                 width: 150,
                 editable: true,
-                columnGroupShow: 'open',
                 filter: 'agNumberColumnFilter'
               },
               {
@@ -532,7 +529,6 @@
                 field: 'throughput',
                 width: 200,
                 editable: true,
-                columnGroupShow: 'open',
                 filter: 'agNumberColumnFilter'
               },
               {
@@ -540,7 +536,6 @@
                 field: 'temp',
                 width: 200,
                 editable: true,
-                columnGroupShow: 'open',
                 filter: 'agNumberColumnFilter'
               },
               {
@@ -548,7 +543,6 @@
                 field: 'peakcpu',
                 width: 200,
                 editable: true,
-                columnGroupShow: 'open',
                 filter: 'agNumberColumnFilter'
               },
               {
@@ -556,7 +550,6 @@
                 field: 'peakmemory',
                 width: 200,
                 editable: true,
-                columnGroupShow: 'open',
                 filter: 'agNumberColumnFilter'
               },
               {
@@ -587,56 +580,48 @@
                 headerName: 'SAP HANA',
                 field: 'saphana',
                 width: 150,
-                columnGroupShow: 'open',
                 editable: true
               },
               {
                 headerName: 'SAPS 2-Tier',
                 field: 'saps2t',
                 width: 150,
-                columnGroupShow: 'open',
                 editable: true
               },
               {
                 headerName: 'SAPS 3-Tier',
                 field: 'saps3t',
                 width: 150,
-                columnGroupShow: 'open',
                 editable: true
               },
               {
                 headerName: 'Single Instance SLA',
                 field: 'sisla',
                 width: 150,
-                columnGroupShow: 'open',
                 editable: true
               },
               {
                 headerName: 'Override Disk Type',
                 field: 'overridedisktype',
                 width: 150,
-                columnGroupShow: 'open',
                 editable: true
               },
               {
                 headerName: 'OS Disk Size',
                 field: 'osdisk',
                 width: 150,
-                columnGroupShow: 'open',
                 editable: true
               },
               {
                 headerName: 'GPU',
                 field: 'gpu',
                 width: 150,
-                columnGroupShow: 'open',
                 editable: true
               },
               {
                 headerName: 'Infiniband',
                 field: 'infiniband',
                 width: 150,
-                columnGroupShow: 'open',
                 editable: true
               }
             ]
