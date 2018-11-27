@@ -459,7 +459,7 @@
         var vmchooserconfig = {
           headers: {
             'Access-Control-Allow-Origin': '*',
-            'Ocp-Apim-Subscription-Key': ''
+            'Ocp-Apim-Subscription-Key': config.apiKey
           }
         }
         axios.post(vmchooserurl, '', vmchooserconfig)
@@ -505,7 +505,7 @@
         var vmchooserconfig = {
           headers: {
             'Access-Control-Allow-Origin': '*',
-            'Ocp-Apim-Subscription-Key': ''
+            'Ocp-Apim-Subscription-Key': config.apiKey
           }
         }
         axios.post(vmchooserurl, '', vmchooserconfig)

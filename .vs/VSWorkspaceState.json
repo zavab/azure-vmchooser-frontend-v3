@@ -9,6 +9,6 @@
     "\\src\\components\\views",
     "\\src\\config"
   ],
-  "SelectedNode": "\\vmchooser.csv",
+  "SelectedNode": "\\src\\components\\views\\BackupChooser.vue",
   "PreviewInSolutionExplorer": false
 }

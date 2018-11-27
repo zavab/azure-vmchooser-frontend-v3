@@ -447,7 +447,7 @@
         var vmchooserconfig = {
           headers: {
             'Access-Control-Allow-Origin': '*',
-            'Ocp-Apim-Subscription-Key': ''
+            'Ocp-Apim-Subscription-Key': config.apiKey
           }
         }
         axios.post(vmchooserurl, '', vmchooserconfig)
@@ -545,7 +545,7 @@
         var vmchooserconfig = {
           headers: {
             'Access-Control-Allow-Origin': '*',
-            'Ocp-Apim-Subscription-Key': ''
+            'Ocp-Apim-Subscription-Key': config.apiKey
           }
         }
         this.cleanupPaas()
@@ -573,7 +573,7 @@
         var vmchooserconfig = {
           headers: {
             'Access-Control-Allow-Origin': '*',
-            'Ocp-Apim-Subscription-Key': ''
+            'Ocp-Apim-Subscription-Key': config.apiKey
           }
         }
         this.summaryStorageDataCountTotal = this.summaryStorageDataCountTotal + 1
@@ -611,7 +611,7 @@
         var vmchooserconfig = {
           headers: {
             'Access-Control-Allow-Origin': '*',
-            'Ocp-Apim-Subscription-Key': ''
+            'Ocp-Apim-Subscription-Key': config.apiKey
           }
         }
         this.summaryStorageDataCountTotal = this.summaryStorageDataCountTotal + 1
@@ -641,7 +641,7 @@
         var vmchooserconfig = {
           headers: {
             'Access-Control-Allow-Origin': '*',
-            'Ocp-Apim-Subscription-Key': ''
+            'Ocp-Apim-Subscription-Key': config.apiKey
           }
         }
         axios.post(vmchooserurl, '', vmchooserconfig)
@@ -672,7 +672,7 @@
         var vmchooserconfig = {
           headers: {
             'Access-Control-Allow-Origin': '*',
-            'Ocp-Apim-Subscription-Key': ''
+            'Ocp-Apim-Subscription-Key': config.apiKey
           }
         }
         axios.post(vmchooserurl, '', vmchooserconfig)

@@ -10,6 +10,7 @@
         <a href="/vmchooser.csv">Sample CSV File</a>
         <input @keyup="onQuickFilterChanged" type="text" id="quickFilterInput"
                placeholder="Type text to filter..." />
+        <button @click="showSummary">Summary</button>
         <button @click="exportToCsv">Export to CSV</button>
       </div>
       <div>
@@ -17,7 +18,7 @@
         {{rowCount}}
       </div>
       <div>
-        <b>Compute Cost</b>
+        <b>Compute</b>
         ({{summaryComputeCountDone}}/{{summaryComputeCountTotal}})
         <b> - OS Disks</b>
         ({{summaryStorageOsCountDone}}/{{summaryStorageOsCountTotal}})
@@ -192,6 +193,11 @@
         this.summaryStorageOsCountTotal = 0
         this.rowCount = 0
       },
+      showSummary() {
+        const that = this
+        that.getSummary()
+        console.log(this.summaryCompute + ' / ' + this.summaryOsDisks + ' / ' + this.summaryDataDisks)
+      },
       exportToCsv() {
         this.gridOptions.api.exportDataAsCsv()
       },
@@ -241,7 +247,7 @@
         var vmchooserconfig = {
           headers: {
             'Access-Control-Allow-Origin': '*',
-            'Ocp-Apim-Subscription-Key': ''
+            'Ocp-Apim-Subscription-Key': config.apiKey
           }
         }
         axios.post(vmchooserurl, '', vmchooserconfig)
@@ -351,9 +357,10 @@
         var storagedata = 0
         for (var i = 0; i < this.rowData.length; i++) {
           var tmpRow = this.rowData[i]
-          compute = compute + tmpRow.compute_price_month
-          storageos = storageos + tmpRow.storage_os_price
-          storagedata = storagedata + tmpRow.storage_data_price
+          compute = compute + parseFloat(tmpRow.compute_price_month)
+          storageos = storageos + parseFloat(tmpRow.storage_os_price)
+          storagedata = storagedata + parseFloat(tmpRow.storage_data_price)
+          console.log(i + ':' + compute + ' - ' + storageos + ' - ' + storagedata)
         }
         this.summaryCompute = parseFloat(compute).toFixed(2)
         this.summaryOsDisks = parseFloat(storageos).toFixed(2)
@@ -1031,7 +1038,7 @@
         var vmchooserconfig = {
           headers: {
             'Access-Control-Allow-Origin': '*',
-            'Ocp-Apim-Subscription-Key': ''
+            'Ocp-Apim-Subscription-Key': config.apiKey
           }
         }
         axios.post(vmchooserurl, '', vmchooserconfig)
@@ -1069,7 +1076,7 @@
         var vmchooserconfig = {
           headers: {
             'Access-Control-Allow-Origin': '*',
-            'Ocp-Apim-Subscription-Key': ''
+            'Ocp-Apim-Subscription-Key': config.apiKey
           }
         }
         this.summaryStorageDataCountTotal = this.summaryStorageDataCountTotal + 1
@@ -1122,7 +1129,7 @@
         var vmchooserconfig = {
           headers: {
             'Access-Control-Allow-Origin': '*',
-            'Ocp-Apim-Subscription-Key': ''
+            'Ocp-Apim-Subscription-Key': config.apiKey
           }
         }
         this.summaryStorageOsCountTotal = this.summaryStorageOsCountTotal + 1
@@ -1198,7 +1205,7 @@
         var vmchooserconfig = {
           headers: {
             'Access-Control-Allow-Origin': '*',
-            'Ocp-Apim-Subscription-Key': ''
+            'Ocp-Apim-Subscription-Key': config.apiKey
           }
         }
 
@@ -1284,7 +1291,7 @@
         var vmchooserconfig = {
           headers: {
             'Access-Control-Allow-Origin': '*',
-            'Ocp-Apim-Subscription-Key': ''
+            'Ocp-Apim-Subscription-Key': config.apiKey
           }
         }
         axios.post(vmchooserurl, '', vmchooserconfig)

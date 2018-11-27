@@ -9,6 +9,7 @@ export default {
   apiGetSqlService: 'https://vmchooser.azure-api.net/v2/api/GetSqlService',
   apiGetSqlServiceStorage: 'https://vmchooser.azure-api.net/v2/api/GetSqlServiceStorage',
   apiGetBackup: 'https://vmchooser.azure-api.net/v2/api/GetBackup',
+  apiKey: '2ab418455d734ffe972d8285051ee9c5',
   fixedLayout: false,
   hideLogoOnMobile: false,
   clientId: 'f4b67345-011d-4b77-b746-05e152a61812',
