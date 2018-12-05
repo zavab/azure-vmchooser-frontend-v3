@@ -7,8 +7,10 @@
     "\\src\\api",
     "\\src\\components",
     "\\src\\components\\views",
-    "\\src\\config"
+    "\\src\\config",
+    "\\src\\config\\preview",
+    "\\src\\config\\prod"
   ],
-  "SelectedNode": "\\src\\components\\views\\BackupChooser.vue",
+  "SelectedNode": "\\src\\components\\views\\BulkUploader.vue",
   "PreviewInSolutionExplorer": false
 }
