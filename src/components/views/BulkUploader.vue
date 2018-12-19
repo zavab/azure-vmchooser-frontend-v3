@@ -406,7 +406,13 @@
           if (tempRow['GPU'] === undefined || tempRow['GPU'] === null) {
             tempRow['GPU'] = 'All'
           }
-
+          if (tempRow['Max Disk Size (TB)'] === undefined || tempRow['Max Disk Size (TB)'] === null) {
+            tempRow['Max Disk Size (TB)'] = '0'
+          }
+          // GB overrides TB for data field
+          if (tempRow['Max Disk Size (GB)'] !== undefined) {
+            tempRow['Max Disk Size (TB)'] = tempRow['Max Disk Size (GB)'] / 1024
+          }
           // Backup Related
           if (tempRow['RETENTIONPOINTS'] === undefined || tempRow['RETENTIONPOINTS'] === null) {
             tempRow['RETENTIONPOINTS'] = '0'
