@@ -410,8 +410,8 @@
             tempRow['Max Disk Size (TB)'] = '0'
           }
           // GB overrides TB for data field
-          if (tempRow['Max Disk Size (GB)'] !== undefined) {
-            tempRow['Max Disk Size (TB)'] = tempRow['Max Disk Size (GB)'] / 1024
+          if (tempRow['Data Disk Size (GB)'] !== undefined) {
+            tempRow['Max Disk Size (TB)'] = tempRow['Data Disk Size (GB)'] / 1024
           }
           // Backup Related
           if (tempRow['RETENTIONPOINTS'] === undefined || tempRow['RETENTIONPOINTS'] === null) {
