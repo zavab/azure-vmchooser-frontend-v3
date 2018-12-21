@@ -11,6 +11,6 @@
     "\\src\\config\\preview",
     "\\src\\config\\prod"
   ],
-  "SelectedNode": "\\src\\config\\prod\\index.js",
+  "SelectedNode": "\\src\\components\\views\\BulkUploader.vue",
   "PreviewInSolutionExplorer": false
 }

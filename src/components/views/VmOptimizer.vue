@@ -58,6 +58,7 @@
               <option value="SEK">Swedish Krona</option>
               <option value="IDR">Indonesian Rupee</option>
               <option value="INR">Indian Rupee</option>
+              <option value="RUB">Russian Ruble</option>
             </select>
             <span class="input-group-addon">Currency</span>
           </div>
