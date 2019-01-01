@@ -117,7 +117,6 @@
     'west-india': 'in',
     'central-india': 'in',
     'south-india': 'in',
-    'west-india': 'in',
     'united-kingdom-south': 'gb',
     'united-kingdom-west': 'gb',
     'us-central': 'us',
@@ -506,7 +505,6 @@
             headerName: '#',
             width: 30,
             checkboxSelection: true,
-            suppressSorting: true,
             suppressMenu: true,
             pinned: true
           },
