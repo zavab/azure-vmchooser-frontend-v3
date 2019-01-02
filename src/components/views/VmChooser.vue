@@ -265,6 +265,8 @@
                    :rowData="rowData"
                    :enableSorting="true"
                    :enableFilter="true"
+                   :rowMultiSelectWithClick="true"
+                   rowSelection="multiple"
                    >
       </ag-grid-vue>
     </div>
@@ -288,31 +290,31 @@
     beforeMount() {
       this.columnDefs = [
         { headerName: 'Name', field: 'Name' },
-        { headerName: 'Price / Hour', field: 'Price' },
-        { headerName: 'Price / Month', field: 'PricePerMonth' },
+        { headerName: 'Price / Hour', field: 'Price', type: 'numericColumn' },
+        { headerName: 'Price / Month', field: 'PricePerMonth', type: 'numericColumn' },
         { headerName: 'Currency', field: 'Currency' },
         { headerName: 'Tier', field: 'Tier' },
         { headerName: 'Region', field: 'Region' },
         { headerName: 'Contract', field: 'Contract' },
         { headerName: 'OS', field: 'OperatingSystem' },
-        { headerName: 'ACU', field: 'ACU' },
+        { headerName: 'ACU', field: 'ACU', type: 'numericColumn' },
         { headerName: 'SSD', field: 'SSD' },
-        { headerName: 'Cores', field: 'Cores' },
-        { headerName: 'Memory', field: 'Memory' },
+        { headerName: 'Cores', field: 'Cores', type: 'numericColumn' },
+        { headerName: 'Memory', field: 'Memory', type: 'numericColumn' },
         { headerName: 'Burstable', field: 'Burstable' },
         { headerName: 'Isolated', field: 'Isolated' },
         { headerName: 'Infiniband', field: 'Infiniband' },
         { headerName: 'GPU', field: 'GPU' },
         { headerName: 'SGX', field: 'SGX' },
         { headerName: 'Hyperthreaded', field: 'Hyperthreaded' },
-        { headerName: 'Max. Nics', field: 'MaxNics' },
-        { headerName: 'Bandwidth', field: 'Bandwidth' },
-        { headerName: 'Max. Disks', field: 'MaxDataDiskCount' },
-        { headerName: 'Max. IOPS', field: 'MaxVmIops' },
-        { headerName: 'Max. Throughput', field: 'MaxVmThroughputMBs' },
+        { headerName: 'Max. Nics', field: 'MaxNics', type: 'numericColumn' },
+        { headerName: 'Bandwidth', field: 'Bandwidth', type: 'numericColumn' },
+        { headerName: 'Max. Disks', field: 'MaxDataDiskCount', type: 'numericColumn' },
+        { headerName: 'Max. IOPS', field: 'MaxVmIops', type: 'numericColumn' },
+        { headerName: 'Max. Throughput', field: 'MaxVmThroughputMBs', type: 'numericColumn' },
         { headerName: 'HANA Support', field: 'SAPHANA' },
-        { headerName: 'SAPS 2-Tier', field: 'SAPS2T' },
-        { headerName: 'SAPS 3-Tier', field: 'SAPS3T' }
+        { headerName: 'SAPS 2-Tier', field: 'SAPS2T', type: 'numericColumn' },
+        { headerName: 'SAPS 3-Tier', field: 'SAPS3T', type: 'numericColumn' }
       ]
     },
     mounted() {
