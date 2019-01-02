@@ -282,6 +282,12 @@
   // AG Grid
   import { AgGridVue } from 'ag-grid-vue'
 
+  function priceComparator(price1, price2) {
+    price1 = price1.toLocaleString()
+    price2 = price2.toLocaleString()
+    return price1 - price2
+  }
+
   export default {
     name: 'VmChooser',
     components: {
@@ -290,8 +296,8 @@
     beforeMount() {
       this.columnDefs = [
         { headerName: 'Name', field: 'Name' },
-        { headerName: 'Price / Hour', field: 'Price', type: 'numericColumn' },
-        { headerName: 'Price / Month', field: 'PricePerMonth', type: 'numericColumn' },
+        { headerName: 'Price / Hour', field: 'Price', type: 'numericColumn', comparator: priceComparator },
+        { headerName: 'Price / Month', field: 'PricePerMonth', type: 'numericColumn', comparator: priceComparator },
         { headerName: 'Currency', field: 'Currency' },
         { headerName: 'Tier', field: 'Tier' },
         { headerName: 'Region', field: 'Region' },

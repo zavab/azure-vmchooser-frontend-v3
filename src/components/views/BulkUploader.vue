@@ -133,6 +133,12 @@
     'us-west-central': 'us'
   }
 
+  function priceComparator(price1, price2) {
+    price1 = price1.toLocaleString()
+    price2 = price2.toLocaleString()
+    return price1 - price2
+  }
+
   export default {
     data() {
       return {
@@ -708,19 +714,22 @@
                 headerName: 'Price per Hour',
                 field: 'compute_price_hour',
                 width: 150,
-                filter: 'number'
+                filter: 'number',
+                comparator: priceComparator
               },
               {
                 headerName: 'Price per Day',
                 field: 'compute_price_day',
                 width: 150,
-                filter: 'number'
+                filter: 'number',
+                comparator: priceComparator
               },
               {
                 headerName: 'Price per Month (730 hours)',
                 field: 'compute_price_month',
                 width: 200,
-                filter: 'number'
+                filter: 'number',
+                comparator: priceComparator
               },
               {
                 headerName: 'Cores',
@@ -833,7 +842,8 @@
                 headerName: 'OS Disk Price (per Month)',
                 field: 'storage_os_price',
                 width: 200,
-                filter: 'number'
+                filter: 'number',
+                comparator: priceComparator
               }
             ]
           },
@@ -904,7 +914,8 @@
                 headerName: 'Data Disk Price (per Month)',
                 field: 'storage_data_price',
                 width: 200,
-                filter: 'number'
+                filter: 'number',
+                comparator: priceComparator
               }
             ]
           },
@@ -921,19 +932,22 @@
                 headerName: 'Instance Backup Cost (per Month)',
                 field: 'backup_cost_instance',
                 width: 200,
-                filter: 'number'
+                filter: 'number',
+                comparator: priceComparator
               },
               {
                 headerName: 'Storage Backup Cost (per Month)',
                 field: 'backup_cost_storage',
                 width: 200,
-                filter: 'number'
+                filter: 'number',
+                comparator: priceComparator
               },
               {
                 headerName: 'Total Backup Size (in GB)',
                 field: 'backup_size_total',
                 width: 200,
-                filter: 'number'
+                filter: 'number',
+                comparator: priceComparator
               }
             ]
           },
@@ -950,37 +964,43 @@
                 headerName: 'Linux - PAYG',
                 field: 'contract_lnx_payg',
                 width: 150,
-                filter: 'number'
+                filter: 'number',
+                comparator: priceComparator
               },
               {
                 headerName: 'Linux - RI1Y',
                 field: 'contract_lnx_ri1y',
                 width: 150,
-                filter: 'number'
+                filter: 'number',
+                comparator: priceComparator
               },
               {
                 headerName: 'Linux - RI3Y',
                 field: 'contract_lnx_ri3y',
                 width: 150,
-                filter: 'number'
+                filter: 'number',
+                comparator: priceComparator
               },
               {
                 headerName: 'Windows - PAYG',
                 field: 'contract_win_payg',
                 width: 150,
-                filter: 'number'
+                filter: 'number',
+                comparator: priceComparator
               },
               {
                 headerName: 'Windows - RI1Y',
                 field: 'contract_win_ri1y',
                 width: 150,
-                filter: 'number'
+                filter: 'number',
+                comparator: priceComparator
               },
               {
                 headerName: 'Windows - RI3Y',
                 field: 'contract_win_ri3y',
                 width: 150,
-                filter: 'number'
+                filter: 'number',
+                comparator: priceComparator
               }
             ]
           },
@@ -991,37 +1011,43 @@
                 headerName: 'Linux - PAYG - Month',
                 field: 'contract_lnx_payg_month',
                 width: 150,
-                filter: 'number'
+                filter: 'number',
+                comparator: priceComparator
               },
               {
                 headerName: 'Linux - RI1Y - Month',
                 field: 'contract_lnx_ri1y_month',
                 width: 150,
-                filter: 'number'
+                filter: 'number',
+                comparator: priceComparator
               },
               {
                 headerName: 'Linux - RI3Y - Month',
                 field: 'contract_lnx_ri3y_month',
                 width: 150,
-                filter: 'number'
+                filter: 'number',
+                comparator: priceComparator
               },
               {
                 headerName: 'Windows - PAYG - Month',
                 field: 'contract_win_payg_month',
                 width: 150,
-                filter: 'number'
+                filter: 'number',
+                comparator: priceComparator
               },
               {
                 headerName: 'Windows - RI1Y - Month',
                 field: 'contract_win_ri1y_month',
                 width: 150,
-                filter: 'number'
+                filter: 'number',
+                comparator: priceComparator
               },
               {
                 headerName: 'Windows - RI3Y - Month',
                 field: 'contract_win_ri3y_month',
                 width: 150,
-                filter: 'number'
+                filter: 'number',
+                comparator: priceComparator
               }
             ]
           }
