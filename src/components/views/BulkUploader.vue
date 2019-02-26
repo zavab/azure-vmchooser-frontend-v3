@@ -434,6 +434,9 @@
           if (tempRow['RESILIENCY'] === undefined || tempRow['RESILIENCY'] === null) {
             tempRow['RESILIENCY'] = 'lrs'
           }
+          if (tempRow['SKU'] === undefined || tempRow['SKU'] === null) {
+            tempRow['SKU'] = 'Unknown'
+          }
 
           if (tempRow['VM Name']) {
             this.getVmSize(
@@ -730,6 +733,12 @@
                 width: 200,
                 filter: 'number',
                 comparator: priceComparator
+              },
+              {
+                headerName: 'SKU',
+                field: 'compute_sku',
+                width: 100,
+                filter: 'text'
               },
               {
                 headerName: 'Cores',
@@ -1251,6 +1260,7 @@
             rowNode.setDataValue('compute_price_hour', this.fixNumberFormatting(response.data[0].Price))
             rowNode.setDataValue('compute_price_day', this.fixNumberFormatting(response.data[0].Price * 24))
             rowNode.setDataValue('compute_price_month', this.fixNumberFormatting(response.data[0].Price * 730))
+            rowNode.setDataValue('compute_sku', response.data[0].SKU)
             rowNode.setDataValue('compute_cores', response.data[0].Cores)
             rowNode.setDataValue('compute_memory', response.data[0].Memory)
             rowNode.setDataValue('compute_acu', response.data[0].ACU)
