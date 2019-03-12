@@ -414,12 +414,13 @@
           if (tempRow['GPU'] === undefined || tempRow['GPU'] === null) {
             tempRow['GPU'] = 'All'
           }
-          if (tempRow['Max Disk Size (TB)'] === undefined || tempRow['Max Disk Size (TB)'] === null) {
-            tempRow['Max Disk Size (TB)'] = '0'
-          }
           // GB overrides TB for data field
           if (tempRow['Data Disk Size (GB)'] !== undefined) {
             tempRow['Max Disk Size (TB)'] = tempRow['Data Disk Size (GB)'] / 1024
+          } else {
+            if (tempRow['Max Disk Size (TB)'] === undefined || tempRow['Max Disk Size (TB)'] === null) {
+              tempRow['Max Disk Size (TB)'] = '0'
+            }
           }
           // Backup Related
           if (tempRow['RETENTIONPOINTS'] === undefined || tempRow['RETENTIONPOINTS'] === null) {
@@ -437,7 +438,6 @@
           if (tempRow['SKU'] === undefined || tempRow['SKU'] === null) {
             tempRow['SKU'] = 'Unknown'
           }
-
           if (tempRow['VM Name']) {
             this.getVmSize(
               i,
@@ -1317,7 +1317,7 @@
 
             // Get os price
             this.getOsDisk(index, ssd, ssdtype, currency, osdisk)
-            if (capacity >= 127) {
+            if (capacity > osdisk) {
               this.getDataDiskConfig(index, ssd, ssdtype, currency, response.data[0].MaxDataDiskCount, throughput, iops, capacity)
             }
             if (retentionpoints > 0) {

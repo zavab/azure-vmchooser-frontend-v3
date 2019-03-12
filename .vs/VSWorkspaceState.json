@@ -1,9 +1,6 @@
 {
   "ExpandedNodes": [
     "",
-    "\\build",
-    "\\config",
-    "\\src",
     "\\src\\api",
     "\\src\\components",
     "\\src\\components\\views",
@@ -11,6 +8,6 @@
     "\\src\\config\\preview",
     "\\src\\config\\prod"
   ],
-  "SelectedNode": "\\src\\components\\views\\BackupChooser.vue",
+  "SelectedNode": "\\package-lock.json",
   "PreviewInSolutionExplorer": false
 }
