@@ -1,6 +1,7 @@
 {
   "ExpandedNodes": [
     "",
+    "\\src",
     "\\src\\api",
     "\\src\\components",
     "\\src\\components\\views",
@@ -8,6 +9,6 @@
     "\\src\\config\\preview",
     "\\src\\config\\prod"
   ],
-  "SelectedNode": "\\package-lock.json",
+  "SelectedNode": "\\src\\components\\views\\BulkUploader.vue",
   "PreviewInSolutionExplorer": false
 }

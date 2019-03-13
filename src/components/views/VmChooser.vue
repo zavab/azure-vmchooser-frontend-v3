@@ -25,8 +25,13 @@
             </div>
             <br />
             <div class="input-group">
-              <input class="form-control" placeholder="Minimum performance level" type="text" v-model="acu">
+              <input class="form-control" placeholder="Minimum performance level in Azure Compute Unit" type="text" v-model="acu">
               <span class="input-group-addon">ACU</span>
+            </div>
+            <br />
+            <div class="input-group">
+              <input class="form-control" placeholder="Minimum performance level in DataBricks Unit" type="text" v-model="dbu">
+              <span class="input-group-addon">DBU</span>
             </div>
             <br />
           </div>
@@ -304,6 +309,7 @@
         { headerName: 'Contract', field: 'Contract' },
         { headerName: 'OS', field: 'OperatingSystem' },
         { headerName: 'ACU', field: 'ACU', type: 'numericColumn' },
+        { headerName: 'DBU', field: 'DBU', type: 'numericColumn' },
         { headerName: 'SSD', field: 'SSD' },
         { headerName: 'Cores', field: 'Cores', type: 'numericColumn' },
         { headerName: 'Memory', field: 'Memory', type: 'numericColumn' },
@@ -338,6 +344,7 @@
         cores: '',
         memory: '',
         acu: '',
+        dbu: '',
         capacity: '',
         iops: '',
         throughput: '',
@@ -398,12 +405,13 @@
           })
       },
       checkCreds() {
-        const { maxresults, cores, memory, acu, capacity, iops, throughput, temp, type, nics, bandwidth, tier, hyperthreaded, burstable, isolated, constrained, contract, peakcpu, peakmemory, region, currency, os, saphana, saps2t, saps3t, gpu, infiniband, sgx } = this
+        const { maxresults, cores, memory, acu, capacity, iops, throughput, temp, type, nics, bandwidth, tier, hyperthreaded, burstable, isolated, constrained, contract, peakcpu, peakmemory, region, currency, os, saphana, saps2t, saps3t, gpu, infiniband, sgx, dbu } = this
         var vmchooserurl = config.apiGetVmSize +
           '?maxresults=' + maxresults +
           '&cores=' + cores +
           '&memory=' + memory +
           '&acu=' + acu +
+          '&dbu=' + dbu +
           '&ssd=' + type +
           '&temp=' + temp +
           '&throughput=' + throughput +
