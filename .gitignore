@@ -9,3 +9,4 @@ selenium-debug.log
 .netlify
 .*.dockerfile
 /package - Copy.json
+/.vs/azure-vmchooser-frontend-v3/config/applicationhost.config

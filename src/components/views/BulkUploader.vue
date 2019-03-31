@@ -402,6 +402,12 @@
           if (tempRow['SISLA'] === undefined || tempRow['SISLA'] === null) {
             tempRow['SISLA'] = 'No'
           }
+          if (tempRow['ACU'] === undefined || tempRow['ACU'] === null) {
+            tempRow['ACU'] = '-127'
+          }
+          if (tempRow['DBU'] === undefined || tempRow['DBU'] === null) {
+            tempRow['DBU'] = '-127'
+          }
           if (tempRow['SSD [Yes/No]'] !== undefined) {
             tempRow['SSD'] = tempRow['SSD [Yes/No]']
           }
@@ -467,7 +473,9 @@
               tempRow['RETENTIONPOINTS'],
               tempRow['CHURN'],
               tempRow['COMPRESSION'],
-              tempRow['RESILIENCY']
+              tempRow['RESILIENCY'],
+              tempRow['ACU'],
+              tempRow['DBU']
             )
             tempData.push({
               name: tempRow['VM Name'],
@@ -497,7 +505,9 @@
               retentionpoints: tempRow['RETENTIONPOINTS'],
               churn: tempRow['CHURN'],
               compression: tempRow['COMPRESSION'],
-              resiliency: tempRow['RESILIENCY']
+              resiliency: tempRow['RESILIENCY'],
+              acu: tempRow['ACU'],
+              dbu: tempRow['DBU']
             })
           }
         }
@@ -554,6 +564,18 @@
               {
                 headerName: 'SSD',
                 field: 'ssd',
+                width: 150,
+                editable: true
+              },
+              {
+                headerName: 'ACU',
+                field: 'acu',
+                width: 150,
+                editable: true
+              },
+              {
+                headerName: 'DBU',
+                field: 'dbu',
                 width: 150,
                 editable: true
               },
@@ -1206,7 +1228,7 @@
             console.log('Error : ' + e)
           })
       },
-      getVmSize(index, region, cores, memory, ssd, nics, capacity, iops, throughput, temp, peakcpu, peakmemory, currency, contract, burstable, os, saphana, saps2t, saps3t, sisla, overridedisktype, osdisk, gpu, infiniband, retentionpoints, churn, compression, resiliency) {
+      getVmSize(index, region, cores, memory, ssd, nics, capacity, iops, throughput, temp, peakcpu, peakmemory, currency, contract, burstable, os, saphana, saps2t, saps3t, sisla, overridedisktype, osdisk, gpu, infiniband, retentionpoints, churn, compression, resiliency, acu, dbu) {
         // console.log('Disk (' + index + '): ' + capacity)
         // Initialize
         var ssdtype = overridedisktype
@@ -1228,6 +1250,8 @@
           '&cores=' + cores +
           '&memory=' + memory +
           '&ssd=' + ssd +
+          '&acu=' + acu +
+          '&dbu=' + dbu +
           '&throughput=' + throughput +
           '&iops=' + iops +
           '&data=' + capacity +
@@ -1439,7 +1463,9 @@
             event.data.retentionpoints,
             event.data.churn,
             event.data.compression,
-            event.data.resiliency
+            event.data.resiliency,
+            event.data.acu,
+            event.data.dbu
           )
           // console.log(event)
           // console.log(event.data.region)

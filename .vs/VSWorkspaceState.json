@@ -9,6 +9,6 @@
     "\\src\\config\\preview",
     "\\src\\config\\prod"
   ],
-  "SelectedNode": "\\src\\components\\views\\BulkUploader.vue",
+  "SelectedNode": "\\src\\components\\views\\VmChooser.vue",
   "PreviewInSolutionExplorer": false
 }
