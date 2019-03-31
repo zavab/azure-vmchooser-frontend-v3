@@ -387,6 +387,27 @@
         var tempData = []
         for (var i = 0; i < newResults.data.length; i++) {
           var tempRow = newResults.data[i]
+          if (tempRow['Cores'] === undefined || tempRow['Cores'] === null) {
+            tempRow['Cores'] = '0'
+          }
+          if (tempRow['NICs'] === undefined || tempRow['NICs'] === null) {
+            tempRow['NICs'] = '1'
+          }
+          if (tempRow['IOPS'] === undefined || tempRow['IOPS'] === null) {
+            tempRow['IOPS'] = '1'
+          }
+          if (tempRow['Throughput (MB/s)'] === undefined || tempRow['Throughput (MB/s)'] === null) {
+            tempRow['Throughput (MB/s)'] = '1'
+          }
+          if (tempRow['Min Temp Disk Size (GB)'] === undefined || tempRow['Min Temp Disk Size (GB)'] === null) {
+            tempRow['Min Temp Disk Size (GB)'] = '1'
+          }
+          if (tempRow['Peak CPU Usage (%)'] === undefined || tempRow['Peak CPU Usage (%)'] === null) {
+            tempRow['Peak CPU Usage (%)'] = '100'
+          }
+          if (tempRow['Peak Memory Usage (%)'] === undefined || tempRow['Peak Memory Usage (%)'] === null) {
+            tempRow['SAPPeak Memory Usage (%)S2T'] = '100'
+          }
           if (tempRow['OS'] === undefined || tempRow['OS'] === null) {
             tempRow['OS'] = 'linux'
           }
