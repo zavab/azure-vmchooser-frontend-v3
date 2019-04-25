@@ -24,6 +24,10 @@
         ({{summaryStorageOsCountDone}}/{{summaryStorageOsCountTotal}})
         <b> - Data Disks</b>
         ({{summaryStorageDataCountDone}}/{{summaryStorageDataCountTotal}})
+        <b> - Backup</b>
+        ({{summaryBackupCountDone}}/{{summaryBackupCountTotal}})
+        <b> - Optimizer</b>
+        ({{summaryOptimizerCountDone}}/{{summaryOptimizerCountTotal}})
       </div>
     </div>
     <div style="clear: both;"></div>
@@ -81,12 +85,15 @@
   import { AgGridVue } from 'ag-grid-vue'
   import Papa from 'papaparse'
   import axios from 'axios'
+  import rateLimit from 'axios-rate-limit'
   import config from '../../config'
 
   import XLSX from 'xlsx'
 
   import '../../../node_modules/ag-grid-community/dist/styles/ag-grid.css'
   import '../../../node_modules/ag-grid-community/dist/styles/ag-theme-balham.css'
+
+  const http = rateLimit(axios.create(), { maxRequests: 10, perMilliseconds: 1000 })
 
   const STATUS_INITIAL = 0
   const STATUS_SAVING = 1
@@ -163,6 +170,10 @@
         summaryStorageOsCountTotal: 0,
         summaryStorageDataCountDone: 0,
         summaryStorageDataCountTotal: 0,
+        summaryBackupCountDone: 0,
+        summaryBackupCountTotal: 0,
+        summaryOptimizerCountDone: 0,
+        summaryOptimizerCountTotal: 0,
         regions: [],
         AzureMigrateProperties: []
       }
@@ -1126,7 +1137,8 @@
             'Ocp-Apim-Subscription-Key': config.apiKey
           }
         }
-        axios.post(vmchooserurl, '', vmchooserconfig)
+        this.summaryBackupCountTotal = this.summaryBackupCountTotal + 1
+        http.post(vmchooserurl, '', vmchooserconfig)
           /*
               {
                 "CostInstance": "16.866",
@@ -1144,6 +1156,7 @@
             rowNode.setDataValue('backup_cost_instance', response.data['CostInstance'])
             rowNode.setDataValue('backup_cost_storage', response.data['CostStorage'])
             rowNode.setDataValue('backup_size_total', response.data['SizeTotal'])
+            this.summaryBackupCountDone = this.summaryBackupCountDone + 1
           })
           .catch(e => {
             this.errors.push(e)
@@ -1165,7 +1178,7 @@
           }
         }
         this.summaryStorageDataCountTotal = this.summaryStorageDataCountTotal + 1
-        axios.post(vmchooserurl, '', vmchooserconfig)
+        http.post(vmchooserurl, '', vmchooserconfig)
           .then(response => {
             // console.log(response.data)
             var rowNode = this.gridOptions.api.getRowNode(index)
@@ -1218,7 +1231,7 @@
           }
         }
         this.summaryStorageOsCountTotal = this.summaryStorageOsCountTotal + 1
-        axios.post(vmchooserurl, '', vmchooserconfig)
+        http.post(vmchooserurl, '', vmchooserconfig)
           .then(response => {
             // console.log(response.data)
             var rowNode = this.gridOptions.api.getRowNode(index)
@@ -1297,7 +1310,7 @@
         }
 
         this.summaryComputeCountTotal = this.summaryComputeCountTotal + 1
-        axios.post(vmchooserurl, '', vmchooserconfig)
+        http.post(vmchooserurl, '', vmchooserconfig)
           .then(response => {
             // console.log(response.data)
             var rowNode = this.gridOptions.api.getRowNode(index)
@@ -1382,7 +1395,8 @@
             'Ocp-Apim-Subscription-Key': config.apiKey
           }
         }
-        axios.post(vmchooserurl, '', vmchooserconfig)
+        this.summaryOptimizerCountTotal = this.summaryOptimizerCountTotal + 1
+        http.post(vmchooserurl, '', vmchooserconfig)
           /*
           {
 
@@ -1422,6 +1436,7 @@
             rowNode.setDataValue('contract_win_payg_month', this.fixNumberFormatting(response.data.Price_Windows_PAYG * month))
             rowNode.setDataValue('contract_win_ri1y_month', this.fixNumberFormatting(response.data.Price_Windows_RI1Y * month))
             rowNode.setDataValue('contract_win_ri3y_month', this.fixNumberFormatting(response.data.Price_Windows_RI3Y * month))
+            this.summaryOptimizerCountDone = this.summaryOptimizerCountDone + 1
           })
           .catch(e => {
             this.errors.push(e)
