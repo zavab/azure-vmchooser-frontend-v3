@@ -1,9 +1,18 @@
 <template>
   <div style="width: 100%;">
-    <div class="alert alert-success alert-dismissible">
+    <!--
+      <div class="alert alert-success alert-dismissible">
+        <button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>
+        <h4><i class="icon fa fa-check"></i> Does VMchooser make your job easier?</h4>
+        Give me a shout-out on <a href="https://twitter.com/kvaes/" target="_blank">Twitter</a>  or in your win-wire!
+      </div>
+    -->
+    <div class="alert alert-warning alert-dismissible">
       <button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>
-      <h4><i class="icon fa fa-check"></i> Does VMchooser make your job easier?</h4>
-      Give me a shout-out on <a href="https://twitter.com/kvaes/" target="_blank">Twitter</a>  or in your win-wire!
+      <h4><i class="icon fa fa-question"></i> Will VMchooser stay up-to-date?</h4>
+      A while ago, VMchooser was asked to use the RateCard API (official source for external parties) as a source.
+      This is posing to be <a href="https://github.com/kvaes/azure-vmchooser-frontend-v3/issues/15" target="_blank">challenging</a>...
+      Till this blocking issue is being fixed, no major changes will be made to VMchooser.
     </div>
     <div style="padding: 4px;">
       <div style="float: right;">

@@ -16,7 +16,7 @@
     <router-link tag="li" class="pageLink" to="/backupchooser">
       <a>
         <i class="fa fa-copy"></i>
-        <span class="page">Backup Sizing (Preview)</span>
+        <span class="page">Backup Sizing</span>
       </a>
     </router-link>
     <router-link tag="li" class="pageLink" to="/bulkuploader">
