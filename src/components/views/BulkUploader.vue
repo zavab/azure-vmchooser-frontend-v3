@@ -10,7 +10,9 @@
     <div class="alert alert-warning alert-dismissible">
       <button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>
       <h4><i class="icon fa fa-question"></i>Back for good?</h4>
-      In order to help those who are missing the CSV option, VMchooser is back at "best effort". It's deployed with limited resources and no significant development will be done.
+      In order to help those who are missing the CSV option, VMchooser is back at "best effort".
+      It's deployed with limited resources and no significant development will be done in the near future.
+      So VMchooser will remain functional as long as the current pricing integration remains the same. 
     </div>
     <div style="padding: 4px;">
       <div style="float: right;">
