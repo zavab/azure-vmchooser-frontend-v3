@@ -9,10 +9,8 @@
     -->
     <div class="alert alert-warning alert-dismissible">
       <button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>
-      <h4><i class="icon fa fa-question"></i> Will VMchooser stay up-to-date?</h4>
-      A while ago, VMchooser was asked to use the RateCard API (official source for external parties) as a source.
-      This is posing to be <a href="https://github.com/kvaes/azure-vmchooser-frontend-v3/issues/15" target="_blank">challenging</a>...
-      Till this blocking issue is being fixed, no major changes will be made to VMchooser.
+      <h4><i class="icon fa fa-question"></i>Back for good?</h4>
+      In order to help those who are missing the CSV option, VMchooser is back at "best effort". It's deployed with limited resources and no significant development will be done.
     </div>
     <div style="padding: 4px;">
       <div style="float: right;">
