@@ -9,6 +9,7 @@ export default {
   apiGetSqlService: 'https://vmchooserprod.azurewebsites.net/api/GetSqlService',
   apiGetSqlServiceStorage: 'https://vmchooserprod.azurewebsites.net/api/GetSqlServiceStorage',
   apiGetBackup: 'https://vmchooserprod.azurewebsites.net/api/GetBackup',
+  apiGetCloudSimple: 'https://vmchooserprod.azurewebsites.net/api/GetCloudSimple',
   apiKey: '',
   fixedLayout: false,
   hideLogoOnMobile: false,

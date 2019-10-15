@@ -11,6 +11,7 @@ import SqlChooserView from './components/views/SqlChooser.vue'
 import UserProfileVew from './components/views/UserProfile.vue'
 import UserLogoutView from './components/views/UserLogout.vue'
 import BackupChooserView from './components/views/BackupChooser.vue'
+import CloudSimpleView from './components/views/CloudSimple.vue'
 
 // Routes
 const routes = [
@@ -79,6 +80,14 @@ const routes = [
         name: 'BulkUploader',
         meta: {
           description: 'When finding one VM is not enough...',
+          requiresAuth: false
+        }
+      }, {
+        path: 'cloudsimple',
+        component: CloudSimpleView,
+        name: 'CloudSimple',
+        meta: {
+          description: 'Putting VMware in Azure...',
           requiresAuth: false
         }
       }
