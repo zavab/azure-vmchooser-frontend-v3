@@ -63,42 +63,62 @@
             <table class="table table-striped">
               <tbody>
                 <tr>
+                  <td>Node Type</td>
+                  <td>{{NodeType}}</td>
+                </tr>
+                <tr>
+                  <td>Node Count</td>
+                  <td>{{TotalNodes}}</td>
+                </tr>
+                <tr><td><br /></td></tr>
+                <tr>
                   <td>Monthly price for entire configuration</td>
                   <td>{{TotalPricePerMonth}} {{currency}}</td>
                 </tr>
                 <tr>
-                  <td>Node Type</td>
-                  <td>{{NodeType}}</td>
+                  <td>Hourly price for entire configuration</td>
+                  <td>{{TotalPricePerHour}} {{currency}}</td>
+                </tr>
+                <tr>
+                  <td>Total cores</td>
+                  <td>{{TotalCores}}</td>
+                </tr>
+                <tr>
+                  <td>Total Memory (GB)</td>
+                  <td>{{TotalMemoryGB}}</td>
+                </tr>
+                <tr>
+                  <td>Total Storage - Raw (TB)</td>
+                  <td>{{TotalStorageRawTB}}</td>
+                </tr>
+                <tr>
+                  <td>Total Storage - Mirrored (TB)</td>
+                  <td>{{TotalStorageMirrorTB}}</td>
                 </tr>
                 <tr><td><br /></td></tr>
                 <tr>
-                  <td>Capacity per Disk</td>
-                  <td>{{diskcapacity}} GB</td>
+                  <td>Monthly price for one node</td>
+                  <td>{{NodePricePerMonth}} {{currency}}</td>
                 </tr>
                 <tr>
-                  <td>IOPS per Disk</td>
-                  <td>{{diskiops}}</td>
+                  <td>Hourly price for one node</td>
+                  <td>{{NodePricePerHour}} {{currency}}</td>
                 </tr>
                 <tr>
-                  <td>Throughput per Disk</td>
-                  <td>{{diskthroughput}} MB/s</td>
+                  <td>Total cores per Node</td>
+                  <td>{{NodeCores}}</td>
                 </tr>
-                <tr v-if="diskcount > 1"><td><br /></td></tr>
-                <tr v-if="diskcount > 1">
-                  <td>Disk used in entire config</td>
-                  <td>{{diskcount}}</td>
+                <tr>
+                  <td>Memory (GB) per Node</td>
+                  <td>{{NodeMemoryGB}}</td>
                 </tr>
-                <tr v-if="diskcount > 1">
-                  <td>Capacity for entire config</td>
-                  <td>{{configcapacity}} GB</td>
+                <tr>
+                  <td>Storage - Raw (TB) per Node</td>
+                  <td>{{NodeStorageRawTB}}</td>
                 </tr>
-                <tr v-if="diskcount > 1">
-                  <td>IOPS for entire config</td>
-                  <td>{{configiops}}</td>
-                </tr>
-                <tr v-if="diskcount > 1">
-                  <td>Throughput for entire config</td>
-                  <td>{{configthroughput}} MB/s</td>
+                <tr>
+                  <td>Storage - Mirrored (TB) per Node</td>
+                  <td>{{NodeStorageMirrorTB}}</td>
                 </tr>
               </tbody>
             </table>
@@ -132,23 +152,30 @@
         cores: '',
         memory: '',
         storage: '',
-        NodeType: '',
-        TotalPricePerMonth: '',
         currency: 'EUR',
-        price: '',
-        diskcount: '',
-        maxdisks: '',
-        tshirtsize: '',
-        disktype: '',
-        diskcapacity: '',
-        diskiops: '',
-        diskthroughput: '',
-        configcapacity: '',
-        configiops: '',
-        configthroughput: '',
+        TotalPricePerHour: '',
+        TotalPricePerMonth: '',
+        TotalNodes: '',
+        TotalCores: '',
+        TotalMemoryGB: '',
+        TotalStorageRawTB: '',
+        NodeType: '',
+        NodeCores: '',
+        NodeMemoryGB: '',
+        NodeStorageRawTB: '',
+        NodePricePerHour: '',
+        NodePricePerMonth: '',
         description: '',
         regions: [],
         region: 'us-east'
+      }
+    },
+    computed: {
+      TotalStorageMirrorTB: function () {
+        return (this.TotalStorageRawTB / 2).toPrecision(2)
+      },
+      NodeStorageMirrorTB: function () {
+        return (this.NodeStorageRawTB / 2).toPrecision(2)
       }
     },
     methods: {
@@ -200,8 +227,18 @@
           }
           */
           .then(response => {
-            this.NodeType = response.data['NodeType']
+            this.TotalPricePerHour = response.data['TotalPricePerHour'].toFixed(2)
             this.TotalPricePerMonth = response.data['TotalPricePerMonth'].toFixed(2)
+            this.TotalNodes = response.data['TotalNodes']
+            this.TotalCores = response.data['TotalCores']
+            this.TotalMemoryGB = response.data['TotalMemoryGB']
+            this.TotalStorageRawTB = response.data['TotalStorageRawTB']
+            this.NodeType = response.data['NodeType']
+            this.NodeCores = response.data['NodeCores']
+            this.NodeMemoryGB = response.data['NodeMemoryGB']
+            this.NodeStorageRawTB = response.data['NodeStorageRawTB']
+            this.NodePricePerHour = response.data['NodePricePerHour'].toFixed(2)
+            this.NodePricePerMonth = response.data['NodePricePerMonth'].toFixed(2)
             if (!this.TotalPricePerMonth) {
               this.response = 'No results found'
             }
