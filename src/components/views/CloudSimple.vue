@@ -154,6 +154,10 @@
                   <td>{{TotalCoresUsable}}</td>
                 </tr>
                 <tr>
+                  <td>Total Usable Cores (Overcommitted) - Worst Case (FTT)</td>
+                  <td>{{TotalCoresOvercommitUsable}}</td>
+                </tr>
+                <tr>
                   <td>Total Memory (GB) - Worst Case (FTT)</td>
                   <td>{{TotalMemoryGBUsable}}</td>
                 </tr>
@@ -237,6 +241,7 @@
         TotalStorageRawTB: '',
         TotalNodesUsable: '',
         TotalCoresUsable: '',
+        TotalCoresOvercommitUsable: '',
         TotalMemoryGBUsable: '',
         TotalStorageRawTBUsable: '',
         TotalStorageRawTBDedupUsable: '',
@@ -325,6 +330,7 @@
             this.TotalNodesUsable = response.data['TotalNodesUsable']
             this.TotalCores = response.data['TotalCores']
             this.TotalCoresUsable = response.data['TotalCoresUsable']
+            this.TotalCoresOvercommitUsable = response.data['TotalCoresOvercommitUsable']
             this.TotalMemoryGB = response.data['TotalMemoryGB']
             this.TotalMemoryGBUsable = response.data['TotalMemoryGBUsable']
             this.TotalStorageRawTB = response.data['TotalStorageRawTB']
