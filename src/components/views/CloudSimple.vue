@@ -18,6 +18,29 @@
       </div>
       <br />
       <div class="input-group">
+        <select class="form-control" v-model="overcommit">
+          <option disabled value="">Overcommit Ratio (Cores)</option>
+          <option value="1">1:1 - No Overcommit</option>
+          <option value="2">2:1 - Cautious</option>
+          <option value="4">4:1 - Safe</option>
+          <option value="6">6:1 - Realistic</option>
+          <option value="8">8:1 - Optimistic</option>
+        </select>
+        <span class="input-group-addon">Ratio</span>
+      </div>
+      <br />
+      <div class="input-group">
+        <select class="form-control" v-model="deduplication">
+          <option disabled value="">Data Deduplication Ratio</option>
+          <option value="1">1:1 - No Deduplication</option>
+          <option value="1.5">1.5:1 - Safe </option>
+          <option value="2">2:1 - Realistic </option>
+          <option value="3">3:1 - Optimistic</option>
+        </select>
+        <span class="input-group-addon">Ratio</span>
+      </div>
+      <br />
+      <div class="input-group">
         <select class="form-control" v-model="region">
           <option disabled value="">Deployment Region</option>
           <option v-for="region in regions" :value="region.Slug">
@@ -167,7 +190,9 @@
         NodePricePerMonth: '',
         description: '',
         regions: [],
-        region: 'us-east'
+        region: 'us-east',
+        overcommit: 1,
+        deduplication: 1
       }
     },
     computed: {
@@ -202,6 +227,8 @@
           '&cores=' + this.cores +
           '&memory=' + this.memory +
           '&storage=' + this.storage +
+          '&overcommit=' + this.overcommit +
+          '&deduplication=' + this.deduplication +
           '&currency=' + this.currency
         var vmchooserconfig = {
           headers: {
