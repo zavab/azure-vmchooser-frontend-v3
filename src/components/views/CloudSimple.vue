@@ -162,8 +162,16 @@
                   <td>{{TotalStorageRawTBUsable}}</td>
                 </tr>
                 <tr>
+                  <td>Total Storage - Deduplication Enabled (TB) - Worst Case (FTT)</td>
+                  <td>{{TotalStorageRawTBDedupUsable}}</td>
+                </tr>
+                <tr>
                   <td>Total Storage - FTM Enabled (TB) - Worst Case (FTT)</td>
                   <td>{{TotalStorageUsableTBUsable}}</td>
+                </tr>
+                <tr>
+                  <td>Total Storage - FTM & Deduplication Enabled (TB) - Worst Case (FTT)</td>
+                  <td>{{TotalStorageUsableTBDedupUsable}}</td>
                 </tr>
 
                 <tr><td><br /></td></tr>
@@ -231,8 +239,10 @@
         TotalCoresUsable: '',
         TotalMemoryGBUsable: '',
         TotalStorageRawTBUsable: '',
+        TotalStorageRawTBDedupUsable: '',
         TotalStorageUsableTB: '',
         TotalStorageUsableTBUsable: '',
+        TotalStorageUsableTBDedupUsable: '',
         NodeType: '',
         NodeCores: '',
         NodeMemoryGB: '',
@@ -286,18 +296,20 @@
         axios.post(vmchooserurl, '', vmchooserconfig)
           /*
           {
-            "TotalPricePerHour": 31.0503060,
-            "TotalPricePerMonth": 22666.7233800,
-            "TotalNodes": 4.0,
-            "TotalNodesUsable": 2.0,
-            "TotalCores": 144.0,
-            "TotalCoresUsable": 72.0,
-            "TotalMemoryGB": 2048.0,
-            "TotalMemoryGBUsable": 1024.0,
-            "TotalStorageRawTB": 45.00,
-            "TotalStorageRawTBUsable": 22.50,
-            "TotalStorageUsableTB": 29.7,
-            "TotalStorageUsableTBUsable": 14.85,
+            "TotalPricePerHour": 54.3380355,
+            "TotalPricePerMonth": 39666.7659150,
+            "TotalNodes": 7.0,
+            "TotalNodesUsable": 7.0,
+            "TotalCores": 252.0,
+            "TotalCoresUsable": 252.0,
+            "TotalMemoryGB": 3584.0,
+            "TotalMemoryGBUsable": 3584.0,
+            "TotalStorageRawTB": 78.75,
+            "TotalStorageRawTBUsable": 78.75,
+            "TotalStorageRawTBDedupUsable": 157.50,
+            "TotalStorageUsableTB": 51.975,
+            "TotalStorageUsableTBUsable": 51.975,
+            "TotalStorageUsableTBDedupUsable": 103.95,
             "NodeType": "cs36-payg-us-east",
             "NodeCores": 36.0,
             "NodeMemoryGB": 512.0,
@@ -317,8 +329,10 @@
             this.TotalMemoryGBUsable = response.data['TotalMemoryGBUsable']
             this.TotalStorageRawTB = response.data['TotalStorageRawTB']
             this.TotalStorageRawTBUsable = response.data['TotalStorageRawTBUsable']
+            this.TotalStorageRawTBDedupUsable = response.data['TotalStorageRawTBDedupUsable']
             this.TotalStorageUsableTB = response.data['TotalStorageUsableTB']
             this.TotalStorageUsableTBUsable = response.data['TotalStorageUsableTBUsable']
+            this.TotalStorageUsableTBDedupUsable = response.data['TotalStorageUsableTBDedupUsable']
             this.NodeType = response.data['NodeType']
             this.NodeCores = response.data['NodeCores']
             this.NodeMemoryGB = response.data['NodeMemoryGB']
