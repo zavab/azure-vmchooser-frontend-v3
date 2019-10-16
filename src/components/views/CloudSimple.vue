@@ -147,7 +147,7 @@
 
                 <tr>
                   <td>Total Usable Nodes - Worst Case (FTT)</td>
-                  <td>{{TotalNodesUsable}}</td>
+                  <td><b>{{TotalNodesUsable}}</b></td>
                 </tr>
                 <tr>
                   <td>Total Usable Cores - Worst Case (FTT)</td>
@@ -155,11 +155,11 @@
                 </tr>
                 <tr>
                   <td>Total Usable Cores (Overcommitted) - Worst Case (FTT)</td>
-                  <td>{{TotalCoresOvercommitUsable}}</td>
+                  <td><b>{{TotalCoresOvercommitUsable}}</b></td>
                 </tr>
                 <tr>
                   <td>Total Memory (GB) - Worst Case (FTT)</td>
-                  <td>{{TotalMemoryGBUsable}}</td>
+                  <td><b>{{TotalMemoryGBUsable}}</b></td>
                 </tr>
                 <tr>
                   <td>Total Storage - Raw (TB) - Worst Case (FTT)</td>
@@ -175,7 +175,7 @@
                 </tr>
                 <tr>
                   <td>Total Storage - FTM & Deduplication Enabled (TB) - Worst Case (FTT)</td>
-                  <td>{{TotalStorageUsableTBDedupUsable}}</td>
+                  <td><b>{{TotalStorageUsableTBDedupUsable}}</b></td>
                 </tr>
 
                 <tr><td colspan="2"><br /></td></tr>
