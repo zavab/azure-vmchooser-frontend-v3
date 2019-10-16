@@ -40,7 +40,7 @@
     <router-link tag="li" class="pageLink" to="/cloudsimple">
       <a>
         <i class="fa fa-ruler-combined"></i>
-        <span class="page">Azure VMware Solution Sizer</span>
+        <span class="page">Azure VMware Sizer (Preview)</span>
       </a>
     </router-link>
     <li class="header">Information</li>

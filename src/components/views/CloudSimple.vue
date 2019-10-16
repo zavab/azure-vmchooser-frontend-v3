@@ -13,8 +13,30 @@
       </div>
       <br />
       <div class="input-group">
-        <input class="form-control" placeholder="Minimum amount of storage needed" type="text" v-model="storage">
+        <input class="form-control" placeholder="Minimum amount of (usable) storage needed" type="text" v-model="storage">
         <span class="input-group-addon">TB</span>
+      </div>
+      <br />
+      <div class="input-group">
+        <select class="form-control" v-model="ftt">
+          <option disabled value="">Failures To Tolerate ("N + FTT")</option>
+          <option value="0">No Protection</option>
+          <option value="1">N+1</option>
+          <option value="2">N+2</option>
+          <option value="3">N+3</option>
+        </select>
+        <span class="input-group-addon">FTT</span>
+      </div>
+      <br />
+      <div class="input-group">
+        <select class="form-control" v-model="ftm">
+          <option disabled value="">Fault Tolerance Mode ("Storage Raid")</option>
+          <option value="0">Raid0 - Stripe / Span</option>
+          <option value="1">Raid1 - Mirroring</option>
+          <option value="5">Raid5 - Erasure Coding - Single Parity per stripe</option>
+          <option value="6">Raid6 - Erasure Coding - Parity + additional syndrome per stripe</option>
+        </select>
+        <span class="input-group-addon">FTM</span>
       </div>
       <br />
       <div class="input-group">
@@ -93,7 +115,9 @@
                   <td>Node Count</td>
                   <td>{{TotalNodes}}</td>
                 </tr>
+
                 <tr><td><br /></td></tr>
+
                 <tr>
                   <td>Monthly price for entire configuration</td>
                   <td>{{TotalPricePerMonth}} {{currency}}</td>
@@ -103,7 +127,7 @@
                   <td>{{TotalPricePerHour}} {{currency}}</td>
                 </tr>
                 <tr>
-                  <td>Total cores</td>
+                  <td>Total Cores</td>
                   <td>{{TotalCores}}</td>
                 </tr>
                 <tr>
@@ -115,10 +139,35 @@
                   <td>{{TotalStorageRawTB}}</td>
                 </tr>
                 <tr>
-                  <td>Total Storage - Mirrored (TB)</td>
-                  <td>{{TotalStorageMirrorTB}}</td>
+                  <td>Total Storage - FTM Enabled (TB)</td>
+                  <td>{{TotalStorageUsableTB}}</td>
                 </tr>
+
                 <tr><td><br /></td></tr>
+
+                <tr>
+                  <td>Total Usable Nodes - Worst Case (FTT)</td>
+                  <td>{{TotalNodesUsable}}</td>
+                </tr>
+                <tr>
+                  <td>Total Usable Cores - Worst Case (FTT)</td>
+                  <td>{{TotalCoresUsable}}</td>
+                </tr>
+                <tr>
+                  <td>Total Memory (GB) - Worst Case (FTT)</td>
+                  <td>{{TotalMemoryGBUsable}}</td>
+                </tr>
+                <tr>
+                  <td>Total Storage - Raw (TB) - Worst Case (FTT)</td>
+                  <td>{{TotalStorageRawTBUsable}}</td>
+                </tr>
+                <tr>
+                  <td>Total Storage - FTM Enabled (TB) - Worst Case (FTT)</td>
+                  <td>{{TotalStorageUsableTBUsable}}</td>
+                </tr>
+
+                <tr><td><br /></td></tr>
+
                 <tr>
                   <td>Monthly price for one node</td>
                   <td>{{NodePricePerMonth}} {{currency}}</td>
@@ -138,10 +187,6 @@
                 <tr>
                   <td>Storage - Raw (TB) per Node</td>
                   <td>{{NodeStorageRawTB}}</td>
-                </tr>
-                <tr>
-                  <td>Storage - Mirrored (TB) per Node</td>
-                  <td>{{NodeStorageMirrorTB}}</td>
                 </tr>
               </tbody>
             </table>
@@ -182,6 +227,12 @@
         TotalCores: '',
         TotalMemoryGB: '',
         TotalStorageRawTB: '',
+        TotalNodesUsable: '',
+        TotalCoresUsable: '',
+        TotalMemoryGBUsable: '',
+        TotalStorageRawTBUsable: '',
+        TotalStorageUsableTB: '',
+        TotalStorageUsableTBUsable: '',
         NodeType: '',
         NodeCores: '',
         NodeMemoryGB: '',
@@ -191,16 +242,10 @@
         description: '',
         regions: [],
         region: 'us-east',
-        overcommit: 1,
-        deduplication: 1
-      }
-    },
-    computed: {
-      TotalStorageMirrorTB: function () {
-        return (this.TotalStorageRawTB / 2).toPrecision(2)
-      },
-      NodeStorageMirrorTB: function () {
-        return (this.NodeStorageRawTB / 2).toPrecision(2)
+        overcommit: 6,
+        deduplication: 2,
+        ftt: 2,
+        ftm: 6
       }
     },
     methods: {
@@ -227,6 +272,8 @@
           '&cores=' + this.cores +
           '&memory=' + this.memory +
           '&storage=' + this.storage +
+          '&ftt=' + this.ftt +
+          '&ftm=' + this.ftm +
           '&overcommit=' + this.overcommit +
           '&deduplication=' + this.deduplication +
           '&currency=' + this.currency
@@ -239,12 +286,18 @@
         axios.post(vmchooserurl, '', vmchooserconfig)
           /*
           {
-            "TotalPricePerHour": 23.2877295,
-            "TotalPricePerMonth": 17000.0425350,
-            "TotalNodes": 3.0,
-            "TotalCores": 108.0,
-            "TotalMemoryGB": 1536.0,
-            "TotalStorageRawTB": 33.75,
+            "TotalPricePerHour": 31.0503060,
+            "TotalPricePerMonth": 22666.7233800,
+            "TotalNodes": 4.0,
+            "TotalNodesUsable": 2.0,
+            "TotalCores": 144.0,
+            "TotalCoresUsable": 72.0,
+            "TotalMemoryGB": 2048.0,
+            "TotalMemoryGBUsable": 1024.0,
+            "TotalStorageRawTB": 45.00,
+            "TotalStorageRawTBUsable": 22.50,
+            "TotalStorageUsableTB": 29.7,
+            "TotalStorageUsableTBUsable": 14.85,
             "NodeType": "cs36-payg-us-east",
             "NodeCores": 36.0,
             "NodeMemoryGB": 512.0,
@@ -257,9 +310,15 @@
             this.TotalPricePerHour = response.data['TotalPricePerHour'].toFixed(2)
             this.TotalPricePerMonth = response.data['TotalPricePerMonth'].toFixed(2)
             this.TotalNodes = response.data['TotalNodes']
+            this.TotalNodesUsable = response.data['TotalNodesUsable']
             this.TotalCores = response.data['TotalCores']
+            this.TotalCoresUsable = response.data['TotalCoresUsable']
             this.TotalMemoryGB = response.data['TotalMemoryGB']
+            this.TotalMemoryGBUsable = response.data['TotalMemoryGBUsable']
             this.TotalStorageRawTB = response.data['TotalStorageRawTB']
+            this.TotalStorageRawTBUsable = response.data['TotalStorageRawTBUsable']
+            this.TotalStorageUsableTB = response.data['TotalStorageUsableTB']
+            this.TotalStorageUsableTBUsable = response.data['TotalStorageUsableTBUsable']
             this.NodeType = response.data['NodeType']
             this.NodeCores = response.data['NodeCores']
             this.NodeMemoryGB = response.data['NodeMemoryGB']
