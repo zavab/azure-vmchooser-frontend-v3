@@ -116,7 +116,7 @@
                   <td>{{TotalNodes}}</td>
                 </tr>
 
-                <tr><td><br /></td></tr>
+                <tr><td colspan="2"><br /></td></tr>
 
                 <tr>
                   <td>Monthly price for entire configuration</td>
@@ -143,7 +143,7 @@
                   <td>{{TotalStorageUsableTB}}</td>
                 </tr>
 
-                <tr><td><br /></td></tr>
+                <tr><td colspan="2"><br /></td></tr>
 
                 <tr>
                   <td>Total Usable Nodes - Worst Case (FTT)</td>
@@ -174,7 +174,7 @@
                   <td>{{TotalStorageUsableTBDedupUsable}}</td>
                 </tr>
 
-                <tr><td><br /></td></tr>
+                <tr><td colspan="2"><br /></td></tr>
 
                 <tr>
                   <td>Monthly price for one node</td>
