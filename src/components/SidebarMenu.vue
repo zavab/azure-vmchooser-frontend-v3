@@ -37,6 +37,12 @@
         <span class="page">SQL Service Finder</span>
       </a>
     </router-link>
+    <router-link tag="li" class="pageLink" to="/cloudsimple">
+      <a>
+        <i class="fa fa-ruler-combined"></i>
+        <span class="page">Azure VMware Solution Sizer</span>
+      </a>
+    </router-link>
     <li class="header">Information</li>
     <li class="pageLink">
       <a href="https://docs.vmchooser.com/" target="_blank">
