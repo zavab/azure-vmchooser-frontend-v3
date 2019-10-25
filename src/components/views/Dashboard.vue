@@ -11,7 +11,7 @@
       <div class="alert alert-warning alert-dismissible">
         <button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>
         <h4><i class="icon fa fa-question"></i>Back from the ashes?</h4>
-        The reasons behind shutting down VMchooser have not vanished. Though I do get still keep getting a lot of questions about people who relied on VMchooser. In order to help those, I'm coming back on my decision to put it offline. As a disclaimer, VMchooser is now deployed with a limited set resources (read: MSDN account) and no significant development will be done on its capabilities. So VMchooser will remain functional as long as the current pricing integration remains the same. These were the main culprits behind VMchooser shutting down. Though be aware to always check your results, as the database might be out-of-date to sudden changes. Though it's currenlty back available at "best effort". 
+        The reasons behind shutting down VMchooser have not vanished. Though I do still keep getting a lot of questions about people who relied on VMchooser. In order to help those, I'm coming back on my decision to put it offline. As a disclaimer, VMchooser is now deployed with a limited set resources (read: MSDN account) and no significant development will be done on its capabilities. So VMchooser will remain functional as long as the current pricing integration remains the same. These were the main culprits behind VMchooser shutting down. Though be aware to always check your results, as the database might be out-of-date to sudden changes. Though it's currenlty back available at "best effort". 
       </div>
       <div class="col-md-3 col-sm-6 col-xs-12">
         <router-link class="pageLink" to="/vmchooser">
