@@ -2,9 +2,11 @@
   "ExpandedNodes": [
     "",
     "\\src",
-    "\\src\\api",
     "\\src\\components",
     "\\src\\components\\views",
+    "\\src\\config",
+    "\\src\\config\\preview",
+    "\\src\\config\\prod",
     "\\src\\filters",
     "\\src\\store",
     "\\static",

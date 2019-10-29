@@ -56,6 +56,12 @@
         <span class="page">GitHub Repositories</span>
       </a>
     </li>
+    <li class="pageLink">
+      <a href="https://github.com/sponsors/kvaes/dashboard" target="_blank">
+        <i class="fab fa-github"></i>
+        <span class="page">Donate</span>
+      </a>
+    </li>
   </ul>
 </template>
 <script>
