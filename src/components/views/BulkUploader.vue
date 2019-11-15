@@ -279,6 +279,43 @@
             this.errors.push(e)
           })
       },
+      parseRvTools(workbook) {
+        // Initialize Results
+        var results = []
+        // Read Worksheets
+        var worksheet = workbook.Sheets['vInfo']
+        console.log(worksheet)
+        // Parse Properties
+        var currency = 'EUR'
+        var contract = 'ri3y'
+        var region = 'europe-west'
+        var os = 'linux'
+        // Sheet to JSON
+        var json = XLSX.utils.sheet_to_json(worksheet)
+        for (var i = 0; i < json.length; i++) {
+          results[i] = []
+          results[i]['VM Name'] = json[i]['VM']
+          results[i]['Region'] = region
+          results[i]['Cores'] = json[i]['CPUs']
+          results[i]['Memory (GB)'] = Math.ceil((json[i]['Memory'] / 1024), 0)
+          results[i]['SSD [Yes/No]'] = 'All'
+          results[i]['Max Disk Size (TB)'] = json[i]['Provisioned MB'] / 1024 / 1024
+          results[i]['IOPS'] = 1
+          results[i]['Throughput (MB/s)'] = 1
+          results[i]['Min Temp Disk Size (GB)'] = 1
+          results[i]['Peak CPU Usage (%)'] = 100
+          results[i]['Peak Memory Usage (%)'] = 100
+          results[i]['Currency'] = currency
+          results[i]['Contract'] = contract
+          results[i]['Burstable'] = 'All'
+          results[i]['OS'] = os
+          results[i]['NICs'] = json[i]['NICs']
+          results[i]['OSDISK'] = 1
+          results[i]['OVERRIDEDISKTYPE'] = 'All'
+        }
+        console.log(results)
+        return results
+      },
       parseAzureMigrate(workbook) {
         // Initialize Results
         var results = []
@@ -337,11 +374,17 @@
           }
           // Read Workbook
           var workbook = XLSX.read(binary, { type: 'binary' })
+          var results = []
           // Azure Migrate Excel
-          if (workbook.Sheets['All_Assessed_Machines'] !== null) {
+          if (workbook.Sheets['All_Assessed_Machines'] != null) {
             that.$appInsights.trackPageView('BulkUploader - XLSX - Azure Migrate')
-            var results = []
             results.data = that.parseAzureMigrate(workbook)
+            that.updateRowData(results)
+          }
+          // RV Tools Excel
+          if (workbook.Sheets['vInfo'] != null) {
+            that.$appInsights.trackPageView('BulkUploader - XLSX - RV Tools')
+            results.data = that.parseRvTools(workbook)
             that.updateRowData(results)
           }
         }
