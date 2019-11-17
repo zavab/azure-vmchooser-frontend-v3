@@ -19,7 +19,7 @@
     "adal-angular": "1.0.17",
     "ag-grid-community": "19.0.0",
     "ag-grid-vue": "19.0.0",
-    "axios": "0.18.0",
+    "axios": "0.18.1",
     "babel-runtime": "^5.8.0",
     "chart.js": "2.3.0",
     "datatables.net": "1.10.13",
