@@ -51,7 +51,7 @@
       </a>
     </li>
     <li class="pageLink">
-      <a href="https://github.com/kvaes?tab=repositories&q=vmchooser" target="_blank">
+      <a href="https://github.com/vmchooser" target="_blank">
         <i class="fab fa-github"></i>
         <span class="page">GitHub Repositories</span>
       </a>
