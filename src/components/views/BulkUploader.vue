@@ -1,18 +1,81 @@
 <template>
   <div style="width: 100%;">
     <!--
-      <div class="alert alert-success alert-dismissible">
-        <button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>
-        <h4><i class="icon fa fa-check"></i> Does VMchooser make your job easier?</h4>
-        Give me a shout-out on <a href="https://twitter.com/kvaes/" target="_blank">Twitter</a>  or in your win-wire!
-      </div>
+    <div class="alert alert-success alert-dismissible">
+      <button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>
+      <h4><i class="icon fa fa-check"></i> Does VMchooser make your job easier?</h4>
+      Give me a shout-out on <a href="https://twitter.com/kvaes/" target="_blank">Twitter</a>  or in your win-wire!
+    </div>
     -->
+    <div class="alert alert-success alert-dismissible" v-if="settings">
+      <h4><i class="icon fa fa-check"></i> Global Settings Override (Currently only works for RV Tools)</h4>
+      <div class="input-group">
+        <select class="form-control" v-model="burstable">
+          <option disabled value="">Burstable?</option>
+          <option value="No">No</option>
+          <option value="Yes">Yes</option>
+          <option value="All">No Preference</option>
+        </select>
+        <span class="input-group-addon">Burstable</span>
+      </div>
+      <br />
+      <div class="input-group">
+        <select class="form-control" v-model="contract">
+          <option disabled value="">Contract type</option>
+          <option value="payg">Pay-as-you-Go</option>
+          <option value="ri1y">Reserved Instance - 1 Year Term</option>
+          <option value="ri3y">Reserved Instance - 3 Year Term</option>
+        </select>
+        <span class="input-group-addon">Type</span>
+      </div>
+      <br />
+      <div class="input-group">
+        <select class="form-control" v-model="os">
+          <option disabled value="">Operating system</option>
+          <option value="linux">Linux or Windows via AHUB</option>
+          <option value="windows">Windows</option>
+          <option value="sql-standard">Windows + SQL Standard</option>
+          <option value="sql-enterprise">Windows +  SQL Enterprise</option>
+        </select>
+        <span class="input-group-addon">Type</span>
+      </div>
+      <br />
+      <div class="input-group">
+        <select class="form-control" v-model="region">
+          <option disabled value="">Deployment Region</option>
+          <option v-for="region in regions" :value="region.Slug">
+            {{ region.Name }}
+          </option>
+        </select>
+        <span class="input-group-addon">Location</span>
+      </div>
+      <br />
+      <div class="input-group">
+        <select class="form-control" v-model="currency">
+          <option disabled value="">Currency</option>
+          <option value="EUR">Euro</option>
+          <option value="USD">US Dollar</option>
+          <option value="GBP">British Pound</option>
+          <option value="AUD">Australian Dollar</option>
+          <option value="JPY">Japanese Yen</option>
+          <option value="CAD">Canadian Dollar</option>
+          <option value="DKK">Danish Krone</option>
+          <option value="CHF">Swiss Franc</option>
+          <option value="SEK">Swedish Krona</option>
+          <option value="IDR">Indonesian Rupee</option>
+          <option value="INR">Indian Rupee</option>
+          <option value="RUB">Russian Ruble</option>
+        </select>
+        <span class="input-group-addon">Currency</span>
+      </div>
+      <br />
+    </div>
     <div style="padding: 4px;">
       <div style="float: right;">
         <a href="/vmchooser.csv">Sample CSV File</a>
         <input @keyup="onQuickFilterChanged" type="text" id="quickFilterInput"
                placeholder="Type text to filter..." />
-        <button @click="showSummary">Summary</button>
+        <button @click="showSettings">Settings</button>
         <button @click="exportToCsv">Export to CSV</button>
       </div>
       <div>
@@ -151,6 +214,12 @@
   export default {
     data() {
       return {
+        settings: false,
+        burstable: 'All',
+        os: 'linux',
+        contract: 'ri3y',
+        region: 'europe-west',
+        currency: 'EUR',
         gridOptions: null,
         columnDefs: null,
         rowData: null,
@@ -214,10 +283,14 @@
         this.summaryStorageOsCountTotal = 0
         this.rowCount = 0
       },
-      showSummary() {
-        const that = this
-        that.getSummary()
-        console.log(this.summaryCompute + ' / ' + this.summaryOsDisks + ' / ' + this.summaryDataDisks)
+      showSettings() {
+        if (this.settings) {
+          console.log('hide settings')
+          this.settings = false
+        } else {
+          console.log('show settings')
+          this.settings = true
+        }
       },
       exportToCsv() {
         this.gridOptions.api.exportDataAsCsv()
@@ -285,17 +358,12 @@
         // Read Worksheets
         var worksheet = workbook.Sheets['vInfo']
         console.log(worksheet)
-        // Parse Properties
-        var currency = 'EUR'
-        var contract = 'ri3y'
-        var region = 'europe-west'
-        var os = 'linux'
         // Sheet to JSON
         var json = XLSX.utils.sheet_to_json(worksheet)
         for (var i = 0; i < json.length; i++) {
           results[i] = []
           results[i]['VM Name'] = json[i]['VM']
-          results[i]['Region'] = region
+          results[i]['Region'] = this.region
           results[i]['Cores'] = json[i]['CPUs']
           results[i]['Memory (GB)'] = Math.ceil((json[i]['Memory'] / 1024), 0)
           results[i]['SSD [Yes/No]'] = 'All'
@@ -305,10 +373,10 @@
           results[i]['Min Temp Disk Size (GB)'] = 1
           results[i]['Peak CPU Usage (%)'] = 100
           results[i]['Peak Memory Usage (%)'] = 100
-          results[i]['Currency'] = currency
-          results[i]['Contract'] = contract
+          results[i]['Currency'] = this.currency
+          results[i]['Contract'] = this.contract
           results[i]['Burstable'] = 'All'
-          results[i]['OS'] = os
+          results[i]['OS'] = this.os
           results[i]['NICs'] = json[i]['NICs']
           results[i]['OSDISK'] = 1
           results[i]['OVERRIDEDISKTYPE'] = 'All'
