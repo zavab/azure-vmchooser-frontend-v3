@@ -1,0 +1,19 @@
+name: npm pull request testing
+
+on: [pull_request]
+
+jobs:
+    build:
+      runs-on: ubuntu-latest
+      steps:
+       - uses: actions/checkout@v1
+       - name: Setup NPM
+         uses: actions/setup-node@master
+       - name: Install NPM Modules
+         run: npm install
+       #- name: Unit Testing
+       #  run: npm run test:unit
+       #- name: End-to-End Testing
+       #  run: npm run test:e2e
+       - name: Build Codebase
+         run: npm run build
