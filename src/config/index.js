@@ -16,5 +16,5 @@ export default {
   clientId: 'f4b67345-011d-4b77-b746-05e152a61812',
   redirectUri: 'https://www.vmchooser.com/',
   tenant: 'common',
-  appinsightsid: '567486b1-08d5-4338-8202-04a612cc9388'
+  appinsightsid: process.env.APPINSIGHTS_INSTRUMENTATIONKEY
 }

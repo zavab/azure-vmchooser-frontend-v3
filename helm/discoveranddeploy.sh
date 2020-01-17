@@ -49,6 +49,10 @@ function getTrafficManagerResourcegroup {
 
 function addService2TrafficeManager {
   servicename=`kubectl get services | grep -i "$deploymentname" | awk '{ print $1 }'`
+    if [ -z "$servicename" ]; then
+    echo "Service not deployed!"
+    exit 255
+  fi
   external_ip=""
   while [ -z $external_ip ]; do
     echo "Waiting for end point..."
