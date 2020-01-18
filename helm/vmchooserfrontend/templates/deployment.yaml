@@ -30,6 +30,8 @@ spec:
           env:
           - name: APPINSIGHTS_INSTRUMENTATIONKEY
             value: {{ .Values.environmentVariables.APPINSIGHTS_INSTRUMENTATIONKEY }}
+          - name: API_HOSTNAME
+            value: {{ .Values.environmentVariables.API_HOSTNAME }}
           ports:
             - name: http
               containerPort: 8080
