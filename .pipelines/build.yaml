@@ -23,6 +23,23 @@ stages:
       inputs:
         command: login
         containerRegistry: vmchooserregistry
+    - bash: |
+        cp ./preview/index.js ./index.js
+      displayName: Copy Preview Config
+      workingDirectory: $(Build.Repository.LocalPath)/src/config/
+    - task: Docker@2
+      displayName: Build and Push
+      inputs:
+        command: buildAndPush
+        repository: vmchooser/frontendv3
+        tags: |
+          preview-$(Build.BuildNumber)
+          preview-$(Build.BuildId)
+          preview
+    - bash: |
+        cp ./prod/index.js ./index.js
+      displayName: Copy Prod Config
+      workingDirectory: $(Build.Repository.LocalPath)/src/config/
     - task: Docker@2
       displayName: Build and Push
       inputs:
@@ -94,9 +111,9 @@ stages:
                 curl https://raw.githubusercontent.com/helm/helm/master/scripts/get-helm-3 | bash 
                 az acr helm repo add -n "$(vmchooserregistry)"
                 helm repo update
-                helm search repo vmchooser
+                helm search repo vmchooserfrontend
                 chmod +x $(Pipeline.Workspace)/deployvmchooserfrontend/*.sh
-                bash -x $(Pipeline.Workspace)/deployvmchooserfrontend/discoveranddeploy.sh "vmchooser" "dev" "default" "3.0.$(Build.BuildId)" "vmchooserregistry/vmchooserfrontend" "vmchooserfrontend" "$(Pipeline.Workspace)/deployvmchooserfrontend/vmchooserfrontend.values.yaml"
+                bash -x $(Pipeline.Workspace)/deployvmchooserfrontend/discoveranddeploy.sh "vmchooser" "dev" "default" "preview-3.0.$(Build.BuildId)" "vmchooserregistry/vmchooserfrontend" "vmchooserfrontend" "$(Pipeline.Workspace)/deployvmchooserfrontend/vmchooserfrontend.values.yaml"
               displayName: Discover and Deploy Chart to all Clusters with appropriate tags
               workingDirectory: $(Build.Repository.LocalPath)/
 - stage: DeployHelmChartPrd
@@ -128,7 +145,7 @@ stages:
                 az acr helm repo add -n "$(vmchooserregistry)"
                 helm version
                 helm repo update
-                helm search repo vmchooser
+                helm search repo vmchooserfrontend
                 chmod +x $(Pipeline.Workspace)/deployvmchooserfrontend/*.sh
                 bash -x $(Pipeline.Workspace)/deployvmchooserfrontend/discoveranddeploy.sh "vmchooser" "prd" "default" "3.0.$(Build.BuildId)" "vmchooserregistry/vmchooserfrontend" "vmchooserfrontend" "$(Pipeline.Workspace)/deployvmchooserfrontend/vmchooserfrontend.values.yaml"
               displayName: Discover and Deploy Chart to all Clusters with appropriate tags
