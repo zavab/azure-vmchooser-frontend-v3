@@ -123,9 +123,9 @@ stages:
                 curl https://raw.githubusercontent.com/helm/helm/master/scripts/get-helm-3 | bash 
                 az acr helm repo add -n "$(vmchooserregistry)"
                 helm repo update
-                helm search repo vmchooserfrontend
+                helm search repo vmchooserfrontendpreview
                 chmod +x $(Pipeline.Workspace)/deployvmchooserfrontend/*.sh
-                bash -x $(Pipeline.Workspace)/deployvmchooserfrontend/discoveranddeploy.sh "vmchooser" "dev" "default" "preview-3.0.$(Build.BuildId)" "vmchooserregistry/vmchooserfrontend" "vmchooserfrontend" "$(Pipeline.Workspace)/deployvmchooserfrontend/vmchooserfrontend.values.yaml"
+                bash -x $(Pipeline.Workspace)/deployvmchooserfrontend/discoveranddeploy.sh "vmchooser" "dev" "default" "preview-3.0.$(Build.BuildId)" "vmchooserregistry/vmchooserfrontendpreview" "vmchooserfrontend" "$(Pipeline.Workspace)/deployvmchooserfrontend/vmchooserfrontend.values.yaml"
               displayName: Discover and Deploy Chart to all Clusters with appropriate tags
               workingDirectory: $(Build.Repository.LocalPath)/
 - stage: DeployHelmChartPrd
