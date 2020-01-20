@@ -81,6 +81,16 @@ stages:
       workingDirectory: $(Build.Repository.LocalPath)/helm/
     - publish: $(Build.SourcesDirectory)/helm
       artifact: deployvmchooserfrontend
+    - task: qetza.replacetokens.replacetokens-task.replacetokens@3
+      displayName: 'Replace tokens in vmchooserfrontend.values.yaml files'
+      inputs:
+        targetFiles: |
+          $(Build.Repository.LocalPath)/helm/vmchooserfrontend.values.yaml
+    - bash: |
+        helm version
+        helm lint ./vmchooserfrontend
+      displayName: Discover and Deploy Chart to all Clusters with appropriate tags
+      workingDirectory: $(Build.Repository.LocalPath)/helm
 - stage: DeployHelmChartDev
   displayName: Deploy to Dev
   jobs: 
@@ -103,8 +113,6 @@ stages:
                 targetFiles: |
                   $(Pipeline.Workspace)/deployvmchooserfrontend/vmchooserfrontend.values.yaml
             - bash: |
-                helm version
-                helm lint ./vmchooserfrontend
                 az login --service-principal -u "$(ARMCLIENTID)" -p "$(ARMCLIENTSECRET)" --tenant "$(armtenantid)"
                 az account set -s "$(armsubscriptionid)"
                 az configure --defaults acr="$(vmchooserregistry)"
