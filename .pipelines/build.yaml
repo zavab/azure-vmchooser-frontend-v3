@@ -76,6 +76,10 @@ stages:
       displayName: Package Helm Chart
       workingDirectory: $(Build.Repository.LocalPath)/helm/
     - bash: |
+        helm package ./vmchooserfrontendpreview/
+      displayName: Package Helm Chart
+      workingDirectory: $(Build.Repository.LocalPath)/helm/
+    - bash: |
         az acr helm push ./*.tgz
       displayName: Push Helm Chart to ACR Repo
       workingDirectory: $(Build.Repository.LocalPath)/helm/
@@ -89,7 +93,7 @@ stages:
     - bash: |
         helm version
         helm lint ./vmchooserfrontend
-      displayName: Discover and Deploy Chart to all Clusters with appropriate tags
+      displayName: Helm Lint
       workingDirectory: $(Build.Repository.LocalPath)/helm
 - stage: DeployHelmChartDev
   displayName: Deploy to Dev
