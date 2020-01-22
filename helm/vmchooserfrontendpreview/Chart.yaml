@@ -2,5 +2,5 @@ apiVersion: v1
 name: vmchooserfrontendpreview
 description: VMchooser frontend preview
 #type: application
-version: preview-#{Build.BuildNumber}#
-appVersion: #{Build.BuildId}#
+version: #{Build.BuildNumber}#
+appVersion: preview-#{Build.BuildId}#
