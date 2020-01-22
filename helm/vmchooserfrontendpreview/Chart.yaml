@@ -3,4 +3,4 @@ name: vmchooserfrontendpreview
 description: VMchooser frontend preview
 #type: application
 version: preview-#{Build.BuildNumber}#
-appVersion: preview-#{Build.BuildId}#
+appVersion: #{Build.BuildId}#
