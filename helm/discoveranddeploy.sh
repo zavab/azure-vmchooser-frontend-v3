@@ -6,7 +6,7 @@ version=$4
 chart=$5
 deploymentname=$6 
 valuesfile=$7
-helmregistry='vmchooserregistry/vmchooserfrontend'
+helmregistry=$5
 component='www'
 az extension add --name resource-graph
 
