@@ -78,6 +78,7 @@ stages:
     - bash: |
         az acr helm push ./vmchooserfrontend*.tgz
       displayName: Push Helm Chart to ACR Repo
+      workingDirectory: $(Build.Repository.LocalPath)/helm/
     - bash: |
         helm package ./vmchooserfrontendpreview/
       displayName: Package Helm Chart
