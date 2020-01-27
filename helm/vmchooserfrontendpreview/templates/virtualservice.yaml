@@ -4,16 +4,17 @@ metadata:
   name: {{ .Chart.Name }}
 spec:
   hosts:
-  - "*"
+  - {{ .Values.hostname }}
   gateways:
   - {{ .Chart.Name }}-gateway
   http:
   - match:
     - uri:
-        prefix: /api/
+        prefix: /static/
+        exact: /index.html
     route:
     - destination:
-        host: {{ .Values.hostname }}
+        host: {{ .Chart.Name }}
         port:
           number: {{ .Values.service.port }}
     corsPolicy:
