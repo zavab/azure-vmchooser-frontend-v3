@@ -2,29 +2,19 @@ apiVersion: apps/v1
 kind: Deployment
 metadata:
   name: {{ .Chart.Name }}
-  labels:
-    version: {{ .Chart.AppVersion }}
 spec:
-  replicas: 1
+  replicas: {{ .Values.replicaCount }}
   selector:
     matchLabels:
       app: {{ .Chart.Name }}
-      version: {{ .Chart.AppVersion }}
   template:
     metadata:
       labels:
         app: {{ .Chart.Name }}
-        version: {{ .Chart.AppVersion }}
     spec:
       containers:
       - name: {{ .Chart.Name }}
         image: "{{ .Values.image.repository }}:{{ .Chart.AppVersion }}"
-        resources:
-          requests:
-            cpu: "100m"
         imagePullPolicy: {{ .Values.image.pullPolicy }}
-        env:
-          - name: APPINSIGHTS_INSTRUMENTATIONKEY
-            value: {{ .Values.environmentVariables.APPINSIGHTS_INSTRUMENTATIONKEY }}
         ports:
         - containerPort: 80
