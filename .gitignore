@@ -10,3 +10,4 @@ selenium-debug.log
 .*.dockerfile
 /package - Copy.json
 /.vs/azure-vmchooser-frontend-v3/config/applicationhost.config
+istio*/
