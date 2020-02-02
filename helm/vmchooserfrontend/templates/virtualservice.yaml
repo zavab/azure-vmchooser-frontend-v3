@@ -12,6 +12,8 @@ spec:
     match:
     - uri:
         exact: /index.html
+    - uri:
+        exact: /
     route:
     - destination:
         host: {{ .Chart.Name }}
