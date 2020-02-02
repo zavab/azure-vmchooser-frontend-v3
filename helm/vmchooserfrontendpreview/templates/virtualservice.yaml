@@ -17,7 +17,7 @@ spec:
         host: {{ .Chart.Name }}
         port:
           number: 80
- - name: "csvsample"
+  - name: "csvsample"
     match:
     - uri:
         exact: /vmchooser.csv
