@@ -2,4 +2,8 @@ replicaCount: 1
 appVersion: #{Build.BuildId}#
 image:
   repository: vmchooserregistry.azurecr.io/vmchooser/frontendv3
+replicaCount: 1
+appVersion: #{Build.BuildId}#
+image:
+  repository: vmchooserregistry.azurecr.io/vmchooser/frontendv3
   pullPolicy: IfNotPresent
