@@ -1,3 +1,4 @@
 hostname1: #{WWWHOSTNAME}#
 hostname2: #{WWWHOSTNAMEEXT}#
 hostname3: #{WWWHOSTNAMEROOT}#
+hostname4: #{APEXHOSTNAMEROOT}#

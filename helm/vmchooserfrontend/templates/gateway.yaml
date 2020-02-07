@@ -14,3 +14,4 @@ spec:
     - "{{ .Values.hostname1 }}"
     - "{{ .Values.hostname2 }}"
     - "{{ .Values.hostname3 }}"
+    - "{{ .Values.hostname4 }}"
