@@ -8,11 +8,6 @@
         <h4><i class="icon fa fa-check"></i> VMchooser is open source!</h4>
         Click on icon to check it out on github. <a href="https://github.com/kvaes?tab=repositories&q=vmchooser" target="_blank"><i class="fab fa-github fa-2x"></i></a>
       </div>
-      <div class="alert alert-warning alert-dismissible">
-        <button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>
-        <h4><i class="icon fa fa-question"></i>Back from the ashes?</h4>
-        The reasons behind shutting down VMchooser have not vanished. Though I do still keep getting a lot of questions about people who relied on VMchooser. In order to help those, I'm coming back on my decision to put it offline. As a disclaimer, VMchooser is now deployed with a limited set resources (read: MSDN account) and no significant development will be done on its capabilities. So VMchooser will remain functional as long as the current pricing integration remains the same. These were the main culprits behind VMchooser shutting down. Though be aware to always check your results, as the database might be out-of-date to sudden changes. Though it's currenlty back available at "best effort". 
-      </div>
       <div class="col-md-3 col-sm-6 col-xs-12">
         <router-link class="pageLink" to="/vmchooser">
           <div class="info-box">
@@ -89,8 +84,23 @@
           <div class="info-box">
             <span class="info-box-icon bg-aqua"><i class="fa fa-coins"></i></span>
             <div class="info-box-content">
-              <span class="info-box-number">SQL Service Finder (Preview)</span>
+              <span class="info-box-number">SQL Service Finder</span>
               <span class="info-box-text"><small>SQL Deploys</small></span>
+            </div>
+            <!-- /.info-box-content -->
+          </div>
+          <!-- /.info-box -->
+        </router-link>
+      </div>
+      <!-- /.col -->
+            <!-- /.col -->
+      <div class="col-md-3 col-sm-6 col-xs-12">
+        <router-link class="pageLink" to="/cloudsimple">
+          <div class="info-box">
+            <span class="info-box-icon bg-aqua"><i class="fa fa-ruler-combined"></i></span>
+            <div class="info-box-content">
+              <span class="info-box-number">Azure VMware Sizer</span>
+              <span class="info-box-text"><small>VMware on Azure</small></span>
             </div>
             <!-- /.info-box-content -->
           </div>
