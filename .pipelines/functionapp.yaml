@@ -1,0 +1,73 @@
+name: 3.0.$(Build.BuildId)
+resources:
+  repositories:
+  - repository: vmchooserfrontendv3
+    type: github
+    name: vmchooser/azure-vmchooser-frontend-v3
+    endpoint: vmchooser
+trigger:
+  batch: true
+  branches:
+    include:
+    - master
+stages:
+- stage: BuildStaticWebsite
+  displayName: BuildStaticWebsite
+  jobs:
+  - job: BuildContainer
+    pool:
+      vmImage: 'ubuntu-latest'
+    steps:
+    - bash: |
+        npm install
+        npm run build
+      displayName: Build
+      workingDirectory: $(Build.SourcesDirectory)/
+    - publish: $(Build.SourcesDirectory)/dist
+      artifact: vmchooserfrontend
+- stage: DeployDev
+  displayName: Deploy to Dev
+  jobs: 
+    - deployment: DeployDev
+      variables:
+      - group: vmchooser
+      - group: vmchooserdev
+      environment: 'vmchooserdev'
+      strategy: 
+        runOnce:
+          deploy:          
+            pool: 
+              vmImage: 'ubuntu-latest'
+            steps:
+            - download: current
+              artifact: vmchooserfrontend
+            - task: AzureRmWebAppDeployment@4
+              inputs:
+                connectionType: 'AzureRM'
+                azureSubscription: 'vmchooser.arm'
+                appType: 'webApp'
+                webAppName: 'vmchooser-dev-webapp-fe'
+                Package: $(Agent.BuildDirectory)/**/*
+- stage: DeployPrd
+  displayName: Deploy to Prd
+  jobs: 
+    - deployment: DeployPrd
+      variables:
+      - group: vmchooser
+      - group: vmchooserdev
+      environment: 'vmchooserprd'
+      strategy: 
+        runOnce:
+          deploy:          
+            pool: 
+              vmImage: 'ubuntu-latest'
+            steps:
+            - download: current
+              artifact: vmchooserfrontend
+            - task: AzureRmWebAppDeployment@4
+              inputs:
+                connectionType: 'AzureRM'
+                azureSubscription: 'vmchooser.arm'
+                appType: 'webApp'
+                webAppName: 'vmchooser-prd-webapp-fe'
+                Package: $(Agent.BuildDirectory)/**/
