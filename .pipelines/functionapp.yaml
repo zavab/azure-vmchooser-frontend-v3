@@ -14,7 +14,7 @@ stages:
 - stage: BuildStaticWebsite
   displayName: BuildStaticWebsite
   jobs:
-  - job: BuildContainer
+  - job: BuildStaticWebsite
     pool:
       vmImage: 'ubuntu-latest'
     steps:
