@@ -22,11 +22,10 @@ stages:
         npm install
         npm run build
       displayName: Build
-      workingDirectory: $(Build.SourcesDirectory)/
     - task: ArchiveFiles@2
       displayName: "Archive files"
       inputs:
-        rootFolderOrFile: $(System.SourcesDirectory)/dist
+        rootFolderOrFile: ./dist
         includeRootFolder: false
         archiveFile: "$(System.DefaultWorkingDirectory)/build$(Build.BuildId).zip"
     - task: PublishBuildArtifacts@1
