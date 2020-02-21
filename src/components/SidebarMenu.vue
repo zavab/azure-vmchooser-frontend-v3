@@ -37,7 +37,7 @@
         <span class="page">SQL Service Finder</span>
       </a>
     </router-link>
-    <router-link tag="li" class="pageLink" to="/cloudsimple">
+    <router-link tag="li" class="pageLink" to="/azurevmwareservice">
       <a>
         <i class="fa fa-ruler-combined"></i>
         <span class="page">Azure VMware Sizer</span>

@@ -11,7 +11,7 @@ import SqlChooserView from './components/views/SqlChooser.vue'
 import UserProfileVew from './components/views/UserProfile.vue'
 import UserLogoutView from './components/views/UserLogout.vue'
 import BackupChooserView from './components/views/BackupChooser.vue'
-import CloudSimpleView from './components/views/CloudSimple.vue'
+import AzureVmwareServiceView from './components/views/AzureVmwareService.vue'
 
 // Routes
 const routes = [
@@ -83,9 +83,9 @@ const routes = [
           requiresAuth: false
         }
       }, {
-        path: 'cloudsimple',
-        component: CloudSimpleView,
-        name: 'CloudSimple',
+        path: 'AzureVmwareService',
+        component: AzureVmwareServiceView,
+        name: 'AzureVmwareService',
         meta: {
           description: 'Putting VMware in Azure...',
           requiresAuth: false

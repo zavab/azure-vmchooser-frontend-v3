@@ -93,7 +93,7 @@
       <br />
       <div class="input-group">
         <form @submit.prevent="getCloudSimple">
-          <button type="submit" v-bind:class="'btn btn-primary btn-lg ' + loading">Cloud Simple me!</button>
+          <button type="submit" v-bind:class="'btn btn-primary btn-lg ' + loading">Virtualize me in Azure!</button>
         </form>
       </div>
       <!-- errors -->
@@ -101,7 +101,7 @@
     </div>
 
     <div class="row center-block" v-if="NodeType && NodeType.length">
-      <h2>CloudSimple Configuration</h2>
+      <h2>Azure VMware Service Configuration</h2>
       <div class="col-md-12">
         <div class="box">
           <div class="box-body no-padding table-responsive">
@@ -220,7 +220,7 @@
   export default {
     name: 'DiskChooser',
     mounted() {
-      this.$appInsights.trackPageView('CloudSimple')
+      this.$appInsights.trackPageView('AzureVmwareService')
       this.getMetaDataRegions()
     },
     data() {
