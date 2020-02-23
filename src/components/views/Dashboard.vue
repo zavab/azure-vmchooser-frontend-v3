@@ -3,11 +3,6 @@
   <section class="content">
     <!-- Info boxes -->
     <div class="row">
-      <div class="alert alert-success alert-dismissible">
-        <button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>
-        <h4><i class="icon fa fa-check"></i> VMchooser is open source!</h4>
-        Click on icon to check it out on github. <a href="https://github.com/kvaes?tab=repositories&q=vmchooser" target="_blank"><i class="fab fa-github fa-2x"></i></a>
-      </div>
       <div class="col-md-3 col-sm-6 col-xs-12">
         <router-link class="pageLink" to="/vmchooser">
           <div class="info-box">
