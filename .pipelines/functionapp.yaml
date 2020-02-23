@@ -18,10 +18,24 @@ stages:
     pool:
       vmImage: 'ubuntu-latest'
     steps:
+    - task: SonarCloudPrepare@1
+      inputs:
+        SonarCloud: '$(sonarCloudEndpointName)'
+        organization: '$(sonarCloudOrganization)'
+        scannerMode: 'CLI'
+        configMode: 'manual'
+        cliProjectKey: '$(sonarCloudProjectKey)'
+        cliProjectName: '$(sonarCloudProjectName)'
+        cliProjectVersion: '1.0'
+        cliSources: 'src'
     - bash: |
         npm install
         npm run build
       displayName: Build Preview
+    - task: SonarCloudAnalyze@1
+    - task: SonarCloudPublish@1
+      inputs:
+        pollingTimeoutSec: '300'
     - task: ArchiveFiles@2
       displayName: "Archive files"
       inputs:
