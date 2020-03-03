@@ -51,6 +51,12 @@
       </a>
     </li>
     <li class="pageLink">
+      <a href="https://preview.vmchooser.com/" target="_blank">
+        <i class="fa fa-book"></i>
+        <span class="page">Preview</span>
+      </a>
+    </li>
+    <li class="pageLink">
       <a href="https://github.com/vmchooser" target="_blank">
         <i class="fab fa-github"></i>
         <span class="page">GitHub Repositories</span>
