@@ -12,6 +12,7 @@ import UserProfileVew from './components/views/UserProfile.vue'
 import UserLogoutView from './components/views/UserLogout.vue'
 import BackupChooserView from './components/views/BackupChooser.vue'
 import AzureVmwareServiceView from './components/views/AzureVmwareService.vue'
+import AzureRedHatOpenShiftView from './components/views/AzureRedHatOpenShift.vue'
 
 // Routes
 const routes = [
@@ -36,6 +37,14 @@ const routes = [
         name: 'sqlchooser',
         meta: {
           description: 'What SQL deployment is right for me?',
+          requiresAuthentication: false
+        }
+      }, {
+        path: 'azureredhatopenshift',
+        component: AzureRedHatOpenShiftView,
+        name: 'azureredhatopenshift',
+        meta: {
+          description: 'Finding the most optimal ARO (Azure Red Hat OpenShift) setup for your organization...',
           requiresAuthentication: false
         }
       }, {

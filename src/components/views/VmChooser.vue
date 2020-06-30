@@ -9,6 +9,7 @@
           <li role="presentation"><a href="#network" aria-controls="network" role="tab" data-toggle="tab">Network</a></li>
           <li role="presentation"><a href="#attributes" aria-controls="attributes" role="tab" data-toggle="tab">Attributes</a></li>
           <li role="presentation"><a href="#sap" aria-controls="sap" role="tab" data-toggle="tab">SAP</a></li>
+          <li role="presentation"><a href="#aro" aria-controls="aro" role="tab" data-toggle="tab">ARO</a></li>  
           <li role="presentation"><a href="#optimize" aria-controls="optimize" role="tab" data-toggle="tab">Optimize</a></li>
           <li role="presentation"><a href="#settings" aria-controls="settings" role="tab" data-toggle="tab">Settings</a></li>
         </ul>
@@ -180,6 +181,28 @@
             <div class="input-group">
               <input class="form-control" placeholder="Minimum SAPS 3-Tier" type="text" v-model="saps3t">
               <span class="input-group-addon">SAPS</span>
+            </div>
+            <br />
+          </div>
+          <div role="tabpanel" class="tab-pane" id="aro">
+            <div class="input-group">
+              <select class="form-control" v-model="aromaster">
+                <option disabled value="">Master Node Support</option>
+                <option value="yes">Yes</option>
+                <option value="no">No</option>
+                <option value="All">No Preference</option>
+              </select>
+              <span class="input-group-addon">ARO</span>
+            </div>
+            <br />
+            <div class="input-group">
+              <select class="form-control" v-model="aroworker">
+                <option disabled value="">Worker Node Support</option>
+                <option value="yes">Yes</option>
+                <option value="no">No</option>
+                <option value="All">No Preference</option>
+              </select>
+              <span class="input-group-addon">ARO</span>
             </div>
             <br />
           </div>
@@ -368,6 +391,8 @@
         maxresults: '50',
         os: 'linux',
         regions: [],
+        aromaster: '',
+        aroworker: '',
         saphana: '',
         saps2t: '',
         saps3t: ''
@@ -405,7 +430,7 @@
           })
       },
       checkCreds() {
-        const { maxresults, cores, memory, acu, capacity, iops, throughput, temp, type, nics, bandwidth, tier, hyperthreaded, burstable, isolated, constrained, contract, peakcpu, peakmemory, region, currency, os, saphana, saps2t, saps3t, gpu, infiniband, sgx, dbu } = this
+        const { maxresults, cores, memory, acu, capacity, iops, throughput, temp, type, nics, bandwidth, tier, hyperthreaded, burstable, isolated, constrained, contract, peakcpu, peakmemory, region, currency, os, saphana, saps2t, saps3t, gpu, infiniband, sgx, dbu, aromaster, aroworker } = this
         var vmchooserurl = config.apiGetVmSize +
           '?maxresults=' + maxresults +
           '&cores=' + cores +
@@ -433,6 +458,8 @@
           '&region=' + region +
           '&currency=' + currency +
           '&os=' + os +
+          '&aroapp=' + aroworker +
+          '&aromaster=' + aromaster +
           '&saphana=' + saphana +
           '&saps2t=' + saps2t +
           '&saps3t=' + saps3t

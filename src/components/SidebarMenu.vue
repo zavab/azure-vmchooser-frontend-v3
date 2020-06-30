@@ -31,10 +31,10 @@
         <span class="page">VM Optimizer</span>
       </a>
     </router-link>
-    <router-link tag="li" class="pageLink" to="/sqlchooser">
+    <router-link tag="li" class="pageLink" to="/azureredhatopenshift">
       <a>
         <i class="fa fa-coins"></i>
-        <span class="page">SQL Service Finder</span>
+        <span class="page">Azure Red Hat OpenShift</span>
       </a>
     </router-link>
     <router-link tag="li" class="pageLink" to="/azurevmwareservice">

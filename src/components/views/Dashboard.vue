@@ -75,12 +75,12 @@
       <!-- /.col -->
       <!-- /.col -->
       <div class="col-md-3 col-sm-6 col-xs-12">
-        <router-link class="pageLink" to="/sqlchooser">
+        <router-link class="pageLink" to="/azureredhatopenshift">
           <div class="info-box">
             <span class="info-box-icon bg-aqua"><i class="fa fa-coins"></i></span>
             <div class="info-box-content">
-              <span class="info-box-number">SQL Service Finder</span>
-              <span class="info-box-text"><small>SQL Deploys</small></span>
+              <span class="info-box-number">Azure Red Hat OpenShift (ARO)</span>
+              <span class="info-box-text"><small>Finding the most optimal ARO setup</small></span>
             </div>
             <!-- /.info-box-content -->
           </div>
