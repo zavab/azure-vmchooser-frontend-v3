@@ -5,18 +5,45 @@
       <div>
         <div class="tab-content">
           <div class="input-group">
-            <input class="form-control" placeholder="How many cores does the workload need at minimum?" type="text" v-model="cores">
+            <input class="form-control" placeholder="How many pods does the workload need at baseline (minimum)?" type="text" v-model="minpods">
+            <span class="input-group-addon">Pods</span>
+          </div>
+          <br />
+          <div class="input-group">
+            <input class="form-control" placeholder="How many pods does the workload need at peak (maximum)?" type="text" v-model="maxpods">
+            <span class="input-group-addon">Pods</span>
+          </div>
+          <br />
+          <div class="input-group">
+            <input class="form-control" placeholder="How many hours per month does the workload run at peak (maximum)?" type="text" v-model="maxduration">
+            <span class="input-group-addon">Hours</span>
+          </div>
+          <br />
+          <div class="input-group">
+            <input class="form-control" placeholder="How much cores are required on average per pod?" type="text" v-model="cores">
             <span class="input-group-addon">Cores</span>
           </div>
           <br />
           <div class="input-group">
-            <input class="form-control" placeholder="How much memory is required at minimum?" type="text" v-model="memory">
+            <input class="form-control" placeholder="How much memory is required on average per pod?" type="text" v-model="memory">
             <span class="input-group-addon">GB</span>
           </div>
           <br />
           <div class="input-group">
-            <input class="form-control" placeholder="What is the amount of net (persistent/data) storage the workload needs at minimum?" type="text" v-model="data">
+            <input class="form-control" placeholder="What is the amount of net (persistent/data) storage needed per pod?" type="text" v-model="storage">
             <span class="input-group-addon">GB</span>
+          </div>
+          <br />
+          <div class="input-group">
+            <select class="form-control" v-model="ftt">
+              <option disabled value="">Failures To Tolerate ("N + FTT")</option>
+              <option value="0">No Protection</option>
+              <option value="1">N+1</option>
+              <option value="2">N+2</option>
+              <option value="3">N+3</option>
+              <option value="AZ">Full Zone</option>
+            </select>
+            <span class="input-group-addon">FTT</span>
           </div>
           <br />
           <div class="input-group">
@@ -79,28 +106,39 @@
         loading: '',
         currency: 'EUR',
         region: 'europe-west',
-        cores: '',
-        memory: '',
-        data: '',
-        iops: '',
-        throughput: '',
-        license: 'no',
         result: [],
         vmsizes: [],
         regions: [],
-        sla: '',
-        vmsize: '',
-        vmsizeprice: '',
-        vmosdisk: '',
-        vmosdiskprice: '',
-        vmdatadiskconfig: '',
-        vmdatadiskcapacity: '',
-        vmdatadiskiops: '',
-        vmdatadiskthroughput: '',
-        vmdatadiskprice: '',
-        vmsizemaxdisks: 64,
-        os: '',
+        mastervmsize: '',
+        mastervmsizeprice: '',
+        mastervmosdisk: '',
+        mastervmosdiskprice: '',
+        mastervmdatadiskconfig: '',
+        mastervmdatadiskcapacity: '',
+        mastervmdatadiskiops: '',
+        mastervmdatadiskthroughput: '',
+        mastervmdatadiskprice: '',
+        mastervmsizemaxdisks: 64,
+        maxnodes: 0,
+        workervmsize: '',
+        workervmsizeprice: '',
+        workervmosdisk: '',
+        workervmosdiskprice: '',
+        workervmdatadiskconfig: '',
+        workervmdatadiskcapacity: '',
+        workervmdatadiskiops: '',
+        workervmdatadiskthroughput: '',
+        workervmdatadiskprice: '',
+        workervmsizemaxdisks: 64,
+        os: 'linux',
         contract: 'payg',
+        minpods: '',
+        maxpods: '',
+        maxduration: '',
+        cores: '',
+        memory: '',
+        storage: '',
+        ftt: '',
         dummy: ''
       }
     },
@@ -134,8 +172,8 @@
           '&contract=' + contract +
           '&region=' + region +
           '&currency=' + currency +
-          '&os=' + os +
-          '&burstable=no'
+          '&aromaster=' + 'Yes' +
+          '&os=' + os
         var vmchooserconfig = {
           headers: {
             'Access-Control-Allow-Origin': '*',
@@ -145,16 +183,43 @@
         axios.post(vmchooserurl, '', vmchooserconfig)
           .then(response => {
             // console.log(response.data)
-            this.vmsize = response.data[0].Name
-            this.vmsizeprice = response.data[0].Price * 730
-            this.vmsizemaxdisks = response.data[0].MaxDataDiskCount
+            this.mastervmsize = response.data[0].Name
+            this.mastervmsizeprice = response.data[0].Price * 730
+            this.mastervmsizemaxdisks = response.data[0].MaxDataDiskCount
           })
           .catch(e => {
             console.log('Error : ' + e)
           })
       },
       findARO() {
-        this.getVmSize(this.region, this.cores, this.memory, this.currency, this.contract, this.os)
+        /* Pod / Node Calc
+          Source ; https://docs.microsoft.com/en-us/azure/openshift/openshift-faq
+          Max 250 pods per node
+          Max 100 nodes per cluster
+        */
+
+        /* Master node Calc
+          Source ; https://docs.openshift.com/container-platform/4.3/scalability_and_performance/recommended-host-practices.html
+          Number of worker nodes - CPU cores - Memory (GB)
+          25 - 4 - 16
+          100 - 8 - 32
+          250 - 16 - 64
+        */
+
+        var mastercores = 4
+        var mastermemory = 16
+
+        if (this.maxnodes >= 250) {
+          mastercores = 16
+          mastermemory = 64
+        }
+
+        if (this.maxnodes >= 100) {
+          mastercores = 8
+          mastermemory = 32
+        }
+
+        this.getVmSizeMaster(this.region, mastercores, mastermemory, this.currency, this.contract, this.os)
       }
     },
     mounted: function () {

@@ -589,6 +589,12 @@
           if (tempRow['SKU'] === undefined || tempRow['SKU'] === null) {
             tempRow['SKU'] = 'Unknown'
           }
+          if (tempRow['AROMASTER'] === undefined || tempRow['AROMASTER'] === null) {
+            tempRow['AROMASTER'] = 'All'
+          }
+          if (tempRow['AROWORKER'] === undefined || tempRow['AROWORKER'] === null) {
+            tempRow['AROWORKER'] = 'All'
+          }
           if (tempRow['VM Name']) {
             this.getVmSize(
               i,
@@ -620,7 +626,9 @@
               tempRow['COMPRESSION'],
               tempRow['RESILIENCY'],
               tempRow['ACU'],
-              tempRow['DBU']
+              tempRow['DBU'],
+              tempRow['AROMASTER'],
+              tempRow['AROWORKER']
             )
             tempData.push({
               name: tempRow['VM Name'],
@@ -652,7 +660,9 @@
               compression: tempRow['COMPRESSION'],
               resiliency: tempRow['RESILIENCY'],
               acu: tempRow['ACU'],
-              dbu: tempRow['DBU']
+              dbu: tempRow['DBU'],
+              aromaster: tempRow['AROMASTER'],
+              aroworker: tempRow['AROWORKER']
             })
           }
         }
@@ -721,6 +731,18 @@
               {
                 headerName: 'DBU',
                 field: 'dbu',
+                width: 150,
+                editable: true
+              },
+              {
+                headerName: 'AROMASTER',
+                field: 'aromaster',
+                width: 150,
+                editable: true
+              },
+              {
+                headerName: 'AROWORKER',
+                field: 'aroworker',
                 width: 150,
                 editable: true
               },
@@ -1375,7 +1397,7 @@
             console.log('Error : ' + e)
           })
       },
-      getVmSize(index, region, cores, memory, ssd, nics, capacity, iops, throughput, temp, peakcpu, peakmemory, currency, contract, burstable, os, saphana, saps2t, saps3t, sisla, overridedisktype, osdisk, gpu, infiniband, retentionpoints, churn, compression, resiliency, acu, dbu) {
+      getVmSize(index, region, cores, memory, ssd, nics, capacity, iops, throughput, temp, peakcpu, peakmemory, currency, contract, burstable, os, saphana, saps2t, saps3t, sisla, overridedisktype, osdisk, gpu, infiniband, retentionpoints, churn, compression, resiliency, acu, dbu, aromaster, aroworker) {
         // console.log('Disk (' + index + '): ' + capacity)
         // Initialize
         var ssdtype = overridedisktype
@@ -1412,6 +1434,8 @@
           '&region=' + region +
           '&currency=' + currency +
           '&os=' + os +
+          '&aroapp=' + aroworker +
+          '&aromaster=' + aromaster +
           '&saphana=' + saphana +
           '&saps2t=' + saps2t +
           '&saps3t=' + saps3t
