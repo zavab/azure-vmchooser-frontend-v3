@@ -56,7 +56,7 @@
           <br />
           <div class="input-group">
             <input class="form-control" placeholder="What is the amount of net (persistent/data) storage needed per pod?" type="text" v-model="storage">
-            <span class="input-group-addon">GB</span>
+            <span class="input-group-addon">MB</span>
           </div>
           <br />
           <div class="input-group">
@@ -122,8 +122,13 @@
                   <td>Node Type</td>
                   <td>Node Count</td>
                   <td>VM Type</td>
+                  <td>Disk Type</td>
                   <td>Cores / Node</td>
                   <td>Memory / Node</td>
+                  <td>Storage / Node</td>
+                  <td>Cores / Cluster</td>
+                  <td>Memory / Cluster</td>
+                  <td>Storage / Cluster</td>
                   <td>Runtime (Hours)</td>
                   <td>Compute Cost</td>
                   <td>Compute Contract</td>
@@ -137,8 +142,13 @@
                   <td>Master nodes</td>
                   <td>{{MasterCount}}</td>
                   <td>{{MasterVmType}}</td>
+                  <td>{{MasterStorageSize}}</td>
                   <td>{{MasterCoresNode}}</td>
-                  <td>{{MasterMemoryNode}}</td>
+                  <td>{{MasterMemoryNode}} {{UnitMemory}}</td>
+                  <td>{{MasterStorageNode}} {{UnitDisk}}</td>
+                  <td>{{MasterCoresTotal}}</td>
+                  <td>{{MasterMemoryTotal}} {{UnitMemory}}</td>
+                  <td>{{MasterStorageTotal}} {{UnitDisk}}</td>
                   <td>{{MasterRuntime}}</td>
                   <td>{{showMasterCompute}}</td>
                   <td>{{MasterComputeContract}}</td>
@@ -152,8 +162,13 @@
                   <td>Worker nodes - Baseline</td>
                   <td>{{WorkerBaselineCount}}</td>
                   <td>{{WorkerBaselineVmType}}</td>
+                  <td>{{WorkerBaselineStorageSize}}</td>
                   <td>{{WorkerBaselineCoresNode}}</td>
-                  <td>{{WorkerBaselineMemoryNode}}</td>
+                  <td>{{WorkerBaselineMemoryNode}} {{UnitMemory}}</td>
+                  <td>{{WorkerBaselineStorageNode}} {{UnitDisk}}</td>
+                  <td>{{WorkerBaselineCoresTotal}}</td>
+                  <td>{{WorkerBaselineMemoryTotal}} {{UnitMemory}}</td>
+                  <td>{{WorkerBaselineStorageTotal}} {{UnitDisk}}</td>
                   <td>{{WorkerBaselineRuntime}}</td>
                   <td>{{showWorkerBaselineCompute}}</td>
                   <td>{{WorkerBaselineComputeContract}}</td>
@@ -167,8 +182,13 @@
                   <td>Worker nodes - Burstable</td>
                   <td>{{WorkerPeakCount}}</td>
                   <td>{{WorkerPeakVmType}}</td>
+                  <td>{{WorkerPeakStorageSize}}</td>
                   <td>{{WorkerPeakCoresNode}}</td>
-                  <td>{{WorkerPeakMemoryNode}}</td>
+                  <td>{{WorkerPeakMemoryNode}} {{UnitMemory}}</td>
+                  <td>{{WorkerPeakStorageNode}} {{UnitDisk}}</td>
+                  <td>{{WorkerPeakCoresTotal}}</td>
+                  <td>{{WorkerPeakMemoryTotal}} {{UnitMemory}}</td>
+                  <td>{{WorkerPeakStorageTotal}} {{UnitDisk}}</td>
                   <td>{{WorkerPeakRuntime}}</td>
                   <td>{{showWorkerPeakCompute}}</td>
                   <td>{{WorkerPeakComputeContract}}</td>
@@ -181,6 +201,11 @@
 
                 <tr>
                   <td>Summary</td>
+                  <td></td>
+                  <td></td>
+                  <td></td>
+                  <td></td>
+                  <td></td>
                   <td></td>
                   <td></td>
                   <td></td>
@@ -215,6 +240,9 @@
     name: 'AzureRedHatOpenShift',
     data() {
       return {
+        UnitDisk: 'GB',
+        UnitMemory: 'GB',
+        UnitRuntime: 'hours',
         MasterProcessed: '',
         WorkersProcessed: '',
         WorkerErrors: '',
@@ -223,9 +251,15 @@
         MasterRuntime: '',
         MasterCoresNode: '',
         MasterMemoryNode: '',
+        MasterStorageNode: '',
+        MasterCoresTotal: '',
+        MasterMemoryTotal: '',
+        MasterStorageTotal: '',
         MasterCompute: '',
         MasterComputeContract: '',
         MasterStorage: '',
+        MasterStorageSize: '',
+        MasterStorageCapacity: '',
         MasterStorageContract: '',
         MasterLicense: '',
         MasterLicenseContract: '',
@@ -235,9 +269,15 @@
         WorkerBaselineRuntime: '',
         WorkerBaselineCoresNode: '',
         WorkerBaselineMemoryNode: '',
+        WorkerBaselineStorageNode: '',
+        WorkerBaselineCoresTotal: '',
+        WorkerBaselineMemoryTotal: '',
+        WorkerBaselineStorageTotal: '',
         WorkerBaselineCompute: '',
         WorkerBaselineComputeContract: '',
         WorkerBaselineStorage: '',
+        WorkerBaselineStorageSize: '',
+        WorkerBaselineStorageCapacity: '',
         WorkerBaselineStorageContract: '',
         WorkerBaselineLicense: '',
         WorkerBaselineLicenseContract: '',
@@ -247,9 +287,15 @@
         WorkerPeakRuntime: '',
         WorkerPeakCoresNode: '',
         WorkerPeakMemoryNode: '',
+        WorkerPeakStorageNode: '',
+        WorkerPeakCoresTotal: '',
+        WorkerPeakMemoryTotal: '',
+        WorkerPeakStorageTotal: '',
         WorkerPeakCompute: '',
         WorkerPeakComputeContract: '',
         WorkerPeakStorage: '',
+        WorkerPeakStorageSize: '',
+        WorkerPeakStorageCapacity: '',
         WorkerPeakStorageContract: '',
         WorkerPeakLicense: '',
         WorkerPeakLicenseContract: '',
@@ -266,13 +312,14 @@
         regions: [],
         maxnodes: 100,
         os: 'linux',
+        ossize: '16', 
         storage: '',
         mincontract: 'ri3y',
         minpods: '',
-        minduration: '730',
+        minduration: '',
         maxcontract: 'payg',
         maxpods: '',
-        maxduration: '200',
+        maxduration: '',
         cores: '',
         memory: '',
         ftt: '',
@@ -284,7 +331,7 @@
         return this.fixNumberFormatting(this.MasterCompute) + ' ' + this.currency
       },
       showMasterStorage() {
-        return this.fixNumberFormatting(this.MasterStorage) + ' ' + this.currency
+        return this.fixNumberFormatting(this.MasterStorage * this.MasterCount) + ' ' + this.currency
       },
       showMasterLicense() {
         return this.fixNumberFormatting(this.MasterLicense) + ' ' + this.currency
@@ -296,7 +343,7 @@
         return this.fixNumberFormatting(this.WorkerBaselineCompute) + ' ' + this.currency
       },
       showWorkerBaselineStorage() {
-        return this.fixNumberFormatting(this.WorkerBaselineStorage) + ' ' + this.currency
+        return this.fixNumberFormatting(this.WorkerBaselineStorage * this.WorkerBaselineCount) + ' ' + this.currency
       },
       showWorkerBaselineLicense() {
         return this.fixNumberFormatting(this.WorkerBaselineLicense) + ' ' + this.currency
@@ -308,7 +355,7 @@
         return this.fixNumberFormatting(this.WorkerPeakCompute) + ' ' + this.currency
       },
       showWorkerPeakStorage() {
-        return this.fixNumberFormatting(this.WorkerPeakStorage) + ' ' + this.currency
+        return this.fixNumberFormatting(this.WorkerPeakStorage * this.WorkerPeakCount) + ' ' + this.currency
       },
       showWorkerPeakLicense() {
         return this.fixNumberFormatting(this.WorkerPeakLicense) + ' ' + this.currency
@@ -350,6 +397,102 @@
             this.errors.push(e)
           })
       },
+      getOsDisk(region, currency, size, count) {
+        var maxdisks = '1'
+        var ssd = 'Yes'
+        var ssdtype = 'premiumssd'
+        var vmchooserurl = config.apiGetDiskConfig +
+          '?ssd=' + ssd +
+          '&disktype=' + ssdtype +
+          '&currency=' + currency +
+          '&region=' + region +
+          '&data=' + size +
+          '&maxdisks=' + maxdisks
+        var vmchooserconfig = {
+          headers: {
+            'Access-Control-Allow-Origin': '*',
+            'Ocp-Apim-Subscription-Key': config.apiKey
+          }
+        }
+        axios.post(vmchooserurl, '', vmchooserconfig)
+          .then(response => {
+            // console.log(response.data)
+            this.MasterStorageSize = response.data.DiskSize
+            this.MasterStorageNode = response.data.DiskConfigCapacity
+            this.MasterStorageTotal = response.data.DiskConfigCapacity * count
+            this.MasterStorage = response.data.DiskPrice
+            /*
+              {…}
+              DiskCapacity: 128
+              DiskConfigCapacity: 128
+              DiskConfigDescription: "A striped (raid0) set of 1 p10 disk(s)."
+              DiskConfigIops: 500
+              DiskConfigThroughput: 100
+              DiskCount: 1
+              DiskCurrency: "JPY"
+              DiskIops: 500
+              DiskName: "md-p10-premium-europe-west"
+              DiskPrice: 2211.36
+              DiskSize: "p10"
+              DiskThroughput: 100
+              DiskType: "premium"
+              __proto__: Object { … }
+            */
+          })
+          .catch(e => {
+            console.log('Error : ' + e)
+          })
+      },
+      getDataDisk(region, currency, size) {
+        var maxdisks = '1'
+        var ssd = 'Yes'
+        var ssdtype = 'premiumssd'
+        var vmchooserurl = config.apiGetDiskConfig +
+          '?ssd=' + ssd +
+          '&disktype=' + ssdtype +
+          '&currency=' + currency +
+          '&region=' + region +
+          '&data=' + size +
+          '&maxdisks=' + maxdisks
+        var vmchooserconfig = {
+          headers: {
+            'Access-Control-Allow-Origin': '*',
+            'Ocp-Apim-Subscription-Key': config.apiKey
+          }
+        }
+        axios.post(vmchooserurl, '', vmchooserconfig)
+          .then(response => {
+            // console.log(response.data)
+            this.WorkerPeakStorageSize = response.data.DiskSize
+            this.WorkerBaselineStorageSize = response.data.DiskSize
+            this.WorkerPeakStorageNode = response.data.DiskConfigCapacity
+            this.WorkerBaselineStorageNode = response.data.DiskConfigCapacity
+            this.WorkerPeakStorageTotal = response.data.DiskConfigCapacity * this.WorkerPeakCount
+            this.WorkerBaselineStorageTotal = response.data.DiskConfigCapacity * this.WorkerBaselineCount
+            this.WorkerPeakStorage = response.data.DiskPrice
+            this.WorkerBaselineStorage = response.data.DiskPrice
+            /*
+              {…}
+              DiskCapacity: 128
+              DiskConfigCapacity: 128
+              DiskConfigDescription: "A striped (raid0) set of 1 p10 disk(s)."
+              DiskConfigIops: 500
+              DiskConfigThroughput: 100
+              DiskCount: 1
+              DiskCurrency: "JPY"
+              DiskIops: 500
+              DiskName: "md-p10-premium-europe-west"
+              DiskPrice: 2211.36
+              DiskSize: "p10"
+              DiskThroughput: 100
+              DiskType: "premium"
+              __proto__: Object { … }
+            */
+          })
+          .catch(e => {
+            console.log('Error : ' + e)
+          })
+      },
       getVmSizeAroMaster(region, cores, memory, currency, contract, os) {
         var maxresults = '1'
         var vmchooserurl = config.apiGetVmSize +
@@ -380,14 +523,18 @@
             this.MasterTotal = this.MasterCompute + this.MasterStorage + this.MasterLicense
             this.MasterCoresNode = response.data[0].Cores
             this.MasterMemoryNode = response.data[0].Memory
+            this.MasterCoresTotal = this.MasterCoresNode * this.MasterCount
+            this.MasterMemoryTotal = this.MasterMemoryNode * this.MasterCount
 
             this.MasterProcessed = 'Yes'
+
+            this.getOsDisk(region, currency, this.ossize, this.MasterCount)
           })
           .catch(e => {
             console.log('Error : ' + e)
           })
       },
-      getAroWorkers(minpods, maxpods, minduration, maxduration, mincontract, maxcontract, cores, memory, ftt, region, currency) {
+      getAroWorkers(minpods, maxpods, minduration, maxduration, mincontract, maxcontract, cores, memory, ftt, region, currency, storage) {
         var vmchooserurl = config.apiGetAroWorkers +
           '?minpods=' + minpods +
           '&maxpods=' + maxpods +
@@ -395,6 +542,7 @@
           '&maxduration=' + maxduration +
           '&cores=' + cores +
           '&memory=' + memory +
+          '&storage=' + storage +
           '&region=' + region +
           '&currency=' + currency +
           '&mincontract=' + mincontract +
@@ -444,14 +592,15 @@
             this.WorkerBaselineCompute = response.data.CostMin
             this.WorkerBaselineComputeContract = response.data.ContractMin
             this.WorkerBaselineStorage = 0
+            this.WorkerBaselineStoragePod = response.data.PodsMinStorage
             this.WorkerBaselineStorageContract = 'payg'
             this.WorkerBaselineLicense = response.data.OpenShifCostMin * this.WorkerBaselineRuntime * this.WorkerBaselineCount
             this.WorkerBaselineLicenseContract = response.data.OpenShifContractMin
             this.WorkerBaselineTotal = this.WorkerBaselineCompute + this.WorkerBaselineStorage + this.WorkerBaselineLicense
             this.WorkerBaselineCoresNode = response.data.VmCores
             this.WorkerBaselineMemoryNode = response.data.VmMemory
-            this.WorkerBaselineCoresTotal = response.data.VmCores * (response.data.NodeCountMin - ftt)
-            this.WorkerBaselineMemoryTotal = response.data.VmMemory * (response.data.NodeCountMin - ftt)
+            this.WorkerBaselineCoresTotal = this.WorkerBaselineCoresNode * this.WorkerBaselineCount
+            this.WorkerBaselineMemoryTotal = this.WorkerBaselineMemoryNode * this.WorkerBaselineCount
 
             this.WorkerPeakVmType = response.data.VmSize
             this.WorkerPeakCount = response.data.NodeCountMax
@@ -459,16 +608,20 @@
             this.WorkerPeakCompute = response.data.CostMax
             this.WorkerPeakComputeContract = response.data.ContractMax
             this.WorkerPeakStorage = 0
+            this.WorkerPeakStoragePod = response.data.PodsMaxStorage
             this.WorkerPeakStorageContract = 'payg'
             this.WorkerPeakLicense = response.data.OpenShifCostMin * this.WorkerPeakRuntime * this.WorkerPeakCount
             this.WorkerPeakLicenseContract = response.data.OpenShifContractMax
             this.WorkerPeakTotal = this.WorkerPeakCompute + this.WorkerPeakStorage + this.WorkerPeakLicense
             this.WorkerPeakCoresNode = response.data.VmCores
             this.WorkerPeakMemoryNode = response.data.VmMemory
-            this.WorkerPeakCoresTotal = response.data.VmCores * (response.data.NodeCountMax - ftt)
-            this.WorkerPeakMemoryTotal = response.data.VmMemory * (response.data.NodeCountMax - ftt)
+            this.WorkerPeakCoresTotal = this.WorkerPeakCoresNode * this.WorkerPeakCount
+            this.WorkerPeakMemoryTotal = this.WorkerPeakMemoryNode * this.WorkerPeakCount
 
             this.WorkerErrors = response.data.Error
+
+            this.WorkerStorage = this.WorkerBaselineStoragePod + this.ossize
+            this.getDataDisk(region, currency, this.WorkerStorage)
 
             this.WorkersProcessed = 'Yes'
           })
@@ -491,6 +644,16 @@
           250 - 16 - 64
         */
 
+        if (!parseFloat(this.storage) > 0) {
+          this.storage = 128
+        }
+        if (!parseFloat(this.minduration) > 0) {
+          this.minduration = 730
+        }
+        if (!parseFloat(this.maxduration) > 0) {
+          this.maxduration = 200
+        }
+
         this.MasterProcessed = ''
         this.WorkersProcessed = ''
 
@@ -510,7 +673,7 @@
         this.MasterCount = 3
 
         this.getVmSizeAroMaster(this.region, WorkerBaselinecores, WorkerBaselinememory, this.currency, this.mincontract, this.os)
-        this.getAroWorkers(this.minpods, this.maxpods, this.minduration, this.maxduration, this.mincontract, this.maxcontract, this.cores, this.memory, this.ftt, this.region, this.currency)
+        this.getAroWorkers(this.minpods, this.maxpods, this.minduration, this.maxduration, this.mincontract, this.maxcontract, this.cores, this.memory, this.ftt, this.region, this.currency, this.storage)
       }
     },
     mounted: function () {
