@@ -10,6 +10,7 @@ export default {
   apiGetSqlServiceStorage: 'https://be-dev.vmchooser.com/api/GetSqlServiceStorage',
   apiGetBackup: 'https://be-dev.vmchooser.com/api/GetBackup',
   apiGetCloudSimple: 'https://be-dev.vmchooser.com/api/GetCloudSimple',
+  apiGetAroWorkers: 'https://be-dev.vmchooser.com/api/GetAroWorkers',
   apiKey: '',
   fixedLayout: false,
   hideLogoOnMobile: false,
