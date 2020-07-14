@@ -500,7 +500,7 @@
     mounted: function () {
       this.getMetaDataRegions()
       // console.log(this.$appInsights)
-      this.$appInsights.trackPageView('SqlChooser')
+      this.$appInsights.trackPageView('AzureRedHatOpenshift')
     }
   }
 </script>
