@@ -70,18 +70,20 @@
     </li>
   </ul>
 </template>
+
 <script>
-export default {
-  name: 'SidebarMenu'
-}
+  export default {
+    name: 'SidebarMenu'
+  }
 </script>
+
 <style>
   /* override default */
-  .sidebar-menu>li>a {
+  .sidebar-menu > li > a {
     padding: 12px 15px 12px 15px;
   }
 
-  .sidebar-menu li.active>a>.fa-angle-left, .sidebar-menu li.active>a>.pull-right-container>.fa-angle-left {
+  .sidebar-menu li.active > a > .fa-angle-left, .sidebar-menu li.active > a > .pull-right-container > .fa-angle-left {
     animation-name: rotate;
     animation-duration: .2s;
     animation-fill-mode: forwards;
