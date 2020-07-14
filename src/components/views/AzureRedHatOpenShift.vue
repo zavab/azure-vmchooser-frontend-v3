@@ -66,7 +66,7 @@
               <option value="1">N+1</option>
               <option value="2">N+2</option>
               <option value="3">N+3</option>
-              <option value="AZ">Full Zone</option>
+              <option value="99">Full Zone</option>
             </select>
             <span class="input-group-addon">FTT</span>
           </div>
