@@ -108,10 +108,10 @@
           <button type="submit" v-bind:class="'btn btn-primary btn-lg ' + loading">Optimize!</button>
         </form>
       </div>
-      <div v-if=response class="text-red"><p class="vertical-5p lead">{{response}}</p></div>
+      <div v-if=WorkerErrors class="text-red"><p class="vertical-5p lead">{{WorkerErrors}}</p></div>
     </div>
 
-    <div class="row center-block">
+    <div class="row center-block" v-if="MasterProcessed && WorkersProcessed">
       <h2>Azure Red Hat OpenShift Configuration</h2>
       <div class="col-md-12">
         <div class="box">
@@ -138,7 +138,7 @@
                   <td>{{MasterCount}}</td>
                   <td>{{MasterVmType}}</td>
                   <td>{{MasterCoresNode}}</td>
-                  <td>{{MasterCoresMemory}}</td>
+                  <td>{{MasterMemoryNode}}</td>
                   <td>{{MasterRuntime}}</td>
                   <td>{{showMasterCompute}}</td>
                   <td>{{MasterComputeContract}}</td>
@@ -152,8 +152,8 @@
                   <td>Worker nodes - Baseline</td>
                   <td>{{WorkerBaselineCount}}</td>
                   <td>{{WorkerBaselineVmType}}</td>
-                  <td>{{WorkerBaseCoresNode}}</td>
-                  <td>{{WorkerBaseCoresMemory}}</td>
+                  <td>{{WorkerBaselineCoresNode}}</td>
+                  <td>{{WorkerBaselineMemoryNode}}</td>
                   <td>{{WorkerBaselineRuntime}}</td>
                   <td>{{showWorkerBaselineCompute}}</td>
                   <td>{{WorkerBaselineComputeContract}}</td>
@@ -168,7 +168,7 @@
                   <td>{{WorkerPeakCount}}</td>
                   <td>{{WorkerPeakVmType}}</td>
                   <td>{{WorkerPeakCoresNode}}</td>
-                  <td>{{WorkerPeakCoresMemory}}</td>
+                  <td>{{WorkerPeakMemoryNode}}</td>
                   <td>{{WorkerPeakRuntime}}</td>
                   <td>{{showWorkerPeakCompute}}</td>
                   <td>{{WorkerPeakComputeContract}}</td>
@@ -181,6 +181,8 @@
 
                 <tr>
                   <td>Summary</td>
+                  <td></td>
+                  <td></td>
                   <td></td>
                   <td></td>
                   <td></td>
@@ -213,6 +215,9 @@
     name: 'AzureRedHatOpenShift',
     data() {
       return {
+        MasterProcessed: '',
+        WorkersProcessed: '',
+        WorkerErrors: '',
         MasterCount: '',
         MasterVmType: '',
         MasterRuntime: '',
@@ -373,6 +378,10 @@
             this.MasterLicense = 0
             this.MasterLicenseContract = 'n/a'
             this.MasterTotal = this.MasterCompute + this.MasterStorage + this.MasterLicense
+            this.MasterCoresNode = response.data[0].Cores
+            this.MasterMemoryNode = response.data[0].Memory
+
+            this.MasterProcessed = 'Yes'
           })
           .catch(e => {
             console.log('Error : ' + e)
@@ -458,6 +467,10 @@
             this.WorkerPeakMemoryNode = response.data.VmMemory
             this.WorkerPeakCoresTotal = response.data.VmCores * (response.data.NodeCountMax - ftt)
             this.WorkerPeakMemoryTotal = response.data.VmMemory * (response.data.NodeCountMax - ftt)
+
+            this.WorkerErrors = response.data.Error
+
+            this.WorkersProcessed = 'Yes'
           })
           .catch(e => {
             console.log('Error : ' + e)
@@ -477,6 +490,9 @@
           100 - 8 - 32
           250 - 16 - 64
         */
+
+        this.MasterProcessed = ''
+        this.WorkersProcessed = ''
 
         var WorkerBaselinecores = 4
         var WorkerBaselinememory = 16
