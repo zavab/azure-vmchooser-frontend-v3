@@ -337,7 +337,7 @@
         return this.fixNumberFormatting(this.MasterLicense) + ' ' + this.currency
       },
       showMasterTotal() {
-        return this.fixNumberFormatting(this.MasterTotal) + ' ' + this.currency
+        return this.fixNumberFormatting((this.MasterCompute + (this.MasterStorage * this.MasterCount) + this.MasterLicense)) + ' ' + this.currency
       },
       showWorkerBaselineCompute() {
         return this.fixNumberFormatting(this.WorkerBaselineCompute) + ' ' + this.currency
@@ -349,7 +349,7 @@
         return this.fixNumberFormatting(this.WorkerBaselineLicense) + ' ' + this.currency
       },
       showWorkerBaselineTotal() {
-        return this.fixNumberFormatting(this.WorkerBaselineTotal) + ' ' + this.currency
+        return this.fixNumberFormatting((this.WorkerBaselineCompute + (this.WorkerBaselineStorage * this.WorkerBaselineCount) + this.WorkerBaselineLicense)) + ' ' + this.currency
       },
       showWorkerPeakCompute() {
         return this.fixNumberFormatting(this.WorkerPeakCompute) + ' ' + this.currency
@@ -361,19 +361,27 @@
         return this.fixNumberFormatting(this.WorkerPeakLicense) + ' ' + this.currency
       },
       showWorkerPeakTotal() {
-        return this.fixNumberFormatting(this.WorkerPeakTotal) + ' ' + this.currency
+        return this.fixNumberFormatting((this.WorkerPeakCompute + (this.WorkerPeakStorage * this.WorkerPeakCount) + this.WorkerPeakLicense)) + ' ' + this.currency
       },
       showTotalCompute() {
         return this.fixNumberFormatting(this.MasterCompute + this.WorkerBaselineCompute + this.WorkerPeakCompute) + ' ' + this.currency
       },
       showTotalStorage() {
-        return this.fixNumberFormatting(this.MasterStorage + this.WorkerBaselineStorage + this.WorkerPeakStorage) + ' ' + this.currency
+        return this.fixNumberFormatting(
+          (this.MasterStorage * this.MasterCount) +
+          (this.WorkerBaselineStorage * this.WorkerBaselineCount) +
+          (this.WorkerPeakStorage * this.WorkerPeakCount)
+          ) + ' ' + this.currency
       },
       showTotalLicense() {
         return this.fixNumberFormatting(this.MasterLicense + this.WorkerBaselineLicense + this.WorkerPeakLicense) + ' ' + this.currency
       },
       showTotalTotal() {
-        return this.fixNumberFormatting(this.MasterTotal + this.WorkerBaselineTotal + this.WorkerPeakTotal) + ' ' + this.currency
+        return this.fixNumberFormatting(
+          (this.MasterCompute + (this.MasterStorage * this.MasterCount) + this.MasterLicense) +
+          (this.WorkerBaselineCompute + (this.WorkerBaselineStorage * this.WorkerBaselineCount) + this.WorkerBaselineLicense) +
+          (this.WorkerPeakCompute + (this.WorkerPeakStorage * this.WorkerPeakCount) + this.WorkerPeakLicense)
+        ) + ' ' + this.currency
       }
     },
     methods: {
@@ -520,7 +528,7 @@
             this.MasterStorageContract = 'payg'
             this.MasterLicense = 0
             this.MasterLicenseContract = 'n/a'
-            this.MasterTotal = this.MasterCompute + this.MasterStorage + this.MasterLicense
+            this.MasterTotal = this.MasterCompute + (this.MasterStorage * this.MasterCount) + this.MasterLicense
             this.MasterCoresNode = response.data[0].Cores
             this.MasterMemoryNode = response.data[0].Memory
             this.MasterCoresTotal = this.MasterCoresNode * this.MasterCount
@@ -596,7 +604,7 @@
             this.WorkerBaselineStorageContract = 'payg'
             this.WorkerBaselineLicense = response.data.OpenShifCostMin * this.WorkerBaselineRuntime * this.WorkerBaselineCount
             this.WorkerBaselineLicenseContract = response.data.OpenShifContractMin
-            this.WorkerBaselineTotal = this.WorkerBaselineCompute + this.WorkerBaselineStorage + this.WorkerBaselineLicense
+            this.WorkerBaselineTotal = this.WorkerBaselineCompute + (this.WorkerBaselineStorage * this.WorkerBaselineCount )+ this.WorkerBaselineLicense
             this.WorkerBaselineCoresNode = response.data.VmCores
             this.WorkerBaselineMemoryNode = response.data.VmMemory
             this.WorkerBaselineCoresTotal = this.WorkerBaselineCoresNode * this.WorkerBaselineCount
@@ -612,7 +620,7 @@
             this.WorkerPeakStorageContract = 'payg'
             this.WorkerPeakLicense = response.data.OpenShifCostMin * this.WorkerPeakRuntime * this.WorkerPeakCount
             this.WorkerPeakLicenseContract = response.data.OpenShifContractMax
-            this.WorkerPeakTotal = this.WorkerPeakCompute + this.WorkerPeakStorage + this.WorkerPeakLicense
+            this.WorkerPeakTotal = this.WorkerPeakCompute + (this.WorkerPeakStorage * this.WorkerPeakCount) + this.WorkerPeakLicense
             this.WorkerPeakCoresNode = response.data.VmCores
             this.WorkerPeakMemoryNode = response.data.VmMemory
             this.WorkerPeakCoresTotal = this.WorkerPeakCoresNode * this.WorkerPeakCount
